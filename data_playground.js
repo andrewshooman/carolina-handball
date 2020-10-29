@@ -24,7 +24,7 @@ export const renderResults = function() {
     return `<div class="box" style="display: flex">
     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
     <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(replay1_data[0].players, enteredData)}</span>
-    ${foundNames}
+    <strong>${foundNames}</strong>
 </div>`
 }
 document.getElementById('input').addEventListener('keyup', event => {
