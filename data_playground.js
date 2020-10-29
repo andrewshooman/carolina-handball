@@ -30,7 +30,7 @@ export const renderResults = function() {
 document.getElementById('input').addEventListener('keyup', event => {
     const $searchresults = $('#search-results');
     $( '#search-results *' ).replaceWith();
-    if (event.keyCode === 13) {
+    if (event.code === 'Enter') {
         if (event.currentTarget.value != '') {
             enteredData = event.currentTarget.value;
             $searchresults.append(renderResults);
