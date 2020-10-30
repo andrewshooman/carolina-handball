@@ -20,20 +20,40 @@ export function searchName(replay_group, searchTerm) {
         }, [])
     return searchNameAns.map(c => c.name);
 }
-export const renderResults = function() {
+export const renderPlayerSearch = function() {
     return `<div class="box" style="display: flex">
     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
     <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(replay1_data[0].players, enteredData)}</span>
     <strong>${foundNames}</strong>
 </div>`
 }
-document.getElementById('input').addEventListener('keyup', event => {
-    const $searchresults = $('#search-results');
-    $( '#search-results *' ).replaceWith();
+document.getElementById('pNameInput').addEventListener('keyup', event => {
+    const $searchresults = $('#pName-results');
+    $( '#pName-results *' ).replaceWith();
     if (event.code === 'Enter') {
         if (event.currentTarget.value != '') {
             enteredData = event.currentTarget.value;
-            $searchresults.append(renderResults);
+            $searchresults.append(renderPlayerSearch);
+        }
+    }
+})
+
+let enteredTeam;
+
+export const renderTeamSearch = function() {
+    return `<div class="box" style="display: flex">
+    <span style="display: inline-flex; flex-grow: 1; align-items: center;">
+    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(replay1_data[0].teams, enteredTeam)}</span>
+    <strong>${foundNames}</strong>
+</div>`
+}
+document.getElementById('tNameInput').addEventListener('keyup', event => {
+    const $searchresults = $('#tName-results');
+    $( '#tName-results *' ).replaceWith();
+    if (event.code === 'Enter') {
+        if (event.currentTarget.value != '') {
+            enteredTeam = event.currentTarget.value;
+            $searchresults.append(renderTeamSearch);
         }
     }
 })
