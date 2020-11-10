@@ -8,11 +8,9 @@ var app = express();
 var router = express.Router()
 const PORT = process.env.PORT || 3000;
 
-
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/regional1?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true });
-
 
 app.use('/', router);
 // app.use(logger('dev'));
@@ -23,31 +21,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
-
-
-
 app.post('/lookup', function(req,res) {
-
   client.connect(err => {
-
     const collection = client.db("regional1").collection("stage1");
-
-    var query = {name:req.body.name};;
-
     collection.find(query).toArray(function(err, result) {
       if (err) throw err;
       else res.json(result)
     });
-
     client.close();
   });
-
 })
 
 app.get('*', (req,res) =>{
-  res.sendFile(path.join(__dirname+'/public/index.html'));
+  res.sendFile(path.join(__dirname+'/public'));
 });
+
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
