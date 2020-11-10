@@ -4,19 +4,8 @@
     <meta charset="utf-8">
     <title>Home Page</title>
   </head>
-
-
-  <script>
-    $(document).ready(function(){
-      $("#submit").click(function(){
-        name=$("#name").val();
-        $.post("/lookup",{name: name}, function(data){
-          if (data != undefined) {document.getElementById('text').innerHTML=data[0]._id;
-          console.log(data);
-        }
-        });
-      });
-    });
-  </script>
+<body>
+    <div id="root"></div>
+</body>
 
 </html>
