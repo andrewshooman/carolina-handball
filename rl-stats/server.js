@@ -17,7 +17,7 @@ app.use('/', router);
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -33,7 +33,7 @@ app.post('/lookup', function(req,res) {
 })
 
 app.get('*', (req,res) =>{
-  res.sendFile(path.join(__dirname+'/public'));
+  res.sendFile(path.join(__dirname+'/public/index.html'));
 });
 
 
