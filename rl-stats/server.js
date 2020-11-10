@@ -23,28 +23,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-router.get('/api/hello', (req, res) => {
-  res.json('hello world')
-})
-
-router.get('/query',  (req, res) => {
-  let result;
-  client.connect(err => {
-
-    const collection = client.db("regional1").collection("stage1");
-
-    var query = {name:'Bacon'};
-
-    collection.find(query).toArray(function(err, result) {
-      if (err) throw err;
-      console.log(result);
-    });
-
-    client.close();
-  });
-  res.status(200).send("yes")
-
-})
 
 
 
