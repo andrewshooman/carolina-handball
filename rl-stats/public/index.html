@@ -2,14 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Node + Express + MongoDb example</title>
+    <title>Home Page</title>
   </head>
 
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
   <script>
     $(document).ready(function(){
-      var name;
       $("#submit").click(function(){
         name=$("#name").val();
         $.post("/lookup",{name: name}, function(data){
@@ -20,21 +18,5 @@
       });
     });
   </script>
-
-
-
-  <body>
-    <h1>Sample DB Lookup</h1>
-    <p>Look up name of RL player to get their id</p>
-    <input type="TEXT" id="name" size="40"><br>
-  <input type="button" id="submit" value="Submit">
-  <p id="text"></p>
-
-</div>
-    
-  </body>
-  <script src="client.js"></script>
-
-
 
 </html>
