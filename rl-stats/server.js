@@ -9,7 +9,7 @@ var router = express.Router()
 const PORT = process.env.PORT || 3000;
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority";
+const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/regional1?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true });
 
 
@@ -30,7 +30,7 @@ router.get('/query',  (req, res) => {
   let result;
   client.connect(err => {
 
-    const collection = client.db("rl_stats").collection("player_stats");
+    const collection = client.db("regional1").collection("stage1");
 
     var query = {name:'Bacon'};
 
@@ -52,7 +52,7 @@ app.post('/lookup', function(req,res) {
 
   client.connect(err => {
 
-    const collection = client.db("rl_stats").collection("player_stats");
+    const collection = client.db("regional1").collection("stage1");
 
     var query = {name:req.body.name};;
 
