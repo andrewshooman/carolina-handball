@@ -8,7 +8,7 @@ var router = express.Router()
 const PORT = process.env.PORT || 3000;
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://admin:<tP92Tbhs8CACl5uM>@cluster0.gbvl6.mongodb.net/<rl_stats>?retryWrites=true&w=majority";
+const uri = "mongodb+srv://admin:tP92Tbhs8CACl5uM@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true });
 
 
