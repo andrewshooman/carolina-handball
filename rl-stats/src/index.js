@@ -4,9 +4,16 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 
-ReactDOM.hydrate(
-  <BrowserRouter>
+// ReactDOM.hydrate(
+//   <BrowserRouter>
+//     <App />
+//   </BrowserRouter>,
+//   document.getElementById('root')
+// );
+
+ReactDOM.render(
+  <React.StrictMode>
     <App />
-  </BrowserRouter>,
+  </React.StrictMode>,
   document.getElementById('root')
 );
