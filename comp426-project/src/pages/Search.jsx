@@ -18,10 +18,10 @@ class Search extends Component{
 		</div>
     )}
     
-    componentDidMount() {
+    async componentDidMount() {
         $("#submit").click(function() {
-            console.log("test")
       let name=$("#name").val();
+      console.log(name)
       $.post("/lookup",{name: name}, function(data){
         if (data != undefined) {document.getElementById('text').innerHTML=data[0]._id;
         console.log(data);
