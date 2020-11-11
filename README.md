@@ -16,6 +16,7 @@ Current TODOs:
     - Make an authorization for certain pages
     - Incorporate cookies into the website
     - Come up with better methods to calling the Database
+    - Also make the README look nicer 
 
 
 Feel free to add others and ask @andrew for questions.
