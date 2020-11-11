@@ -18,5 +18,16 @@ Current TODOs:
     - Come up with better methods to calling the Database
     - Also make the README look nicer 
 
+This is the current db im using to access all the data, dm if you need access. When making calls to the db, use this login:
 
-Feel free to add others and ask @andrew for questions.
+username: host
+password: NGNxDF1XwElvEQ0c
+uri: mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/<dbname>?retryWrites=true&w=majority
+
+https://cloud.mongodb.com/v2/5fa9cf41cc3a6a4e9980f7b6#clusters
+
+An example of this is near the bottom of the /server/app.js file.
+
+Feel free to add changes to individual branches and ask @andrew for questions.
+Try to reserve main for only working apps and/or necessary features.
+
