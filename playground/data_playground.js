@@ -127,6 +127,7 @@ function renderSelectorBox() {
     return `<div class="container">
     <div class='content'>
     <div class="box">
+        <h4 class="subtitle is-4">Leaderboard</h3>
         <div class="control">
         <div class="select is-primary">
         <select>
