@@ -3,7 +3,7 @@ import replay1_data from "./data/replay1_data.js";
 let enteredData;
 let foundNames = [];
 let tmpGlobalincrement = 1;
-export function searchName(replay_group, searchTerm) {
+function searchName(replay_group, searchTerm) {
     foundNames = [];
     let i = 0;
     let searchNameAns = replay_group
@@ -21,46 +21,16 @@ export function searchName(replay_group, searchTerm) {
         }, [])
     return searchNameAns.map(c => c.name);
 }
-export const renderPlayerSearch = function() {
+
+function renderPlayerSearch() {
     return `<div class="box" style="display: flex">
     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
     <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(replay1_data[0].players, enteredData)}</span>
     <strong>${foundNames}</strong>
 </div>`
 }
-document.getElementById('pNameInput').addEventListener('keyup', event => {
-    const $searchresults = $('#pName-results');
-    $( '#pName-results *' ).replaceWith();
-    if (event.code === 'Enter') {
-        if (event.currentTarget.value != '') {
-            enteredData = event.currentTarget.value;
-            $searchresults.append(renderPlayerSearch);
-        }
-    }
-})
 
-let enteredTeam;
-
-export const renderTeamSearch = function() {
-    console.log(searchName(replay1_data[0].teams, enteredTeam))
-    return `<div class="box" style="display: flex">
-    <span style="display: inline-flex; flex-grow: 1; align-items: center;">
-    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(replay1_data[0].teams, enteredTeam)}</span>
-    <strong>${foundNames}</strong>
-</div>`
-}
-document.getElementById('tNameInput').addEventListener('keyup', event => {
-    const $searchresults = $('#tName-results');
-    $( '#tName-results *' ).replaceWith();
-    if (event.code === 'Enter') {
-        if (event.currentTarget.value != '') {
-            enteredTeam = event.currentTarget.value;
-            $searchresults.append(renderTeamSearch);
-        }
-    }
-})
-
-export const renderTeamLeaderboard = function() {
+function renderTeamLeaderboard() {
     return `<div class="buttons has-addons is-centered">
     <button class="button is-primary" id="lbteams">Teams</button>
     <button class="button" id="lbplayers">Players</button>
@@ -89,7 +59,7 @@ export const renderTeamLeaderboard = function() {
     `
 }
 
-export const renderPlayerLeaderboard = function() {
+function renderPlayerLeaderboard() {
     return `<div class="buttons has-addons is-centered">
     <button class="button" id="lbteams">Teams</button>
     <button class="button is-primary" id="lbplayers">Players</button>
@@ -218,6 +188,38 @@ function getGoalParticipation(player) {
     return ((goalsParticipatedIn / team[index].cumulative.core.goals) * 100).toFixed(2);
 }
 
+// search stuff
+document.getElementById('pNameInput').addEventListener('keyup', event => {
+    const $searchresults = $('#pName-results');
+    $( '#pName-results *' ).replaceWith();
+    if (event.code === 'Enter') {
+        if (event.currentTarget.value != '') {
+            enteredData = event.currentTarget.value;
+            $searchresults.append(renderPlayerSearch);
+        }
+    }
+})
+let enteredTeam;
+function renderTeamSearch() {
+    console.log(searchName(replay1_data[0].teams, enteredTeam))
+    return `<div class="box" style="display: flex">
+    <span style="display: inline-flex; flex-grow: 1; align-items: center;">
+    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(replay1_data[0].teams, enteredTeam)}</span>
+    <strong>${foundNames}</strong>
+</div>`
+}
+document.getElementById('tNameInput').addEventListener('keyup', event => {
+    const $searchresults = $('#tName-results');
+    $( '#tName-results *' ).replaceWith();
+    if (event.code === 'Enter') {
+        if (event.currentTarget.value != '') {
+            enteredTeam = event.currentTarget.value;
+            $searchresults.append(renderTeamSearch);
+        }
+    }
+})
+
+// leaderboard stuff
 function loadTeamsIntoLeaderboard() {
     $("#root").append(renderSelectorBox());
     $(document).on("click", "#lbteams", handleTeamsButtonClick)
