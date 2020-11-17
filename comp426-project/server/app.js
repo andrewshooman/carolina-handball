@@ -46,3 +46,13 @@ app.post('/lookup', function(req,res) {
       client.close();
     });
   })
+
+  app.post('/getdefaultarray', function(req,res) {
+    client.connect(err => {
+        const collection = client.db("regional1").collection("stage1");
+        collection.find().toArray(function(err, result) {
+          res.json(result)
+        });
+        client.close();
+      });
+    })
