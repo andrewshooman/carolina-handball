@@ -226,4 +226,3 @@ function loadTeamsIntoLeaderboard() {
     $(document).on("click", "#lbplayers", handlePlayersButtonClick)
 }
 loadTeamsIntoLeaderboard();
-
