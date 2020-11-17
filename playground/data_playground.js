@@ -60,16 +60,17 @@ document.getElementById('tNameInput').addEventListener('keyup', event => {
     }
 })
 
-export const renderLeaderboard = function() {
-    return `<div class="container">
-    <div class='content'>
-    <div class="box">
+export const renderTeamLeaderboard = function() {
+    return `<div class="buttons has-addons is-centered">
+    <button class="button is-primary" id="lbteams">Teams</button>
+    <button class="button" id="lbplayers">Players</button>
+    </div>
     <table class="table table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
     <thead>
       <tr>
-        <th><abbr title="Position">Pos</abbr></th>
+        <th>Rank</th>
         <th>Team</th>
-        <th><abbr title="Games Played">GP</abbr></th>
+        <th><abbr title="Games Played">GMP</abbr></th>
         <th><abbr title="Games Won">W</abbr></th>
         <th><abbr title="Games Lost">L</abbr></th>
         <th><abbr title="Win Percentage">WL%</abbr></th>
@@ -85,11 +86,35 @@ export const renderLeaderboard = function() {
     <tbody id="tbody">
     </tbody>
     </table>
-    </div>
-    </div>
-    </div>
-    <br>
     `
+}
+
+export const renderPlayerLeaderboard = function() {
+    return `<div class="buttons has-addons is-centered">
+    <button class="button" id="lbteams">Teams</button>
+    <button class="button is-primary" id="lbplayers">Players</button>
+    </div>
+    <table class="table table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Name</th>
+        <th>Team</th>
+        <th><abbr title="Games Played">GMP</abbr></th>
+        <th><abbr title="Win Percentage">WL%</abbr></th>
+        <th><abbr title="Average Score">Score</abbr></th>
+        <th><abbr title="Demolition Differential">DMD</abbr></th>
+        <th><abbr title="Goals Per Game">GPG</abbr></th>
+        <th><abbr title="Assists Per Game">APG</abbr></th>
+        <th><abbr title="Saves Per Game">SVPG</abbr></th>
+        <th><abbr title="Shots Per Game">SHPG</abbr></th>
+        <th><abbr title="Shooting Percentage">SH%</abbr></th>
+        <th><abbr title="Goal Participation">GP%</abbr></th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+    </tbody>
+    </table>`
 }
 
 function renderTeamTableEntry(team) { 
@@ -110,10 +135,52 @@ function renderTeamTableEntry(team) {
   </tr>`
 }
 
-$("#root").append(renderLeaderboard());
+function renderPlayerTableEntry(player) { 
+    return `<tr>
+    <th>${tmpGlobalincrement}</th>
+    <td>${player.name}</td>
+    <td>${player.team}</td>
+    <td>${player.cumulative.games}</td>
+    <td>${player.cumulative.win_percentage.toFixed(1)}</td>
+    <td>${(player.cumulative.core.score/player.cumulative.games).toFixed(1)}</td>
+    <td>${player.cumulative.demo.inflicted - player.cumulative.demo.taken}</td>
+    <td>${player.game_average.core.goals.toFixed(2)}</td>
+    <td>${player.game_average.core.assists.toFixed(2)}</td>
+    <td>${player.game_average.core.saves.toFixed(2)}</td>
+    <td>${player.game_average.core.shots.toFixed(2)}</td>
+    <td>${player.game_average.core.shooting_percentage.toFixed(2)}</td>
+    <td>${getGoalParticipation(player)}</td>
+  </tr>`
+}
 
-function loadTeamsIntoLeaderboard() {
-    console.log(replay1_data)
+function renderSelectorBox() {
+    return `<div class="container">
+    <div class='content'>
+    <div class="box">
+        <div class="control">
+        <div class="select is-primary">
+        <select>
+            <option>Select Event</option>
+            <option>Regional 1 Stage 1 (NA)</option>
+        </select>
+    </div>
+        <div id="table">
+            <div class="buttons has-addons is-centered">
+                <button class="button" id="lbteams">Teams</button>
+                <button class="button" id="lbplayers">Players</button>
+            </div>
+        </div>
+        <br>
+    </div>
+    </div>
+    </div>
+    <br>`
+}
+
+function handleTeamsButtonClick() {
+    tmpGlobalincrement = 1;
+    $("#table").empty();
+    $("#table").append(renderTeamLeaderboard());
     for (let i = 0; i < replay1_data[0].teams.length; i++) {
         // the following if compensates for incomplete series'
         // such a series can appear in the data due to joining before
@@ -123,6 +190,38 @@ function loadTeamsIntoLeaderboard() {
             tmpGlobalincrement++;
         }
     }
+}
+
+function handlePlayersButtonClick() {
+    tmpGlobalincrement = 1;
+    $("#table").empty();
+    $("#table").append(renderPlayerLeaderboard());
+    for (let i = 0; i < replay1_data[0].players.length; i++) {
+        // the following if compensates for admin/accidential joins
+        if (replay1_data[0].players[i].cumulative.games > 1) {
+            $("#tbody").append(renderPlayerTableEntry(replay1_data[0].players[i]))
+            tmpGlobalincrement++;
+        }
+    }
+}
+
+function getGoalParticipation(player) { 
+    let goalsParticipatedIn = player.cumulative.core.goals + player.cumulative.core.assists;
+    let team = searchName(replay1_data[0].teams, player.team);
+    // another compensational if
+    let index = 0;
+    for (let i = 0; i < team.length; i++) {
+        if (team[i].cumulative.games < 2) {
+            index++;
+        }
+    }
+    return ((goalsParticipatedIn / team[index].cumulative.core.goals) * 100).toFixed(2);
+}
+
+function loadTeamsIntoLeaderboard() {
+    $("#root").append(renderSelectorBox());
+    $(document).on("click", "#lbteams", handleTeamsButtonClick)
+    $(document).on("click", "#lbplayers", handlePlayersButtonClick)
 }
 loadTeamsIntoLeaderboard();
 
