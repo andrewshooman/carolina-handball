@@ -1,6 +1,5 @@
-import replay1_data from "./data/replay1_data.js";
+import dataset from "../data/arrayed_json/NAFALLR1S1.js";
 
-let enteredData;
 let foundNames = [];
 let tmpGlobalincrement = 1;
 function searchName(replay_group, searchTerm) {
@@ -20,14 +19,6 @@ function searchName(replay_group, searchTerm) {
             return accumulator;
         }, [])
     return searchNameAns.map(c => c.name);
-}
-
-function renderPlayerSearch() {
-    return `<div class="box" style="display: flex">
-    <span style="display: inline-flex; flex-grow: 1; align-items: center;">
-    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(replay1_data[0].players, enteredData)}</span>
-    <strong>${foundNames}</strong>
-</div>`
 }
 
 function renderTeamLeaderboard() {
@@ -152,12 +143,12 @@ function handleTeamsButtonClick() {
     tmpGlobalincrement = 1;
     $("#table").empty();
     $("#table").append(renderTeamLeaderboard());
-    for (let i = 0; i < replay1_data[0].teams.length; i++) {
+    for (let i = 0; i < dataset[0].teams.length; i++) {
         // the following if compensates for incomplete series'
         // such a series can appear in the data due to joining before
         // everyone is ready or a player lost connection during the match
-        if (replay1_data[0].teams[i].cumulative.games > 2) {
-            $("#tbody").append(renderTeamTableEntry(replay1_data[0].teams[i]))
+        if (dataset[0].teams[i].cumulative.games > 2) {
+            $("#tbody").append(renderTeamTableEntry(dataset[0].teams[i]))
             tmpGlobalincrement++;
         }
     }
@@ -167,10 +158,10 @@ function handlePlayersButtonClick() {
     tmpGlobalincrement = 1;
     $("#table").empty();
     $("#table").append(renderPlayerLeaderboard());
-    for (let i = 0; i < replay1_data[0].players.length; i++) {
+    for (let i = 0; i < dataset[0].players.length; i++) {
         // the following if compensates for admin/accidential joins
-        if (replay1_data[0].players[i].cumulative.games > 1) {
-            $("#tbody").append(renderPlayerTableEntry(replay1_data[0].players[i]))
+        if (dataset[0].players[i].cumulative.games > 1) {
+            $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
             tmpGlobalincrement++;
         }
     }
@@ -178,7 +169,7 @@ function handlePlayersButtonClick() {
 
 function getGoalParticipation(player) { 
     let goalsParticipatedIn = player.cumulative.core.goals + player.cumulative.core.assists;
-    let team = searchName(replay1_data[0].teams, player.team);
+    let team = searchName(dataset[0].teams, player.team);
     // another compensational if
     let index = 0;
     for (let i = 0; i < team.length; i++) {
@@ -190,6 +181,14 @@ function getGoalParticipation(player) {
 }
 
 // search stuff
+let enteredData;
+function renderPlayerSearch() {
+    return `<div class="box" style="display: flex">
+    <span style="display: inline-flex; flex-grow: 1; align-items: center;">
+    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].players, enteredData)}</span>
+    <strong>${foundNames}</strong>
+</div>`
+}
 document.getElementById('pNameInput').addEventListener('keyup', event => {
     const $searchresults = $('#pName-results');
     $( '#pName-results *' ).replaceWith();
@@ -202,10 +201,10 @@ document.getElementById('pNameInput').addEventListener('keyup', event => {
 })
 let enteredTeam;
 function renderTeamSearch() {
-    console.log(searchName(replay1_data[0].teams, enteredTeam))
+    console.log(searchName(dataset[0].teams, enteredTeam))
     return `<div class="box" style="display: flex">
     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
-    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(replay1_data[0].teams, enteredTeam)}</span>
+    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].teams, enteredTeam)}</span>
     <strong>${foundNames}</strong>
 </div>`
 }
