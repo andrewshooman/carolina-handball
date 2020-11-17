@@ -23,8 +23,8 @@ class Search extends Component{
         $("#submit").click(function() {
       let name=$("#name").val();
       $.post("/lookup",{name: name}, function(data){
-        if (data != undefined) {document.getElementById('text').innerHTML=data[0]._id;
-        console.log(data);
+        console.log(data)
+        if (data.length != 0) {document.getElementById('text').innerHTML=data[0]._id;
       }
       else{console.log("cant find data")}
       });
