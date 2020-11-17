@@ -30,17 +30,17 @@ app.get('*', (req, res) => res.sendFile('index.html', {root: __dirname+'/../publ
 const bodyParser = require("body-parser");
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/regional1?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true });
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/lookup', function(req,res) {
-  console.log(req.body.name)
+  const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+
   let query = {name:req.body.name};
   client.connect(err => {
       const collection = client.db("regional1").collection("stage1");
       collection.find(query).toArray(function(err, result) {
-        if (err) throw err;
+        if (err) {}
         else res.json(result)
       });
       client.close();
@@ -48,10 +48,11 @@ app.post('/lookup', function(req,res) {
   })
 
   app.post('/getdefaultarray', function(req,res) {
+    const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
     client.connect(err => {
         const collection = client.db("regional1").collection("stage1");
         collection.find().toArray(function(err, result) {
-          res.json(result)
+           res.json(result)
         });
         client.close();
       });
