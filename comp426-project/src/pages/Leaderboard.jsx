@@ -10,8 +10,13 @@ class Leaderboard extends Component{
 	
 		<Header></Header>
 
+
+
 		</div>
-	)}
+    )}
+    
+    
+
 }
 
 export default Leaderboard;

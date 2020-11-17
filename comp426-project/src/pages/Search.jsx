@@ -22,7 +22,6 @@ class Search extends Component{
      componentDidMount() {
         $("#submit").click(function() {
       let name=$("#name").val();
-      console.log(name)
       $.post("/lookup",{name: name}, function(data){
         if (data != undefined) {document.getElementById('text').innerHTML=data[0]._id;
         console.log(data);

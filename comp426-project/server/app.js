@@ -35,14 +35,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/lookup', function(req,res) {
-  console.log(req.body.name)
   let query = {name:req.body.name};
   client.connect(err => {
       const collection = client.db("regional1").collection("stage1");
       collection.find(query).toArray(function(err, result) {
-        if (err) throw err;
-        else res.json(result)
+        res.json(result)
       });
       client.close();
     });
   })
+
+  app.post('/getdefaultarray', function(req,res) {
+    client.connect(err => {
+        const collection = client.db("regional1").collection("stage1");
+        collection.find().toArray(function(err, result) {
+          if (err) throw err;
+          else res.json(result)
+        });
+        client.close();
+      });
+    })
