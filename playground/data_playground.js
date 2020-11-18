@@ -1,5 +1,27 @@
-import dataset from "../data/arrayed_json/NAFALLR1S1.js";
+import NAFALLR1S1 from "../data/arrayed_json/NAFALLR1S1.js";
+import NAFALLR1S2 from "../data/arrayed_json/NAFALLR1S2.js";
+import NAFALLR1PO from "../data/arrayed_json/NAFALLR1PO.js";
+import NAFALLR2S1 from "../data/arrayed_json/NAFALLR2S1.js";
+import NAFALLR2S2 from "../data/arrayed_json/NAFALLR2S2.js";
+import NAFALLR2PO from "../data/arrayed_json/NAFALLR2PO.js";
+import NAFALLR3S1 from "../data/arrayed_json/NAFALLR3S1.js";
+import NAFALLR3S2 from "../data/arrayed_json/NAFALLR3S2.js";
+import NAFALLR3PO from "../data/arrayed_json/NAFALLR3PO.js";
+import NAFALLMASW from "../data/arrayed_json/NAFALLMASW.js";
+import NAFALLMAPO from "../data/arrayed_json/NAFALLMAPO.js";
+import EUFALLR1S1 from "../data/arrayed_json/EUFALLR1S1.js";
+import EUFALLR1S2 from "../data/arrayed_json/EUFALLR1S2.js";
+import EUFALLR1PO from "../data/arrayed_json/EUFALLR1PO.js";
+import EUFALLR2S1 from "../data/arrayed_json/EUFALLR2S1.js";
+import EUFALLR2S2 from "../data/arrayed_json/EUFALLR2S2.js";
+import EUFALLR2PO from "../data/arrayed_json/EUFALLR2PO.js";
+import EUFALLR3S1 from "../data/arrayed_json/EUFALLR3S1.js";
+import EUFALLR3S2 from "../data/arrayed_json/EUFALLR3S2.js";
+import EUFALLR3PO from "../data/arrayed_json/EUFALLR3PO.js";
+import EUFALLMASW from "../data/arrayed_json/EUFALLMASW.js";
+import EUFALLMAPO from "../data/arrayed_json/EUFALLMAPO.js";
 
+let dataset = [];
 let foundNames = [];
 let tmpGlobalincrement = 1;
 function searchName(replay_group, searchTerm) {
@@ -78,7 +100,7 @@ function renderPlayerLeaderboard() {
     </table>`
 }
 
-function renderTeamTableEntry(team) { 
+function renderTeamTableEntry(team) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
     <td>${team.name}</td>
@@ -96,14 +118,14 @@ function renderTeamTableEntry(team) {
   </tr>`
 }
 
-function renderPlayerTableEntry(player) { 
+function renderPlayerTableEntry(player) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
     <td>${player.name}</td>
     <td>${player.team}</td>
     <td>${player.cumulative.games}</td>
     <td>${player.cumulative.win_percentage.toFixed(1)}</td>
-    <td>${(player.cumulative.core.score/player.cumulative.games).toFixed(1)}</td>
+    <td>${(player.cumulative.core.score / player.cumulative.games).toFixed(1)}</td>
     <td>${player.cumulative.demo.inflicted - player.cumulative.demo.taken}</td>
     <td>${player.game_average.core.goals.toFixed(2)}</td>
     <td>${player.game_average.core.assists.toFixed(2)}</td>
@@ -121,9 +143,11 @@ function renderSelectorBox() {
         <h4 class="subtitle is-4">Leaderboard</h3>
         <div class="control">
         <div class="select is-primary">
-        <select>
+        <select class="event">
             <option>Select Event</option>
-            <option>Regional 1 Stage 1 (NA)</option>
+            <option>Regional 1 Stage 1</option>
+            <option>Regional 1 Stage 2</option>
+            <option>Regional 1 Playoffs</option>
         </select>
     </div>
         <div id="table">
@@ -167,7 +191,7 @@ function handlePlayersButtonClick() {
     }
 }
 
-function getGoalParticipation(player) { 
+function getGoalParticipation(player) {
     let goalsParticipatedIn = player.cumulative.core.goals + player.cumulative.core.assists;
     let team = searchName(dataset[0].teams, player.team);
     // another compensational if
@@ -178,6 +202,20 @@ function getGoalParticipation(player) {
         }
     }
     return ((goalsParticipatedIn / team[index].cumulative.core.goals) * 100).toFixed(2);
+}
+
+function handleSelectedEvent(selectedEvent) { 
+    switch(selectedEvent) {
+        case 'Regional 1 Stage 1':
+            dataset = NAFALLR1S1;
+            break;
+        case 'Regional 1 Stage 2':
+            dataset = NAFALLR1S2;
+            break;
+        case 'Regional 1 Playoffs':
+            dataset = NAFALLR1PO;
+            break;
+    }
 }
 
 // search stuff
@@ -191,7 +229,7 @@ function renderPlayerSearch() {
 }
 document.getElementById('pNameInput').addEventListener('keyup', event => {
     const $searchresults = $('#pName-results');
-    $( '#pName-results *' ).replaceWith();
+    $('#pName-results *').replaceWith();
     if (event.code === 'Enter') {
         if (event.currentTarget.value != '') {
             enteredData = event.currentTarget.value;
@@ -210,7 +248,7 @@ function renderTeamSearch() {
 }
 document.getElementById('tNameInput').addEventListener('keyup', event => {
     const $searchresults = $('#tName-results');
-    $( '#tName-results *' ).replaceWith();
+    $('#tName-results *').replaceWith();
     if (event.code === 'Enter') {
         if (event.currentTarget.value != '') {
             enteredTeam = event.currentTarget.value;
@@ -224,5 +262,11 @@ function loadTeamsIntoLeaderboard() {
     $("#root").append(renderSelectorBox());
     $(document).on("click", "#lbteams", handleTeamsButtonClick)
     $(document).on("click", "#lbplayers", handlePlayersButtonClick)
+    $(document).ready(function () {
+        $("select.event").change(function () {
+            let selectedEvent = $(this).children("option:selected").val()
+            handleSelectedEvent(selectedEvent);
+        });
+    });
 }
 loadTeamsIntoLeaderboard();
