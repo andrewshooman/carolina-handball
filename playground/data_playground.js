@@ -24,6 +24,8 @@ import EUFALLMAPO from "../data/arrayed_json/EUFALLMAPO.js";
 let dataset = [];
 let foundNames = [];
 let tmpGlobalincrement = 1;
+let region;
+let season;
 function searchName(replay_group, searchTerm) {
     foundNames = [];
     let i = 0;
@@ -142,25 +144,54 @@ function renderSelectorBox() {
     <div class="box">
         <h4 class="subtitle is-4">Leaderboard</h3>
         <div class="control">
-        <div class="select is-primary">
+        <div class="buttons has-addons">
+                <button class="button" id="lbna">North America</button>
+                <button class="button" id="lbeu">Europe</button>
+        </div>
+        <span id="sznplaceholder"></span>
+        </div>
+    </div>
+    </div>
+    </div>
+    <br>`
+}
+
+function renderLeaderboardSeasonSelector() {
+    return `<div class="buttons has-addons">
+    <button class="button" id="lbfall">Fall</button>
+    <button class="button" id="lbwinter">Winter</button>
+    <button class="button" id="lbspring">Spring</button>
+    </div>
+    <span id="eventselectorplaceholder"></span>`
+}
+
+function renderLeaderboardFallEventSelector() {
+    return `<div class="select is-primary">
         <select class="event">
             <option>Select Event</option>
             <option>Regional 1 Stage 1</option>
             <option>Regional 1 Stage 2</option>
             <option>Regional 1 Playoffs</option>
+            <option>Regional 2 Stage 1</option>
+            <option>Regional 2 Stage 2</option>
+            <option>Regional 2 Playoffs</option>
+            <option>Regional 3 Stage 1</option>
+            <option>Regional 3 Stage 2</option>
+            <option>Regional 3 Playoffs</option>
+            <option>Major Swiss</option>
+            <option>Major Playoffs</option>
         </select>
-    </div>
-        <div id="table">
-            <div class="buttons has-addons is-centered">
-                <button class="button" id="lbteams">Teams</button>
-                <button class="button" id="lbplayers">Players</button>
-            </div>
         </div>
-        <br>
+        <span id="PorTselectorplaceholder"></span>`
+}
+
+function renderLeaderboardPlayerTeamSelector() {
+    return `<div id="table">
+    <div class="buttons has-addons is-centered">
+        <button class="button" id="lbteams">Teams</button>
+        <button class="button" id="lbplayers">Players</button>
     </div>
-    </div>
-    </div>
-    <br>`
+</div>`
 }
 
 function handleTeamsButtonClick() {
@@ -204,19 +235,128 @@ function getGoalParticipation(player) {
     return ((goalsParticipatedIn / team[index].cumulative.core.goals) * 100).toFixed(2);
 }
 
-function handleSelectedEvent(selectedEvent) { 
-    switch(selectedEvent) {
-        case 'Regional 1 Stage 1':
-            dataset = NAFALLR1S1;
-            break;
-        case 'Regional 1 Stage 2':
-            dataset = NAFALLR1S2;
-            break;
-        case 'Regional 1 Playoffs':
-            dataset = NAFALLR1PO;
-            break;
+function handleLeaderboardNAClick() {
+    region = "NA"
+    $("#sznplaceholder").empty();
+    $("#lbna").addClass("is-primary")
+    $("#lbeu").removeClass("is-primary")
+    $("#sznplaceholder").append(renderLeaderboardSeasonSelector);
+}
+
+function handleLeaderboardEUClick() {
+    region = "EU"
+    $("#sznplaceholder").empty();
+    $("#lbeu").addClass("is-primary")
+    $("#lbna").removeClass("is-primary")
+    $("#sznplaceholder").append(renderLeaderboardSeasonSelector);
+}
+
+function handleLeaderboardFallClick() {
+    season = "fall";
+    $("#eventselectorplaceholder").empty();
+    $("#lbfall").addClass("is-primary")
+    $("#lbwinter").removeClass("is-primary")
+    $("#lbspring").removeClass("is-primary")
+    $("#eventselectorplaceholder").append(renderLeaderboardFallEventSelector());
+}
+
+function handleLeaderboardWinterClick() {
+    season = "winter";
+    $("#eventselectorplaceholder").empty();
+    $("#lbfall").removeClass("is-primary")
+    $("#lbwinter").addClass("is-primary")
+    $("#lbspring").removeClass("is-primary")
+    $("#eventselectorplaceholder").append(`<div class="notification is-warning"><p><span class="has-text-weight-bold">No Data! </span>This event has not been played yet, check back after the event is complete.</p></div>`);
+}
+
+function handleLeaderboardSpringClick() {
+    season = "spring"
+    $("#eventselectorplaceholder").empty();
+    $("#lbfall").removeClass("is-primary")
+    $("#lbwinter").removeClass("is-primary")
+    $("#lbspring").addClass("is-primary")
+    $("#eventselectorplaceholder").append(`<div class="notification is-warning"><p><span class="has-text-weight-bold">No Data! </span>This event has not been played yet, check back after the event is complete.</p></div>`);
+}
+
+function handleSelectedEvent(selectedEvent) {
+    if (season == "fall") {
+        if (region == "NA") {
+            switch (selectedEvent) {
+                case 'Regional 1 Stage 1':
+                    dataset = NAFALLR1S1;
+                    break;
+                case 'Regional 1 Stage 2':
+                    dataset = NAFALLR1S2;
+                    break;
+                case 'Regional 1 Playoffs':
+                    dataset = NAFALLR1PO;
+                    break;
+                case 'Regional 2 Stage 1':
+                    dataset = NAFALLR2S1;
+                    break;
+                case 'Regional 2 Stage 2':
+                    dataset = NAFALLR2S2;
+                    break;
+                case 'Regional 2 Playoffs':
+                    dataset = NAFALLR2PO;
+                    break;
+                case 'Regional 3 Stage 1':
+                    dataset = NAFALLR3S1;
+                    break;
+                case 'Regional 3 Stage 2':
+                    dataset = NAFALLR3S2;
+                    break;
+                case 'Regional 3 Playoffs':
+                    dataset = NAFALLR3PO;
+                    break;
+                case 'Major Swiss':
+                    dataset = NAFALLMASW;
+                    break;
+                case 'Major Playoffs':
+                    dataset = NAFALLMAPO;
+                    break;
+            }
+        } 
+        if (region == "EU") {
+            switch (selectedEvent) {
+                case 'Regional 1 Stage 1':
+                    dataset = EUFALLR1S1;
+                    break;
+                case 'Regional 1 Stage 2':
+                    dataset = EUFALLR1S2;
+                    break;
+                case 'Regional 1 Playoffs':
+                    dataset = EUFALLR1PO;
+                    break;
+                case 'Regional 2 Stage 1':
+                    dataset = EUFALLR2S1;
+                    break;
+                case 'Regional 2 Stage 2':
+                    dataset = EUFALLR2S2;
+                    break;
+                case 'Regional 2 Playoffs':
+                    dataset = EUFALLR2PO;
+                    break;
+                case 'Regional 3 Stage 1':
+                    dataset = EUFALLR3S1;
+                    break;
+                case 'Regional 3 Stage 2':
+                    dataset = EUFALLR3S2;
+                    break;
+                case 'Regional 3 Playoffs':
+                    dataset = EUFALLR3PO;
+                    break;
+                case 'Major Swiss':
+                    dataset = EUFALLMASW;
+                    break;
+                case 'Major Playoffs':
+                    dataset = EUFALLMAPO;
+                    break;
+            }
+        }
     }
 }
+
 
 // search stuff
 let enteredData;
@@ -258,15 +398,24 @@ document.getElementById('tNameInput').addEventListener('keyup', event => {
 })
 
 // leaderboard stuff
-function loadTeamsIntoLeaderboard() {
+function loadStuffIntoLeaderboard() {
     $("#root").append(renderSelectorBox());
+    $(document).on("click", "#lbna", handleLeaderboardNAClick)
+    $(document).on("click", "#lbeu", handleLeaderboardEUClick)
+    $(document).on("click", "#lbfall", handleLeaderboardFallClick)
+    $(document).on("click", "#lbwinter", handleLeaderboardWinterClick)
+    $(document).on("click", "#lbspring", handleLeaderboardSpringClick)
     $(document).on("click", "#lbteams", handleTeamsButtonClick)
     $(document).on("click", "#lbplayers", handlePlayersButtonClick)
-    $(document).ready(function () {
-        $("select.event").change(function () {
-            let selectedEvent = $(this).children("option:selected").val()
-            handleSelectedEvent(selectedEvent);
-        });
+    $(document).on("change", "select.event", function () {
+        let selectedEvent = $(this).children("option:selected").val()
+        if (selectedEvent == "Select Event") {
+            $("#PorTselectorplaceholder").empty();
+        } else {
+            $("#PorTselectorplaceholder").empty();
+            $("#PorTselectorplaceholder").append(renderLeaderboardPlayerTeamSelector)
+        }
+        handleSelectedEvent(selectedEvent);
     });
 }
-loadTeamsIntoLeaderboard();
+loadStuffIntoLeaderboard();
