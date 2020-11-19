@@ -397,6 +397,103 @@ document.getElementById('tNameInput').addEventListener('keyup', event => {
     }
 })
 
+
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+      const context = this;
+      const executor = function() {
+        timeout = null;
+        func.apply(context, args);
+      };
+
+      clearTimeout(timeout);
+      timeout = setTimeout(executor, wait);
+    };
+  }
+
+/* 
+  TO-DO: perform query
+*/
+
+function autoName(searchTerm) {
+    if (searchTerm === "") {
+        return "";
+    }
+    let replay_group = dataset[0].players;
+    let data = replay_group.find(value => value.name.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
+    if (data !== undefined) {
+        let name = data.name;
+        console.log(name)
+        return name;
+    } else {
+        return "";
+    }
+    
+}
+
+function autoTeam(searchTerm) {
+    if (searchTerm === "") {
+        return "";
+    }
+    let replay_group = dataset[0].teams;
+    let data = replay_group.find(value => value.name.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
+    if (data !== undefined) {
+        let name = data.name;
+        console.log(name)
+        return name;
+    } else {
+        return "";
+    }
+    
+}
+
+function handleNameAuto(event) {
+    let output = document.getElementById('pNameAuto');
+    const inputData = event.target.value;
+    let replay_group = dataset[0].players;
+    let data = autoName(inputData);
+    enteredData = data;
+    if (data !== "") {
+        output.innerHTML = `<button>${data}</button>`;
+    } else {
+        output.innerHTML = ``;
+    }
+    
+}
+
+function handleTeamAuto(event) {
+    let output = document.getElementById('tNameAuto');
+    const inputData = event.target.value;
+    let replay_group = dataset[0].players;
+    let data = autoTeam(inputData);
+    enteredTeam = data;
+    if (data !== "") {
+        output.innerHTML = `<button>${data}</button>`;
+    } else {
+        output.innerHTML = ``;
+    }
+    
+}
+
+document.getElementById('pNameInput').addEventListener('input', debounce(handleNameAuto, 400));
+document.getElementById('tNameInput').addEventListener('input', debounce(handleTeamAuto, 400));
+
+function handleSubmitPlayerAuto(event) {
+    let output = document.getElementById('pNameAuto');
+    output.innerHTML = ``;
+    // $('#pNameInput').replaceWith(`<input class="input is-primary" id="pNameInput" type="text" placeholder="${enteredData}"/>`);
+    const $searchresults = $('#pName-results');
+    $searchresults.append(renderPlayerSearch);
+}
+
+function handleSubmitTeamAuto(event) {
+    let output = document.getElementById('tNameAuto');
+    output.innerHTML = ``;
+    const $searchresults = $('#tName-results');
+    $searchresults.append(renderTeamSearch);
+}
+
 // leaderboard stuff
 function loadStuffIntoLeaderboard() {
     $("#root").append(renderSelectorBox());
@@ -407,6 +504,8 @@ function loadStuffIntoLeaderboard() {
     $(document).on("click", "#lbspring", handleLeaderboardSpringClick)
     $(document).on("click", "#lbteams", handleTeamsButtonClick)
     $(document).on("click", "#lbplayers", handlePlayersButtonClick)
+    $(document).on("click", "#pNameAuto", handleSubmitPlayerAuto)
+    $(document).on("click", "#tNameAuto", handleSubmitTeamAuto)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
         if (selectedEvent == "Select Event") {
