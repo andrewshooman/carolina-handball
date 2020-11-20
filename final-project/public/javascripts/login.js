@@ -15,7 +15,7 @@ function handleLogin(event) {
             location.reload();
         },
         error: function(jqXHR, textStatus, errorThrown){
-          alrt("Incorrect Username or Password")
+          alert("Incorrect Username or Password")
        }
      });
 

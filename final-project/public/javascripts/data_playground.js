@@ -490,6 +490,8 @@ function handleTeamAuto(event) {
     
 }
 
+
+
 document.getElementById('pNameInput').addEventListener('input', debounce(handleNameAuto, 400));
 document.getElementById('tNameInput').addEventListener('input', debounce(handleTeamAuto, 400));
 
@@ -508,6 +510,22 @@ function handleSubmitTeamAuto(event) {
     $searchresults.append(renderTeamSearch);
 }
 
+function handleLogout(event) {
+    $.ajax({
+        url: '/logout',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response, textStatus, jqXHR) {
+            $.router.set('/');
+            location.reload();
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            alert("error logging out")
+       }
+     });
+    
+}
+
 // leaderboard stuff
 function loadStuffIntoLeaderboard() {
     $("#root").append(renderSelectorBox());
@@ -519,6 +537,7 @@ function loadStuffIntoLeaderboard() {
     $(document).on("click", "#lbteams", handleTeamsButtonClick)
     $(document).on("click", "#lbplayers", handlePlayersButtonClick)
     $(document).on("click", "#pNameAuto", handleSubmitPlayerAuto)
+    $(document).on("click", "#logout", handleLogout)
     $(document).on("click", "#tNameAuto", handleSubmitTeamAuto)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
@@ -538,7 +557,7 @@ function loadStuffIntoLeaderboard() {
         dataType: 'json',
         success: function(response, textStatus, jqXHR) {
             let name = jqXHR.responseJSON;
-            $("#loginButton").html('Welcome, ' + name)
+            $("#loginButton").html('Welcome, ' + name + `<br><br><button class="button" id="logout">Log Out</button>`)
         },
         error: function(jqXHR, textStatus, errorThrown){
 
