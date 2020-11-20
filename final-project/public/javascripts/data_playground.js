@@ -303,10 +303,10 @@ function handleSelectedEvent(selectedEvent) {
         if (region == "NA") {
             switch (selectedEvent) {
                 case 'Regional 1 Stage 1':
-                    dataset = NAFALLR1S1;
+                    getDataBase("NAFALLR1S1");
                     break;
                 case 'Regional 1 Stage 2':
-                    dataset = NAFALLR1S2;
+                    getDataBase("NAFALLR1S2");
                     break;
                 case 'Regional 1 Playoffs':
                     dataset = NAFALLR1PO;
@@ -533,16 +533,16 @@ function handleLogout(event) {
 }
 
 async function getDataBase(id){
-
     let result = ($.ajax({
     url: '/getDBbyID',
-        type: 'POST',
-        dataType: 'json',
-        data: {"id":id},
+    type: 'POST',
+    dataType: 'json',
+    data: {"id":id},
     async: false
 }));
-    result =  JSON.parse(JSON.stringify(result));
-     return result.responseJSON[0];
+    result = JSON.parse(JSON.stringify(result));
+    // console.log(result.responseJSON)
+    dataset = result.responseJSON;
 }
 
 
