@@ -54,9 +54,6 @@ app.post('/login', (req,res) => {
 
   let user = req.body.user;
   let password = req.body.password;
-console.log(user, password)
-
-console.log(login_data)
 
   let user_data = login_data.get(user);
   if (user_data == null) {
