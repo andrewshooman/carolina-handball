@@ -31,16 +31,16 @@ app.use(expressSession({
   saveUninitialized: false
 }));
 
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority";
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority";
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
 // client.connect(err => {
 //     const collection = client.db("rl_stats").collection("");
 //     collection.find().toArray(function(err, result) {
-//       
+      
 //     });
 //     client.close();
 //   });
@@ -52,27 +52,92 @@ const login_data = require('data-store')({ path: process.cwd() + '/public/data/u
 
 app.post('/login', (req,res) => {
 
-  let user = req.body.user;
+  let user = req.body.username;
   let password = req.body.password;
+  let user_data;
+  
 
-  let user_data = login_data.get(user);
-  if (user_data == null) {
-      res.status(404).send("Not found");
+  const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+  client.connect(err => {
+      const collection = client.db("Secret").collection("users");
+      collection.find().toArray(function(err, result) {
+        user_data = JSON.parse(JSON.stringify(result));
+        user_data = user_data.filter(d=> d.username == user)[0]
+        if (user_data == null) {
+          res.status(404).send("Not found");
+          client.close();
+          return;
+      }
+       if (user_data.password == password) {
+          req.session.user = user;
+          res.json(true);
+          client.close();
+          return;
+      }
+      res.status(403).send("Unauthorized"); 
+      client.close();
       return;
-  }
-  if (user_data.password == password) {
-      console.log("User " + user + " credentials valid");
-      req.session.user = user;
-      res.json(true);
-      return;
-  }
-  res.status(403).send("Unauthorized");
+
+      });
+    });
+
+  
 });
+
+app.post('/signup', (req,res) => {
+
+  let user = req.body.username;
+  let password = req.body.password;
+  let user_data;
+
+  const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+  client.connect(err => {
+      const collection = client.db("Secret").collection("users");
+      collection.find().toArray(function(err, result) {
+        user_data = JSON.parse(JSON.stringify(result));
+        user_data = user_data.filter(d=> d.username == user)[0]
+       
+        console.log(user_data)
+
+        if (user_data === undefined) {
+          let myobj = { "username": user, "password": password };
+
+          collection.insertOne(myobj, function(err, res) {
+            if (err) throw err;
+            console.log("Added User Successfully");
+
+          });
+          
+          res.json(true);
+          client.close();
+          return;
+
+      } else {
+        res.status(404).send("Username Taken");
+        client.close();
+        return;
+      }
+       
+
+      });
+    });
+
+})
+
+app.get('/getLoggedInUser', (req, res) => {
+  if (req.session.user == undefined) {
+    res.status(403).send("No User Logged In");
+    return;
+} else {
+  res.json(req.session.user);
+}
+})
 
 app.get('/logout', (req, res) => {
   delete req.session.user;
   res.json(true);
 })
+
 
 app.get('/secret', (req, res) => {
   if (req.session.user == undefined) {

@@ -1,16 +1,34 @@
 function handleLogin(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
     let username=$("#username").val();
     let password=$("#password").val();
 
+    $.ajax({
+        url: '/login',
+        type: 'POST',
+        data: {"username": username, "password": password},
+        dataType: 'json',
+        success: function(response, textStatus, jqXHR) {
+            $.router.set('/');
+            location.reload();
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+          alrt("Incorrect Username or Password")
+       }
+     });
 
-    $.post("/login",{"user": username, "password": password}, function(data){
-        if (data==true){
-                $.router.set('/');
-                location.reload();
-        } else {
-            alert("incorrect password")
-        }
-      });
+    // $.post("/login",{"username": username, "password": password}, function(data, status){
+    //     console.log(data)
+    //     if (data==true){
+    //             
+    //     } else {
+    //         $.router.set('/');
+
+    //         console.log("failed password")
+    //     }
+    //   });
 
 }
 

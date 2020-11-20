@@ -1,7 +1,6 @@
-{
-    "test" : {
+
+    {   "username": "test",
         "password": "password",
         "name": "name",
         "type": "admin"
     }
-}

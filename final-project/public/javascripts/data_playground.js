@@ -530,5 +530,20 @@ function loadStuffIntoLeaderboard() {
         }
         handleSelectedEvent(selectedEvent);
     });
+
+
+    $.ajax({
+        url: '/getLoggedInUser',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response, textStatus, jqXHR) {
+            let name = jqXHR.responseJSON;
+            $("#loginButton").html('Welcome, ' + name)
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+
+       }
+     });
+
 }
 loadStuffIntoLeaderboard();
