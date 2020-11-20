@@ -130,6 +130,20 @@ app.get('/logout', (req, res) => {
   res.json(true);
 })
 
+app.post('/getDBbyID', (req, res) => {
+
+  let id = req.body.id;
+
+  const client = new MongoClient("mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority", { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+  client.connect(err => {
+      const collection = client.db("rl_stats").collection(id);
+      collection.find().toArray(function(err, result) {
+          res.json(result);
+          client.close();
+      });
+    });
+})
+
 
 app.get('/secret', (req, res) => {
   if (req.session.user == undefined) {
@@ -147,7 +161,12 @@ app.get('/secret/:id', (req, res) => {
       return;
   }
 
-  let s = Secret.findByID(req.params.id);
+
+
+  const s = Secret.findByID(req.params.id);
+
+  
+
   if (s == null) {
       res.status(404).send("Not found");
       return;

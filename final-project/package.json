@@ -17,6 +17,7 @@
     "jade": "~1.11.0",
     "jquery": "^3.5.1",
     "jqueryrouter": "^2.2.8",
+    "mongodb": "^3.6.3",
     "morgan": "~1.9.1"
   }
 }

@@ -21,6 +21,8 @@ import EUFALLR3PO from "../data/arrayed_json/EUFALLR3PO.js";
 import EUFALLMASW from "../data/arrayed_json/EUFALLMASW.js";
 import EUFALLMAPO from "../data/arrayed_json/EUFALLMAPO.js";
 
+
+
 // const MongoClient = require('mongodb').MongoClient;
 // const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority";
 // app.use(bodyParser.json());
@@ -34,6 +36,8 @@ import EUFALLMAPO from "../data/arrayed_json/EUFALLMAPO.js";
 //     });
 //     client.close();
 //   });
+
+let temp = [];
 
 let dataset = [];
 let foundNames = [];
@@ -258,6 +262,8 @@ function handleLeaderboardNAClick() {
 }
 
 function handleLeaderboardEUClick() {
+    
+
     region = "EU"
     $("#sznplaceholder").empty();
     $("#lbeu").addClass("is-primary")
@@ -526,6 +532,21 @@ function handleLogout(event) {
     
 }
 
+async function getDataBase(id){
+
+    let result = ($.ajax({
+    url: '/getDBbyID',
+        type: 'POST',
+        dataType: 'json',
+        data: {"id":id},
+    async: false
+}));
+    result =  JSON.parse(JSON.stringify(result));
+     return result.responseJSON[0];
+}
+
+
+
 // leaderboard stuff
 function loadStuffIntoLeaderboard() {
     $("#root").append(renderSelectorBox());
@@ -549,7 +570,6 @@ function loadStuffIntoLeaderboard() {
         }
         handleSelectedEvent(selectedEvent);
     });
-
 
     $.ajax({
         url: '/getLoggedInUser',

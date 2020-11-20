@@ -11,6 +11,7 @@ function handleLogin(event) {
         data: {"username": username, "password": password},
         dataType: 'json',
         success: function(response, textStatus, jqXHR) {
+
             $.router.set('/');
             location.reload();
         },

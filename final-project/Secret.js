@@ -1,12 +1,25 @@
-const secret_data = require('data-store')({ path: process.cwd() + 'final-project\public\data\secrets.json' });
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority";
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+const secret_data = {};
+let next_id = 0;
 
 class Secret {
+    
 
     constructor (id, owner, secret) {
+        getSecretData();
         this.id = id;
         this.owner = owner;
         this.secret = secret;
     }
+
 
     update (secret) {
         this.secret = secret;
@@ -19,11 +32,11 @@ class Secret {
 }
 
 Secret.getAllIDs = () => {
-    return Object.keys(secret_data.data).map(id => parseInt(id));
+    return 0;
 };
 
 Secret.getAllIDsForOwner = (owner) => {
-    return Object.keys(secret_data.data).filter(id => secret_data.get(id).owner == owner).map(id => parseInt(id));
+    return 0;
 }
 
 Secret.findByID = (id) => {
@@ -34,19 +47,39 @@ Secret.findByID = (id) => {
     return null;
 };
 
-Secret.next_id = Secret.getAllIDs().reduce((max, next_id) => {
-    if (max < next_id) {
-        return next_id;
-    }
-    return max;
-}, -1) + 1;
+Secret.next_id = () => {
+    getSecretData();
+    console.log(secret_data.length);
+    return 0;
+}
 
 Secret.create = (owner, secret) => {
     let id = Secret.next_id;
     Secret.next_id += 1;
     let s = new Secret(id, owner, secret);
-    secret_data.set(s.id.toString(), s);
+    addSecret(s);
     return s;
+}
+
+async function getSecretData (){
+
+    const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+    client.connect(err => {
+        const collection = client.db("Secret").collection("users");
+        collection.find().toArray(function(err, result) {
+            this.secret_data = result;
+            client.close();
+        });
+    });
+}
+
+async function addSecret(s) {
+    const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+    client.connect(err => {
+        const collection = client.db("Secret").collection("users");
+            collection.insertOne(s);
+            client.close();
+    });
 }
 
 module.exports = Secret;
