@@ -21,6 +21,20 @@ import EUFALLR3PO from "../data/arrayed_json/EUFALLR3PO.js";
 import EUFALLMASW from "../data/arrayed_json/EUFALLMASW.js";
 import EUFALLMAPO from "../data/arrayed_json/EUFALLMAPO.js";
 
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority";
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+
+// const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+// client.connect(err => {
+//     const collection = client.db("rl_stats").collection("");
+//     collection.find().toArray(function(err, result) {
+//       
+//     });
+//     client.close();
+//   });
+
 let dataset = [];
 let foundNames = [];
 let tmpGlobalincrement = 1;

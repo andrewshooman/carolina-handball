@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -20,8 +21,152 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(bodyParser.json());
+const expressSession = require('express-session');
+
+app.use(expressSession({
+  name: "kmpSessionCookie",
+  secret: "express session secret",
+  resave: false,
+  saveUninitialized: false
+}));
+
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority";
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+
+// const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+// client.connect(err => {
+//     const collection = client.db("rl_stats").collection("");
+//     collection.find().toArray(function(err, result) {
+//       
+//     });
+//     client.close();
+//   });
+
+const Secret = require("./Secret.js");
+
+const login_data = require('data-store')({ path: process.cwd() + '/public/data/users.json' });
+
+
+app.post('/login', (req,res) => {
+
+  let user = req.body.user;
+  let password = req.body.password;
+console.log(user, password)
+
+console.log(login_data)
+
+  let user_data = login_data.get(user);
+  if (user_data == null) {
+      res.status(404).send("Not found");
+      return;
+  }
+  if (user_data.password == password) {
+      console.log("User " + user + " credentials valid");
+      req.session.user = user;
+      res.json(true);
+      return;
+  }
+  res.status(403).send("Unauthorized");
+});
+
+app.get('/logout', (req, res) => {
+  delete req.session.user;
+  res.json(true);
+})
+
+app.get('/secret', (req, res) => {
+  if (req.session.user == undefined) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+
+  res.json(Secret.getAllIDsForOwner(req.session.user));
+  return;
+});
+
+app.get('/secret/:id', (req, res) => {
+  if (req.session.user == undefined) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+
+  let s = Secret.findByID(req.params.id);
+  if (s == null) {
+      res.status(404).send("Not found");
+      return;
+  }
+
+  if (s.owner != req.session.user) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+
+  res.json(s);
+} );
+
+app.post('/secret', (req, res)=> {
+  if (req.session.user == undefined) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+
+  let s = Secret.create(req.session.user, req.body.secret);
+  if (s == null) {
+      res.status(400).send("Bad Request");
+      return;
+  }
+  return res.json(s);
+});
+
+app.put('/secret/:id', (req, res) => {
+  if (req.session.user == undefined) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+
+  let s = Secret.findByID(req.params.id);
+  if (s == null) {
+      res.status(404).send("Not found");
+      return;
+  }
+  if (s.owner != req.session.user) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+  s.update(req.body.secret);
+
+  res.json(s.id);
+});
+
+app.delete('/secret/:id', (req, res) => {
+  if (req.session.user == undefined) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+
+  let s = Secret.findByID(req.params.id);
+  if (s == null) {
+      res.status(404).send("Not found");
+      return;
+  }
+
+  if (s.owner != req.session.user) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+
+  s.delete();
+  res.json(true);
+})
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -40,3 +185,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
