@@ -3,7 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority";
+const uri = "mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority";
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 

@@ -32,7 +32,7 @@ app.use(expressSession({
 }));
 
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority";
+const uri = "mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority";
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -89,8 +89,6 @@ app.post('/signup', (req,res) => {
         user_data = JSON.parse(JSON.stringify(result));
         user_data = user_data.filter(d=> d.username == user)[0]
        
-        console.log(user_data)
-
         if (user_data === undefined) {
           let myobj = { "username": user, "password": password };
 
@@ -134,7 +132,7 @@ app.post('/getDBbyID', (req, res) => {
 
   let id = req.body.id;
 
-  const client = new MongoClient("mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority", { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+  const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority", { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
   client.connect(err => {
       const collection = client.db("rl_stats").collection(id);
       collection.find().toArray(function(err, result) {
@@ -155,7 +153,7 @@ app.get('/secret', (req, res) => {
   return;
 });
 
-app.get('/secret/:id', (req, res) => {
+app.post('/secret/:id', (req, res) => {
   if (req.session.user == undefined) {
       res.status(403).send("Unauthorized");
       return;
