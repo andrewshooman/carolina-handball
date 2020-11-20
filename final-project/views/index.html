@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Final Project</title>
+
+  <!-- Include links to CSS stylesheets below -->
+  <!-- TODO (optional): Add link to bulma here -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
+</head>
+
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/public/javascripts/data_playground.js" type="module"></script>
+  <div id="root">
+    <section class="hero is-primary">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            RL Stats
+          </h1>
+          <h2 class="subtitle">
+            RLCSX Team and Player Stats
+          </h2>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="field">
+          <div class="control">
+            <div class="select is-primary">
+              <select>
+                <option>Select Region</option>
+                <option>North America (NA)</option>
+                <option>Europe (EU)</option>
+                <option>Oceania (OCE)</option>
+                <option>South America (SAM)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <input class="input is-primary" id="pNameInput" type="text" placeholder="Search by player name..."/>
+        <div id="pNameAuto"></div>
+        <div id="pName-results"></div>
+        <br>
+        <input class="input is-primary" id="tNameInput" type="text" placeholder="Search by team name..."/>
+        <div id="tNameAuto"></div>
+        <div id="tName-results"></div>
+      </div>
+  </div>
+  </section>
+
+</body>
+
+</html>
