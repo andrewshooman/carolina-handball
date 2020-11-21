@@ -891,7 +891,8 @@ function loadStuffIntoLeaderboard() {
         dataType: 'json',
         success: function (response, textStatus, jqXHR) {
             let name = jqXHR.responseJSON;
-            $("#loginButton").html('Welcome, ' + name + `<br><br><button class="button" id="logout">Log Out</button>`)
+            $("#loginButton").empty()
+            $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton"><div class="box">You are now logged in as: ${name}<br><a id="logout" style="display: flex;  justify-content: flex-end;">Log Out</a></div>`)
             $.ajax({
                 url: '/secret',
                 type: 'GET',
