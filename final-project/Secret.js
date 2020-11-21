@@ -47,7 +47,7 @@ Secret.create = (owner, secret) => {
 
 async function getSecretData (){
     
-    const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", {bufferMaxEntries: 0, reconnectTries: 5000, useNewUrlParser: true,useUnifiedTopology: true},{useCreateIndex: true});
+    const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", {useNewUrlParser: true}, {useUnifiedTopology: true},{useCreateIndex: true});
   client.connect(err => {
       const collection = client.db("Secret").collection("secrets");
       collection.find().toArray(function(err, result) {
@@ -61,7 +61,7 @@ async function getSecretData (){
 
 
 async function addSecret(owner, favorite) {
-    const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", {bufferMaxEntries: 0, reconnectTries: 5000, useNewUrlParser: true,useUnifiedTopology: true},{useCreateIndex: true});
+    const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", {useNewUrlParser: true}, {useUnifiedTopology: true},{useCreateIndex: true});
     client.connect(err => {
         const collection = client.db("Secret").collection("secrets");
 
