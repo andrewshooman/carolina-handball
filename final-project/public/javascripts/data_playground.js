@@ -83,19 +83,19 @@ function renderPlayerLeaderboard() {
     <table class="table table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
     <thead>
       <tr>
-        <th>Rank</th>
-        <th>Name</th>
-        <th>Team</th>
-        <th><abbr title="Games Played">GMP</abbr></th>
-        <th><abbr title="Win Percentage">WL%</abbr></th>
-        <th><abbr title="Average Score">Score</abbr></th>
-        <th><abbr title="Demolition Differential">DMD</abbr></th>
-        <th><abbr title="Goals Per Game">GPG</abbr></th>
-        <th><abbr title="Assists Per Game">APG</abbr></th>
-        <th><abbr title="Saves Per Game">SVPG</abbr></th>
-        <th><abbr title="Shots Per Game">SHPG</abbr></th>
-        <th><abbr title="Shooting Percentage">SH%</abbr></th>
-        <th><abbr title="Goal Participation">GP%</abbr></th>
+        <th class="sort" id="plrank">Rank</th>
+        <th class="sort" id="plname">Name</th>
+        <th class="sort" id="plteam">Team</th>
+        <th class="sort" id="plgmp"><abbr title="Games Played">GMP</abbr></th>
+        <th class="sort" id="plwl"><abbr title="Win Percentage">WL%</abbr></th>
+        <th class="sort" id="plavgscore"><abbr title="Average Score">Score</abbr></th>
+        <th class="sort" id="pldemodiff"><abbr title="Demolition Differential">DMD</abbr></th>
+        <th class="sort" id="plgpg"><abbr title="Goals Per Game">GPG</abbr></th>
+        <th class="sort" id="plapg"><abbr title="Assists Per Game">APG</abbr></th>
+        <th class="sort" id="plsvpg"><abbr title="Saves Per Game">SVPG</abbr></th>
+        <th class="sort" id="plshpg"><abbr title="Shots Per Game">SHPG</abbr></th>
+        <th class="sort" id="plshpcg"><abbr title="Shooting Percentage">SH%</abbr></th>
+        <th class="sort" id="plgp"><abbr title="Goal Participation">GP%</abbr></th>
       </tr>
     </thead>
     <tbody id="tbody">
@@ -556,6 +556,10 @@ async function getDataBase(id) {
     dataset = result.responseJSON;
 }
 
+function handleSortPress(event) {
+    console.log(event);
+}
+
 let favoritedPlayers = []
 // leaderboard stuff
 function loadStuffIntoLeaderboard() {
@@ -571,6 +575,7 @@ function loadStuffIntoLeaderboard() {
     $(document).on("click", "#logout", handleLogout)
     $(document).on("click", "#tNameAuto", handleSubmitTeamAuto)
     $(document).on("click", ".heart", handleLikeButtonClick)
+    $(document).on("click", ".sort", handleSortPress)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
         if (selectedEvent == "Select Event") {
