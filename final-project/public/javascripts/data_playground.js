@@ -382,11 +382,11 @@ function handleLikeButtonClick(event) {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderUnLikedHeart(player.name))
     }
-    $.ajax({
-        url: '/secret',
-        type: 'POST',
-        data: { "favorite": JSON.stringify(player) }
-    });
+    // $.ajax({
+    //     url: '/secret',
+    //     type: 'POST',
+    //     data: { "favorite": JSON.stringify(player) }
+    // });
 }
 
 
@@ -591,9 +591,9 @@ function loadStuffIntoLeaderboard() {
                 dataType: 'json',
                 success: function (response, textStatus, jqXHR) {
                     console.log(jqXHR.responseJSON);
-                    for (let i = 0; i < jqXHR.responseJSON; i++) {
-                        // $(`#heart${jqXHR.responseJSON[i].name}`)
-                        console.log(jqXHR.responseJSON[i].name);
+                    for (let i = 0; i < jqXHR.responseJSON.length; i++) {
+                        console.log("#" + CSS.escape(jqXHR.responseJSON[i].name));
+                        $('#' + CSS.escape(jqXHR.responseJSON[i].name)).replaceWith(renderLikedHeart(CSS.escape(jqXHR.responseJSON[i].name)))
                     }
                 }
             })
