@@ -153,13 +153,16 @@ app.get('/secret', (req, res) => {
       res.status(403).send("Unauthorized");
       return;
   }
-
   const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
   client.connect(err => {
       const collection = client.db("Secret").collection("secrets");
       collection.find({"owner":req.session.user}).toArray(function(err, result) {
-          console.log(result)
-          res.json(result) ;
+        let temp = [];
+        for (let i=0; i<result.length; i++){
+          temp.push(JSON.parse(result[i].favorite))
+
+        }
+          res.json(temp) ;
           client.close();
       });
     });
