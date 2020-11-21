@@ -40,8 +40,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const Secret = require("./Secret.js");
 
-const login_data = require('data-store')({ path: process.cwd() + '/public/data/users.json' });
-
 
 app.post('/login', (req,res) => {
 
@@ -250,6 +248,42 @@ app.delete('/secret/:id', (req, res) => {
   s.delete();
   res.json(true);
 })
+
+app.get('/doSomething', async (req, res) => {
+  let result = await temporary();
+  res.json(true)
+})
+
+async function temporary () { 
+  const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+        .catch(err => { console.log(err); }); 
+        if (!client) {
+          return;
+      }      
+      try {
+        const collection = client.db("test").collection("test");
+        let temp = []
+        let players = await collection.find().forEach( function(myDoc) { 
+          temp = temp.concat(myDoc.players)
+        });
+        const col = client.db("test").collection("players")
+        // temp = Object.assign({}, temp);
+        
+        col.insertMany(temp)
+
+        return;
+
+    } catch (err) {
+        console.log(err);
+    } finally {
+
+        client.close();
+    }
+  const collection = client.db("test").collection("test");
+  
+  client.close();
+
+}
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
