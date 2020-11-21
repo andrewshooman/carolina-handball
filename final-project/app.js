@@ -142,14 +142,22 @@ app.post('/getDBbyID', (req, res) => {
     });
 })
 
-
 app.get('/secret', (req, res) => {
   if (req.session.user == undefined) {
       res.status(403).send("Unauthorized");
       return;
   }
 
-  res.json(Secret.getAllIDsForOwner(req.session.user));
+  const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+  client.connect(err => {
+      const collection = client.db("Secret").collection("secrets");
+      collection.find({"owner":req.session.user}).toArray(function(err, result) {
+          console.log(result)
+          res.json(result) ;
+          client.close();
+      });
+    });
+
   return;
 });
 
@@ -184,7 +192,8 @@ app.post('/secret', (req, res)=> {
       return;
   }
 
-  let s = Secret.create(req.session.user, req.body.secret);
+  let s = Secret.create(req.session.user, req.body.favorite);
+
   if (s == null) {
       res.status(400).send("Bad Request");
       return;
