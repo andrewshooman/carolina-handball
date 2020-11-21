@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var CryptoJS = require("crypto-js");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -47,7 +48,9 @@ app.post('/login', (req,res) => {
   let user = req.body.username;
   let password = req.body.password;
   let user_data;
-  
+
+  console.log(password)
+
 
   const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
   client.connect(err => {
@@ -55,12 +58,13 @@ app.post('/login', (req,res) => {
       collection.find().toArray(function(err, result) {
         user_data = JSON.parse(JSON.stringify(result));
         user_data = user_data.filter(d=> d.username == user)[0]
+
         if (user_data == null) {
           res.status(404).send("Not found");
           client.close();
           return;
       }
-       if (user_data.password == password) {
+       if (CryptoJS.AES.decrypt(user_data.password, 'corgi').toString(CryptoJS.enc.Utf8) == password) {
           req.session.user = user;
           res.json(true);
           client.close();
@@ -82,6 +86,8 @@ app.post('/signup', (req,res) => {
   let password = req.body.password;
   let user_data;
 
+  console.log()
+
   const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
   client.connect(err => {
       const collection = client.db("Secret").collection("users");
@@ -90,7 +96,7 @@ app.post('/signup', (req,res) => {
         user_data = user_data.filter(d=> d.username == user)[0]
        
         if (user_data === undefined) {
-          let myobj = { "username": user, "password": password };
+          let myobj = { "username": user, "password": CryptoJS.AES.encrypt(password, 'corgi').toString() };
 
           collection.insertOne(myobj, function(err, res) {
             if (err) throw err;
