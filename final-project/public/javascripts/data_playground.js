@@ -27,6 +27,7 @@ let tmpGlobalincrement = 1;
 let region;
 let season;
 let sortConst = 0;
+let secrets = [];
 
 function searchName(replay_group, searchTerm) {
     foundNames = [];

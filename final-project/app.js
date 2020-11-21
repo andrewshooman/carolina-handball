@@ -167,31 +167,6 @@ app.get('/secret', (req, res) => {
   return;
 });
 
-app.post('/secret/:id', (req, res) => {
-  if (req.session.user == undefined) {
-      res.status(403).send("Unauthorized");
-      return;
-  }
-
-
-
-  const s = Secret.findByID(req.params.id);
-
-  
-
-  if (s == null) {
-      res.status(404).send("Not found");
-      return;
-  }
-
-  if (s.owner != req.session.user) {
-      res.status(403).send("Unauthorized");
-      return;
-  }
-
-  res.json(s);
-} );
-
 app.post('/secret', (req, res)=> {
   if (req.session.user == undefined) {
       res.status(403).send("Unauthorized");
@@ -205,26 +180,6 @@ app.post('/secret', (req, res)=> {
       return;
   }
   return res.json(s);
-});
-
-app.put('/secret/:id', (req, res) => {
-  if (req.session.user == undefined) {
-      res.status(403).send("Unauthorized");
-      return;
-  }
-
-  let s = Secret.findByID(req.params.id);
-  if (s == null) {
-      res.status(404).send("Not found");
-      return;
-  }
-  if (s.owner != req.session.user) {
-      res.status(403).send("Unauthorized");
-      return;
-  }
-  s.update(req.body.secret);
-
-  res.json(s.id);
 });
 
 app.delete('/secret', async (req, res) => {
@@ -258,22 +213,28 @@ app.get('/getplayernames', async (req, res) => {
     for (var i=0, l=result.length; i<l; i++){
         if (a.indexOf(result[i].name) === -1 && result[i].name !== ''){a.push(result[i].name);}
           }
-  res.json(true)
-  return a;
+  res.json(a)
+})
+
+app.get('/getteamnames', async (req, res) => {
+  let result = await getPlayerDB();
+  result = JSON.parse(JSON.stringify(result))
+    var a = [];
+    for (var i=0, l=result.length; i<l; i++){
+        if (a.indexOf(result[i].team) === -1 && result[i].team !== ''){a.push(result[i].team);}
+          }
+  res.json(a)
 })
 
 app.get('/getallplayers', async (req, res) => {
   let result = await getPlayerDB();
-  res.json(true)
-  return result;
+  res.json(result)
 })
 
 app.get('/doSomething', async (req, res) => {
   let result = await temporary();
   res.json(true)
 })
-
-
 
 async function temporary () { 
   const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
@@ -314,6 +275,28 @@ async function getPlayerDB () {
       }      
       try {
         const collection = client.db("test").collection("players");
+        let temp = []
+        let players = await collection.find().forEach( function(myDoc) { 
+          temp = temp.concat(myDoc)
+        });
+        client.close();
+        return temp;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }  
+  client.close();
+}
+
+async function getTeamDB () { 
+  const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+        .catch(err => { console.log(err); }); 
+        if (!client) {
+          return;
+      }      
+      try {
+        const collection = client.db("test").collection("team");
         let temp = []
         let players = await collection.find().forEach( function(myDoc) { 
           temp = temp.concat(myDoc)
