@@ -1,4 +1,4 @@
-const countryOfPlayers = [{
+const countryOfPlayersEurope = [{
     country: "Austrailia",
     players: [""],
     img: `flag icons/austrailia.png`
@@ -10,10 +10,6 @@ const countryOfPlayers = [{
     country: "Belgium",
     players: ["Artyrus", "Atow", "Aztral", "Ben-Nzth", "Bilbo", "Bram.", "bramdeswaggerd", "Compact", "Eversax", "Fakyy", "Faykow.", "ImpacT", "JWeyts", "ntr.", "Peaky!", "Pollie", "Seeks"],
     img: `flag icons/belgium.png`
-}, {
-    country: "Canada",
-    players: [""],
-    img: `flag icons/canada.png`
 }, {
     country: "Croatia",
     players: ["Scream"],
@@ -51,10 +47,6 @@ const countryOfPlayers = [{
     players: [""],
     img: `flag icons/luxembourg.png`
 }, {
-    country: "Mexico",
-    players: [""],
-    img: `flag icons/mexico.png`
-}, {
     country: "Morocco",
     players: ["itachi"],
     img: `flag icons/morocco.png`
@@ -70,10 +62,6 @@ const countryOfPlayers = [{
     country: "Portugal",
     players: [""],
     img: `flag icons/portugal.png`
-}, {
-    country: "Puerto Rico",
-    players: [""],
-    img: `flag icons/puerto-rico.png`
 }, {
     country: "Saudi Arabia",
     players: [""],
@@ -92,19 +80,15 @@ const countryOfPlayers = [{
     img: `flag icons/spain.png`
 }, {
     country: "Sweden",
-    players: ["Cheerio", "al0t"],
+    players: ["Cheerio", "al0t", "Turbopolsa"],
     img: `flag icons/sweden.png`
 }, {
     country: "Switzerland",
     players: ["Mirror.", "Zaphare"],
     img: `flag icons/switzerland.png`
 }, {
-    country: "United States of America",
-    players: [""],
-    img: `flag icons/united-states-of-america.png`
-}, {
     country: "United Kingdom",
-    players: [""],
+    players: ["kirn"],
     img: `flag icons/united-kingdom.png`
 }, {
     country: "Wales",
