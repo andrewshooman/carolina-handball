@@ -41,10 +41,16 @@ function returnHome(event) {
 }
  
  function doStuff() {
+  $(document).keypress(function(e) {
+    if(e.which == 13) {
+      handleSignup(e)
+
+    }
+});
     $(document).on("click", "#register", handleSignup)
     $(document).on("click", "#cancelbtn", returnHome)
 
-    
+  
 }
 
 doStuff();
