@@ -39,9 +39,17 @@ function returnHome(event) {
 }
  
  function doStuff() {
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+            handleLogin(e)
+        }
+    });
+
+
     $(document).on("click", "#login", handleLogin)
     $(document).on("click", "#cancelbtn", returnHome)
 
+  
     
 }
 doStuff();
