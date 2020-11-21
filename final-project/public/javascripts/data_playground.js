@@ -382,11 +382,11 @@ function handleLikeButtonClick(event) {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderUnLikedHeart(player.name))
     }
-    // $.ajax({
-    //     url: '/secret',
-    //     type: 'POST',
-    //     data: {"favorite":JSON.stringify(player)}
-    // });
+    $.ajax({
+        url: '/secret',
+        type: 'POST',
+        data: { "favorite": JSON.stringify(player) }
+    });
 }
 
 
@@ -428,7 +428,6 @@ document.getElementById('tNameInput').addEventListener('keyup', event => {
         }
     }
 })
-
 
 function debounce(func, wait) {
     let timeout;
@@ -553,9 +552,6 @@ async function getDataBase(id) {
     console.log(result.responseJSON)
     dataset = result.responseJSON;
 }
-
-let favorites = []
-
 
 // leaderboard stuff
 function loadStuffIntoLeaderboard() {
