@@ -255,11 +255,13 @@ app.get('/getplayernames', async (req, res) => {
     for (var i=0, l=result.length; i<l; i++){
         if (a.indexOf(result[i].name) === -1 && result[i].name !== ''){a.push(result[i].name);}
           }
+  res.json(true)
   return a;
 })
 
 app.get('/getallplayers', async (req, res) => {
   let result = await getPlayerDB();
+  res.json(true)
   return result;
 })
 
@@ -313,6 +315,7 @@ async function getPlayerDB () {
         let players = await collection.find().forEach( function(myDoc) { 
           temp = temp.concat(myDoc)
         });
+        client.close();
         return temp;
     } catch (err) {
         console.log(err);
