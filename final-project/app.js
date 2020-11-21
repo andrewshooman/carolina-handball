@@ -227,25 +227,28 @@ app.put('/secret/:id', (req, res) => {
   res.json(s.id);
 });
 
-app.delete('/secret/:id', (req, res) => {
+app.delete('/secret', async (req, res) => {
   if (req.session.user == undefined) {
       res.status(403).send("Unauthorized");
       return;
   }
 
-  let s = Secret.findByID(req.params.id);
-  if (s == null) {
+  let id = req.body.id;
+  let owner = req.session.user;
+
+  let outcome = await deleteSecret(id, owner);
+
+  if (id == null) {
       res.status(404).send("Not found");
       return;
   }
 
-  if (s.owner != req.session.user) {
+  if (owner != req.session.user) {
       res.status(403).send("Unauthorized");
       return;
   }
 
-  s.delete();
-  res.json(true);
+  res.json(outcome);
 })
 
 app.get('/getplayernames', async (req, res) => {
@@ -319,6 +322,28 @@ async function getPlayerDB () {
         return temp;
     } catch (err) {
         console.log(err);
+    } finally {
+        client.close();
+    }  
+  client.close();
+}
+
+ async function deleteSecret (id, owner) { 
+  const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", { useNewUrlParser: true })
+        .catch(err => { console.log(err); }); 
+        if (!client) {
+          return;
+      }      
+      try {
+        const collection = client.db("Secret").collection("secrets");
+        console.log("test")
+        collection.deleteOne({"id":id, "owner":owner})
+        client.close();
+        return true;
+
+    } catch (err) {
+        console.log(err);
+        return false;
     } finally {
         client.close();
     }  
