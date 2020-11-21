@@ -2,3 +2,8 @@
 #loginButton{
   float: right;
 }
+
+.heart {
+  float: right;
+  padding: 2px
+}

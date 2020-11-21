@@ -124,7 +124,7 @@ function renderTeamTableEntry(team) {
 function renderPlayerTableEntry(player) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td><a>${player.name}</a></td>
+    <td><a>${player.name}</a><span class="heart" id="${player.name}"}><a><i class="far fa-heart" id="heart${player.name}" state="unliked"></a></i></span></td>
     <td>${player.team}</td>
     <td>${player.cumulative.games}</td>
     <td>${player.cumulative.win_percentage.toFixed(1)}</td>
@@ -363,6 +363,18 @@ function handleSelectedEvent(selectedEvent) {
     }
 }
 
+function handleLikeButtonClick(event) {
+    let heartID = event.currentTarget.getAttribute('id');
+    let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
+    console.log(player);
+    $.ajax({
+        url: '/secret',
+        type: 'POST',
+        data: {"favorite":JSON.stringify(player)}
+    });
+
+}
+
 
 // search stuff
 let enteredData;
@@ -543,6 +555,7 @@ function loadStuffIntoLeaderboard() {
     $(document).on("click", "#pNameAuto", handleSubmitPlayerAuto)
     $(document).on("click", "#logout", handleLogout)
     $(document).on("click", "#tNameAuto", handleSubmitTeamAuto)
+    $(document).on("click", ".heart", handleLikeButtonClick)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
         if (selectedEvent == "Select Event") {
