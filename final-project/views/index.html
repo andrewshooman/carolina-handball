@@ -23,14 +23,26 @@
     <section class="hero is-primary">
       <div class="hero-body">
         <div class="container">
+          <div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton">
+            <a href="/login">
+              <button class="button is-primary is-inverted">
+                Login&nbsp&nbsp
+                <i class="fas fa-sign-in-alt"></i>
+              </button>
+            </a>
+            &nbsp&nbsp
+            <a href="/signup">
+              <button class="button is-primary is-inverted">
+                Register&nbsp&nbsp
+                <i class="fas fa-user-plus"></i>
+              </button>
+            </a>
+          </div>
           <h1 class="title">
             RL Stats
           </h1>
           <h2 class="subtitle">
             RLCSX Team and Player Stats
-          <div id="loginButton">
-            <a  href="/login" >Login</a> | <a  href="/signup" >Register</a>
-          </div>
           </h2>
         </div>
       </div>
@@ -50,11 +62,11 @@
             </div>
           </div>
         </div>
-        <input class="input is-primary" id="pNameInput" type="text" placeholder="Search by player name..."/>
+        <input class="input is-primary" id="pNameInput" type="text" placeholder="Search by player name..." />
         <div id="pNameAuto"></div>
         <div id="pName-results"></div>
         <br>
-        <input class="input is-primary" id="tNameInput" type="text" placeholder="Search by team name..."/>
+        <input class="input is-primary" id="tNameInput" type="text" placeholder="Search by team name..." />
         <div id="tNameAuto"></div>
         <div id="tName-results"></div>
       </div>
