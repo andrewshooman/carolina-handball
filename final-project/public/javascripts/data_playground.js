@@ -591,6 +591,10 @@ function loadStuffIntoLeaderboard() {
                 dataType: 'json',
                 success: function (response, textStatus, jqXHR) {
                     console.log(jqXHR.responseJSON);
+                    for (let i = 0; i < jqXHR.responseJSON; i++) {
+                        // $(`#heart${jqXHR.responseJSON[i].name}`)
+                        console.log(jqXHR.responseJSON[i].name);
+                    }
                 }
             })
         },
