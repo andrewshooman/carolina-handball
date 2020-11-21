@@ -124,7 +124,7 @@ function renderTeamTableEntry(team) {
 function renderPlayerTableEntry(player) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td><a>${player.name}</a><span class="heart" id="${player.name}"}><a><i class="far fa-heart" id="heart${player.name}" state="unliked"></a></i></span></td>
+    <td><a>${player.name}</a><span class="heart" id="${player.name}" state="unliked"><a><i class="far fa-heart" id="heart${player.name}" state="unliked"></a></i></span></td>
     <td>${player.team}</td>
     <td>${player.cumulative.games}</td>
     <td>${player.cumulative.win_percentage.toFixed(1)}</td>
@@ -137,6 +137,14 @@ function renderPlayerTableEntry(player) {
     <td>${player.game_average.core.shooting_percentage.toFixed(2)}</td>
     <td>${getGoalParticipation(player)}</td>
   </tr>`
+}
+
+function renderLikedHeart(playerName) {
+    return `<span class="heart" id="${playerName}" state="liked"><a><i class="fa fa-heart" id="heart${playerName}" state="liked" style="color: red"></a></i></span>`
+}
+
+function renderUnLikedHeart(playerName) {
+    return `<span class="heart" id="${playerName}" state="unliked"><a><i class="far fa-heart" id="heart${playerName}" state="unliked"></a></i></span>`
 }
 
 function renderSelectorBox() {
@@ -245,8 +253,6 @@ function handleLeaderboardNAClick() {
 }
 
 function handleLeaderboardEUClick() {
-
-
     region = "EU"
     $("#sznplaceholder").empty();
     $("#lbeu").addClass("is-primary")
@@ -366,13 +372,21 @@ function handleSelectedEvent(selectedEvent) {
 function handleLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
-    console.log(player);
-    $.ajax({
-        url: '/secret',
-        type: 'POST',
-        data: {"favorite":JSON.stringify(player)}
-    });
-
+    let state = event.currentTarget.getAttribute('state');
+    console.log("Clicked on " + player.name)
+    if (state == "unliked") {
+        $('#' + CSS.escape(heartID)).empty()
+        $('#' + CSS.escape(heartID)).replaceWith(renderLikedHeart(player.name))
+    }
+    if (state == "liked") {
+        $('#' + CSS.escape(heartID)).empty()
+        $('#' + CSS.escape(heartID)).replaceWith(renderUnLikedHeart(player.name))
+    }
+    // $.ajax({
+    //     url: '/secret',
+    //     type: 'POST',
+    //     data: {"favorite":JSON.stringify(player)}
+    // });
 }
 
 
@@ -540,6 +554,7 @@ async function getDataBase(id) {
     dataset = result.responseJSON;
 }
 
+let favorites = []
 
 
 // leaderboard stuff
@@ -574,6 +589,14 @@ function loadStuffIntoLeaderboard() {
         success: function (response, textStatus, jqXHR) {
             let name = jqXHR.responseJSON;
             $("#loginButton").html('Welcome, ' + name + `<br><br><button class="button" id="logout">Log Out</button>`)
+            $.ajax({
+                url: '/secret',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response, textStatus, jqXHR) {
+                    console.log(jqXHR.responseJSON);
+                }
+            })
         },
         error: function (jqXHR, textStatus, errorThrown) {
 
