@@ -64,7 +64,13 @@ async function addSecret(owner, favorite) {
     const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
     client.connect(err => {
         const collection = client.db("Secret").collection("secrets");
-        collection.deleteOne({"owner":owner, "favorite": favorite})
+
+        collection.find({"owner":owner, "favorite":favorite}).toArray(function(err, result) {
+            console.log(result.length)
+            if (result.length != 0){ client.close(); return;}
+
+        });
+
         collection.find().toArray(function(err, result) {
             secret_data = result;
             nextID = secret_data.length
