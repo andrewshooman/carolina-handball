@@ -158,7 +158,6 @@ app.get('/secret', (req, res) => {
         let temp = [];
         for (let i=0; i<result.length; i++){
           temp.push(JSON.parse(result[i].favorite))
-
         }
           res.json(temp) ;
           client.close();
@@ -249,10 +248,27 @@ app.delete('/secret/:id', (req, res) => {
   res.json(true);
 })
 
+app.get('/getplayernames', async (req, res) => {
+  let result = await getPlayerDB();
+  result = JSON.parse(JSON.stringify(result))
+    var a = [];
+    for (var i=0, l=result.length; i<l; i++){
+        if (a.indexOf(result[i].name) === -1 && result[i].name !== ''){a.push(result[i].name);}
+          }
+  return a;
+})
+
+app.get('/getallplayers', async (req, res) => {
+  let result = await getPlayerDB();
+  return result;
+})
+
 app.get('/doSomething', async (req, res) => {
   let result = await temporary();
   res.json(true)
 })
+
+
 
 async function temporary () { 
   const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
@@ -283,6 +299,27 @@ async function temporary () {
   
   client.close();
 
+}
+
+async function getPlayerDB () { 
+  const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+        .catch(err => { console.log(err); }); 
+        if (!client) {
+          return;
+      }      
+      try {
+        const collection = client.db("test").collection("players");
+        let temp = []
+        let players = await collection.find().forEach( function(myDoc) { 
+          temp = temp.concat(myDoc)
+        });
+        return temp;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }  
+  client.close();
 }
 
 app.use('/', indexRouter);
