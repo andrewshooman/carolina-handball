@@ -21,29 +21,12 @@ import EUFALLR3PO from "../data/arrayed_json/EUFALLR3PO.js";
 import EUFALLMASW from "../data/arrayed_json/EUFALLMASW.js";
 import EUFALLMAPO from "../data/arrayed_json/EUFALLMAPO.js";
 
-
-
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://host:NGNxDF1XwElvEQ0c@cluster0.gbvl6.mongodb.net/rl_stats?retryWrites=true&w=majority";
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-
-// const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
-// client.connect(err => {
-//     const collection = client.db("rl_stats").collection("");
-//     collection.find().toArray(function(err, result) {
-//       
-//     });
-//     client.close();
-//   });
-
-let temp = [];
-
 let dataset = [];
 let foundNames = [];
 let tmpGlobalincrement = 1;
 let region;
 let season;
+
 function searchName(replay_group, searchTerm) {
     foundNames = [];
     let i = 0;
@@ -123,7 +106,7 @@ function renderPlayerLeaderboard() {
 function renderTeamTableEntry(team) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td>${team.name}</td>
+    <td><a>${team.name}</a></td>
     <td>${team.cumulative.games}</td>
     <td>${team.cumulative.wins}</td>
     <td>${team.cumulative.games - team.cumulative.wins}</td>
@@ -141,7 +124,7 @@ function renderTeamTableEntry(team) {
 function renderPlayerTableEntry(player) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td>${player.name}</td>
+    <td><a>${player.name}</a></td>
     <td>${player.team}</td>
     <td>${player.cumulative.games}</td>
     <td>${player.cumulative.win_percentage.toFixed(1)}</td>
@@ -184,7 +167,7 @@ function renderLeaderboardSeasonSelector() {
 }
 
 function renderLeaderboardFallEventSelector() {
-    return `<div class="select is-primary">
+    return `<div class="select is-primary" id="eventselector">
         <select class="event">
             <option>Select Event</option>
             <option>Regional 1 Stage 1</option>
@@ -262,7 +245,7 @@ function handleLeaderboardNAClick() {
 }
 
 function handleLeaderboardEUClick() {
-    
+
 
     region = "EU"
     $("#sznplaceholder").empty();
@@ -303,13 +286,16 @@ function handleSelectedEvent(selectedEvent) {
         if (region == "NA") {
             switch (selectedEvent) {
                 case 'Regional 1 Stage 1':
-                    getDataBase("NAFALLR1S1");
+                    // getDataBase("NAFALLR1S1");
+                    dataset = NAFALLR1S1
                     break;
                 case 'Regional 1 Stage 2':
-                    getDataBase("NAFALLR1S2");
+                    // getDataBase("NAFALLR1S2");
+                    dataset = NAFALLR1S2
                     break;
                 case 'Regional 1 Playoffs':
-                    dataset = NAFALLR1PO;
+                    //getDataBase("NAFALLR1PO");
+                    dataset = NAFALLR1PO
                     break;
                 case 'Regional 2 Stage 1':
                     dataset = NAFALLR2S1;
@@ -336,7 +322,7 @@ function handleSelectedEvent(selectedEvent) {
                     dataset = NAFALLMAPO;
                     break;
             }
-        } 
+        }
         if (region == "EU") {
             switch (selectedEvent) {
                 case 'Regional 1 Stage 1':
@@ -420,17 +406,17 @@ document.getElementById('tNameInput').addEventListener('keyup', event => {
 
 function debounce(func, wait) {
     let timeout;
-    return function(...args) {
-      const context = this;
-      const executor = function() {
-        timeout = null;
-        func.apply(context, args);
-      };
+    return function (...args) {
+        const context = this;
+        const executor = function () {
+            timeout = null;
+            func.apply(context, args);
+        };
 
-      clearTimeout(timeout);
-      timeout = setTimeout(executor, wait);
+        clearTimeout(timeout);
+        timeout = setTimeout(executor, wait);
     };
-  }
+}
 
 /* 
   TO-DO: perform query
@@ -449,7 +435,7 @@ function autoName(searchTerm) {
     } else {
         return "";
     }
-    
+
 }
 
 function autoTeam(searchTerm) {
@@ -465,7 +451,7 @@ function autoTeam(searchTerm) {
     } else {
         return "";
     }
-    
+
 }
 
 function handleNameAuto(event) {
@@ -479,7 +465,7 @@ function handleNameAuto(event) {
     } else {
         output.innerHTML = ``;
     }
-    
+
 }
 
 function handleTeamAuto(event) {
@@ -493,10 +479,8 @@ function handleTeamAuto(event) {
     } else {
         output.innerHTML = ``;
     }
-    
+
 }
-
-
 
 document.getElementById('pNameInput').addEventListener('input', debounce(handleNameAuto, 400));
 document.getElementById('tNameInput').addEventListener('input', debounce(handleTeamAuto, 400));
@@ -521,27 +505,26 @@ function handleLogout(event) {
         url: '/logout',
         type: 'GET',
         dataType: 'json',
-        success: function(response, textStatus, jqXHR) {
+        success: function (response, textStatus, jqXHR) {
             $.router.set('/');
             location.reload();
         },
-        error: function(jqXHR, textStatus, errorThrown){
+        error: function (jqXHR, textStatus, errorThrown) {
             alert("error logging out")
-       }
-     });
-    
+        }
+    });
+
 }
 
-async function getDataBase(id){
-    let result = ($.ajax({
-    url: '/getDBbyID',
-    type: 'POST',
-    dataType: 'json',
-    data: {"id":id},
-    async: false
-}));
+async function getDataBase(id) {
+    let result = await $.ajax({
+        url: '/getDBbyID',
+        type: 'POST',
+        dataType: 'json',
+        data: { "id": id }
+    });
     result = JSON.parse(JSON.stringify(result));
-    // console.log(result.responseJSON)
+    console.log(result.responseJSON)
     dataset = result.responseJSON;
 }
 
@@ -575,14 +558,14 @@ function loadStuffIntoLeaderboard() {
         url: '/getLoggedInUser',
         type: 'GET',
         dataType: 'json',
-        success: function(response, textStatus, jqXHR) {
+        success: function (response, textStatus, jqXHR) {
             let name = jqXHR.responseJSON;
             $("#loginButton").html('Welcome, ' + name + `<br><br><button class="button" id="logout">Log Out</button>`)
         },
-        error: function(jqXHR, textStatus, errorThrown){
+        error: function (jqXHR, textStatus, errorThrown) {
 
-       }
-     });
+        }
+    });
 
 }
 loadStuffIntoLeaderboard();
