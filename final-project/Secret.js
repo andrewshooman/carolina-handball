@@ -52,7 +52,11 @@ async function getSecretData (){
       const collection = client.db("Secret").collection("secrets");
       collection.find().toArray(function(err, result) {
           secret_data = result;
-          nextID = secret_data.length
+
+
+        
+
+          nextID = secret_data.length;
           client.close();
       });
     });
@@ -66,14 +70,25 @@ async function addSecret(owner, favorite) {
         const collection = client.db("Secret").collection("secrets");
 
         collection.find({"owner":owner, "favorite":favorite}).toArray(function(err, result) {
-            console.log(result.length)
             if (result.length != 0){ client.close(); return;}
 
         });
 
         collection.find().toArray(function(err, result) {
             secret_data = result;
-            nextID = secret_data.length
+            let temp = result.sort(function compare(a, b) {
+                const x = a.id;
+                const y = b.id;
+                let comparison = 0;
+                if (x > y) {
+                  comparison = -1;
+                } else if (x < y) {
+                    comparison = 1;
+                }
+                return comparison;
+              })
+
+            nextID = temp[0].id+1;
             collection.insertOne(new Secret(nextID, owner, favorite));
             client.close();
         });
