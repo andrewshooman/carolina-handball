@@ -26,8 +26,7 @@ let foundNames = [];
 let tmpGlobalincrement = 1;
 let region;
 let season;
-
-let sortConst=0;
+let sortConst = 0;
 
 function searchName(replay_group, searchTerm) {
     foundNames = [];
@@ -57,18 +56,18 @@ function renderTeamLeaderboard() {
     <thead>
       <tr>
         <th>Rank</th>
-        <th>Team</th>
-        <th><abbr title="Games Played">GMP</abbr></th>
-        <th><abbr title="Games Won">W</abbr></th>
-        <th><abbr title="Games Lost">L</abbr></th>
-        <th><abbr title="Win Percentage">WL%</abbr></th>
-        <th><abbr title="Goals For">GF</abbr></th>
-        <th><abbr title="Goals Against">GA</abbr></th>
-        <th><abbr title="Goals Per Game">GPG</abbr></th>
-        <th><abbr title="Assists Per Game">APG</abbr></th>
-        <th><abbr title="Saves Per Game">SVPG</abbr></th>
-        <th><abbr title="Shots Per Game">SHPG</abbr></th>
-        <th><abbr title="Shooting Percentage">SH%</abbr></th>
+        <th class="sort" id="tmname">Team</th>
+        <th class="sort" id="tmgmp"><abbr title="Games Played">GMP</abbr></th>
+        <th class="sort" id="tmwin"><abbr title="Games Won">W</abbr></th>
+        <th class="sort" id="tmloss"><abbr title="Games Lost">L</abbr></th>
+        <th class="sort" id="tmwl"><abbr title="Win Percentage">WL%</abbr></th>
+        <th class="sort" id="tmgf"><abbr title="Goals For">GF</abbr></th>
+        <th class="sort" id="tmga"><abbr title="Goals Against">GA</abbr></th>
+        <th class="sort" id="tmgpg"><abbr title="Goals Per Game">GPG</abbr></th>
+        <th class="sort" id="tmapg"><abbr title="Assists Per Game">APG</abbr></th>
+        <th class="sort" id="tmsvpg"><abbr title="Saves Per Game">SVPG</abbr></th>
+        <th class="sort" id="tmshpg"><abbr title="Shots Per Game">SHPG</abbr></th>
+        <th class="sort" id="tmshpcg"><abbr title="Shooting Percentage">SH%</abbr></th>
       </tr>
     </thead>
     <tbody id="tbody">
@@ -85,7 +84,7 @@ function renderPlayerLeaderboard() {
     <table class="table table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
     <thead>
       <tr>
-        <th class="sort" id="plrank">Rank</th>
+        <th>Rank</th>
         <th class="sort" id="plname">Name</th>
         <th class="sort" id="plteam">Team</th>
         <th class="sort" id="plgmp"><abbr title="Games Played">GMP</abbr></th>
@@ -382,18 +381,22 @@ function handleLikeButtonClick(event) {
     if (state == "unliked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderLikedHeart(player.name))
+        $.ajax({
+            url: '/secret',
+            type: 'POST',
+            data: { "favorite": JSON.stringify(player) }
+        });
     }
     if (state == "liked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderUnLikedHeart(player.name))
+        $.ajax({
+            url: '/secret',
+            type: 'DEL',
+            data: { "favorite": JSON.stringify(player) }
+        });
     }
-    $.ajax({
-        url: '/secret',
-        type: 'POST',
-        data: { "favorite": JSON.stringify(player) }
-    });
 }
-
 
 // search stuff
 let enteredData;
@@ -561,306 +564,471 @@ async function getDataBase(id) {
 function handleSortPress(event) {
     let id = event.currentTarget.id;
     let arr = dataset[0].players;
-    console.log(arr)
-    switch(id) {
+    let arr2 = dataset[0].teams;
+    switch (id) {
         case ('plname'):
             arr.sort(function compare(a, b) {
                 const x = a.name.toUpperCase();
                 const y = b.name.toUpperCase();
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plteam'):
             arr.sort(function compare(a, b) {
                 const x = a.team.toUpperCase();
                 const y = b.team.toUpperCase();
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plgmp'):
             arr.sort(function compare(a, b) {
                 const x = a.cumulative.games;
                 const y = b.cumulative.games;
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-            
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plwl'):
             arr.sort(function compare(a, b) {
                 const x = a.cumulative.win_percentage;
                 const y = b.cumulative.win_percentage;
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plavgscore'):
             arr.sort(function compare(a, b) {
                 const x = a.game_average.core.score;
                 const y = b.game_average.core.score;
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('pldemodiff'):
             arr.sort(function compare(a, b) {
                 const x = a.cumulative.demo.inflicted - a.cumulative.demo.taken;
                 const y = b.cumulative.demo.inflicted - b.cumulative.demo.taken;
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plgpg'):
             arr.sort(function compare(a, b) {
                 const x = a.game_average.core.goals;
                 const y = b.game_average.core.goals;
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plapg'):
             arr.sort(function compare(a, b) {
                 const x = a.game_average.core.assists;
                 const y = b.game_average.core.assists;
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plsvpg'):
             arr.sort(function compare(a, b) {
                 const x = a.game_average.core.saves;
                 const y = b.game_average.core.saves;
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plshpg'):
             arr.sort(function compare(a, b) {
                 const x = a.game_average.core.shots;
                 const y = b.game_average.core.shots;
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plshpcg'):
             arr.sort(function compare(a, b) {
                 const x = a.game_average.core.shooting_percentage;
                 const y = b.game_average.core.shooting_percentage;
-              
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
         case ('plgp'):
             arr.sort(function compare(a, b) {
                 const x = getGoalParticipation(a);
                 const y = getGoalParticipation(b)
-          
-              
+
+
                 let comparison = 0;
                 if (x > y) {
-                  if(sortConst == 0) {comparison = -1;} else {comparison = 1;}
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
                 } else if (x < y) {
-                    if(sortConst == 0) {comparison = 1;} else {comparison = -1;}
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
                 return comparison;
-              })
+            })
 
-              if(sortConst == 0) {sortConst = 1;} else {sortConst = 0;}
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
 
-              dataset[0].players = arr;
-              tmpGlobalincrement = 1;
-              $("#tbody").empty();
-              for(let i=0; i<dataset[0].players.length; i++) {
-                $("#tbody").append(renderPlayerTableEntry(dataset[0].players[i]))
-                tmpGlobalincrement++;
-              }
-        break;
-      }
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('tmname'):
+            arr2.sort(function compare(a, b) {
+                const x = a.name.toUpperCase();
+                const y = b.name.toUpperCase();
 
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick();
+            break;
+        case ('tmgmp'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.games;
+                const y = b.cumulative.games;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmwin'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.wins;
+                const y = b.cumulative.wins;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmloss'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.games - a.cumulative.wins;
+                const y = b.cumulative.games - b.cumulative.wins;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmwl'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.win_percentage;
+                const y = b.cumulative.win_percentage;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmgf'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.core.goals;
+                const y = b.cumulative.core.goals;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmga'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.core.goals_against;
+                const y = b.cumulative.core.goals_against;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmgpg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.goals;
+                const y = b.game_average.core.goals;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmapg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.assists;
+                const y = b.game_average.core.assists;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmsvpg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.saves;
+                const y = b.game_average.core.saves;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmshpg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.shots;
+                const y = b.game_average.core.shots;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmshpcg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.shooting_percentage;
+                const y = b.game_average.core.shooting_percentage;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+    }
 }
 
 let favoritedPlayers = []
 // leaderboard stuff
-function loadStuffIntoLeaderboard() {
+function loadStuffIntoDOM() {
     $("#root").append(renderSelectorBox());
     $(document).on("click", "#lbna", handleLeaderboardNAClick)
     $(document).on("click", "#lbeu", handleLeaderboardEUClick)
@@ -911,4 +1079,4 @@ function loadStuffIntoLeaderboard() {
     });
 
 }
-loadStuffIntoLeaderboard();
+loadStuffIntoDOM();
