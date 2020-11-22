@@ -158,6 +158,7 @@ app.get('/secret', (req, res) => {
         let temp = [];
         for (let i=0; i<result.length; i++){
           temp.push(JSON.parse(result[i].favorite))
+          temp[i].id = result[i].id
         }
           res.json(temp) ;
           client.close();
