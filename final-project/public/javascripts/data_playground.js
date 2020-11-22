@@ -178,6 +178,21 @@ function renderTeamCard(team) {
         teamPlayers += `<p> - <a id="${team.players[i] + "Name"}" class="playerName">${team.players[i]}</a><span class="heart" id="${team.players[i]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[i]}" state="unliked"></i></a></span></p>`
     }
 
+    let teamStatus = ""
+    let teamStatusIMG = ""
+    if (team.status) {
+        if (team.players.length < 3) {
+            teamStatus = "Incompete Roster"
+            teamStatusIMG = "images/icons/Blue Status.jpg"
+        } else {
+            teamStatus = "Active"
+            teamStatusIMG = "images/icons/Green Status.jpg"
+        }
+    } else {
+        teamStatus = "Inactive"
+        teamStatusIMG = "images/icons/Red Status.jpg"
+    }
+
     $('.modal').replaceWith(`
     <div id="${team.name}Card" class="modal is-active teamCard">
       <div class="modal-background"></div>
@@ -188,8 +203,8 @@ function renderTeamCard(team) {
         </header>
         <section class="modal-card-body">
           <div>
-            <h2 id="${team.name}Status">Status: ${team.status ? "Active" : "Inactive"} <img width="18px" height="18px" src="${team.status ? "images/icons/Green Status.jpg" : "images/icons/Red Status.jpg"}"></h2>
-            <h2 id="${team.name}Players">Current Players: </h2>
+            <h2 id="${team.name}Status">Status: ${teamStatus} <img width="18px" height="18px" src="${teamStatusIMG}"></h2>
+            <h2 id="${team.name}Players">${team.status ? "Current" : "Former"} Players: </h2>
             <div>
                 ${teamPlayers}
             </div>
@@ -209,34 +224,6 @@ function teamCase(str) {
     } else {
         return findTeam.name
     }
-    // else {
-    //     switch (str) {
-    //         case "NRG":
-    //             return "NRG"
-    //         case "CLT":
-    //             return "Charlotte Phoenix"
-    //         case "KC PIONEERS":
-    //             return "KC Pioneers"
-    //         case "VALORSGG":
-    //             return "Valors"
-    //         case "KNIGHTS":
-    //             return "Pittsburgh Knights"
-    //         case "SPACESTATION":
-    //             return "Spacestation Gaming"
-    //         case "EUNITED":
-    //             return "eUnited"
-    //         case "72PC":
-    //             return "72PC"
-    //         case "XSET":
-    //             return "XSet"
-    //         case "TEAM BDS":
-    //             return "Team BDS"
-    //         case "TLR ESPORTS":
-    //             return "The Last Resort"
-    //         default:
-    //             return titleCase(str)
-    //     }
-    // }
 }
 
 function titleCase(str) {
