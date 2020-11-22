@@ -16,56 +16,22 @@
         Rocket League Statistics (Think of Title)
       </section>
       <section id="mainBody">
-        <button class="button testPlayer">Test Player</button>
-        <button class="button testTeam">Test Team</button>
-        <div id="playerCard" class="modal">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p id="playername" class="modal-card-title">Player Name</p>
-              <button class="delete" aria-label="close"></button>
-            </header>
-            <section class="modal-card-body">
-              <div>
-                <h2 id="country">Country of Origin: <img width="18px" height="18px" src="flag icons\france.png"></h2>
-                <h2 id="status">Status: <img width="18px" height="18px" src="icons\Green Status.png"></h2>
-                <h2 id="team">Current Team:</h2>
-              </div>
-            </section>
-            <footer class="modal-card-foot">
-              <button class="button is-success">Favorite Player</button>
-            </footer>
-          </div>
-        </div>
+        <button id="Fairy Peak!" class="button testPlayer">Test Player</button>
+        <button id="Renault Vitality" class="button testTeam">Test Team</button>
 
-        <div id="teamCard" class="modal">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p id="teamname" class="modal-card-title">Team Name</p>
-              <button class="delete" aria-label="close"></button>
-            </header>
-            <section class="modal-card-body">
-              <div>
-                <h2 id="status">Status: <img width="18px" height="18px" src="icons\Green Status.png"></h2>
-                <h2 id="players">Player: </h2>
-                <div>
-                  <p>Player 1</p>
-                  <p>Player 2</p>
-                  <p>Player 3</p>
-                </div>
-              </div>
-            </section>
-            <footer class="modal-card-foot">
-              <button class="button is-success">Favorite Team</button>
-            </footer>
-          </div>
-        </div>
+        <div class="playerCard"></div>
+
+        <div class="teamCard"></div>
       </section>
     </div>
-    <script src="player.js" type="module"></script>
+    
+    <script src="testplayers.js"></script>
+    <script src="testteams.js"></script>
+    <script src="countryOfPlayersAmericas.js"></script>
+    <script src="countryOfPlayersEurope.js"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'></script>
     <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="player.js"></script>
   </body>
 
   </html>
