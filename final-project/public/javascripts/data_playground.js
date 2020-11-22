@@ -109,7 +109,7 @@ function renderPlayerLeaderboard() {
 function renderTeamTableEntry(team) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td><a>${teamCase(team.name)}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></td>
+    <td><a id="${team.name}Name" class="teamName">${teamCase(team.name)}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></td>
     <td>${team.cumulative.games}</td>
     <td>${team.cumulative.wins}</td>
     <td>${team.cumulative.games - team.cumulative.wins}</td>
@@ -127,7 +127,7 @@ function renderTeamTableEntry(team) {
 function renderPlayerTableEntry(player) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td><a id="${player.name}Name" class="name">${player.name}</a><span class="heart" id="${player.name}" state="unliked"><a><i class="far fa-heart" id="heart${player.name}" state="unliked"></a></i></span></td>
+    <td><a id="${player.name}Name" class="playerName">${player.name}</a><span class="heart" id="${player.name}" state="unliked"><a><i class="far fa-heart" id="heart${player.name}" state="unliked"></a></i></span></td>
     <td>${teamCase(player.team)}</td>
     <td>${player.cumulative.games}</td>
     <td>${player.cumulative.win_percentage.toFixed(1)}</td>
@@ -171,12 +171,40 @@ function renderPlayerCard(player) {
     `)
 }
 
+function renderTeamCard(team) {
+    console.log(team)
+    $('.modal').replaceWith(`
+    <div id="${team}Card" class="modal is-active teamCard">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p id="${team}Name" class="modal-card-title">${teamCase(team)}</p>
+          <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+          <div>
+            <h2 id="${team}Status">Status: <img width="18px" height="18px" src="images/icons/Green Status.png"></h2>
+            <h2 id="${team}Players">Current Players: </h2>
+            <div>
+              <p> - ${teamCase(team)} Player 1 <span class="heart" id="${team}Name"}><a><i class="far fa-heart" id="heartplayer" style="float: right" state="unliked"></a></i></span></p>
+              <p> - ${teamCase(team)} Player 2 <span class="heart" id="${team}Name"}><a><i class="far fa-heart" id="heartplayer" style="float: right" state="unliked"></a></i></span></p>
+              <p> - ${teamCase(team)} player 3 <span class="heart" id="${team}Name"}><a><i class="far fa-heart" id="heartplayer" style="float: right" state="unliked"></a></i></span></p>
+            </div>
+          </div>
+        </section>
+        <footer class="modal-card-foot">
+            <p>Favorite Team?&nbsp</p><span class="heart" id="${team}" state="liked"><a><i class="fa fa-heart" id="heart${team}" state="liked" style="color: red"></a></i></span>
+        </footer>
+      </div>
+    </div>`)
+}
+
 function teamCase(str) {
     switch (str) {
         case "NRG":
             return "NRG"
         case "CLT":
-            return "CLT"
+            return "Charlotte Phoenix"
         case "FFF":
             return "fishhr friends, not food"
         case "KC PIONEERS":
@@ -201,11 +229,11 @@ function titleCase(str) {
     for (var i = 0; i < splitStr.length; i++) {
         // You do not need to check if i is larger than splitStr length, as your for does that for you
         // Assign it back to the array
-        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
     }
     // Directly return the joined string
-    return splitStr.join(' '); 
- }
+    return splitStr.join(' ');
+}
 
 function findCountry(player) {
     let country = ""
@@ -465,9 +493,15 @@ function handleSelectedEvent(selectedEvent) {
     }
 }
 
-function handleNameClick(event) {
+function handlePlayerNameClick(event) {
     let playerName = event.target.id.replace("Name", "")
     renderPlayerCard(playerName)
+}
+
+function handleTeamNameClick(event) {
+    console.log(event.target.id)
+    let teamName = event.target.id.replace("Name", "")
+    renderTeamCard(teamName)
 }
 
 function handleLikeButtonClick(event) {
@@ -1174,7 +1208,8 @@ function loadStuffIntoDOM() {
     $(document).on("click", "#logout", handleLogout)
     $(document).on("click", "#tNameAuto", handleSubmitTeamAuto)
     $(document).on("click", ".heart", handleLikeButtonClick)
-    $(document).on("click", ".name", handleNameClick)
+    $(document).on("click", ".playerName", handlePlayerNameClick)
+    $(document).on("click", ".teamName", handleTeamNameClick)
     $(document).on('click', '.delete', handleCloseModal)
     $(document).on('click', '.modal-background', handleCloseModal)
     $(document).on("click", ".tmheart", handleTeamLikeButtonClick)
