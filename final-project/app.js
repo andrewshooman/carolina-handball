@@ -357,12 +357,15 @@ async function getTeamDB () {
  async function deleteSecret (id, owner) { 
   const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", { useNewUrlParser: true })
         .catch(err => { console.log(err); }); 
+
+        let name = JSON.parse(id).name;
+
         if (!client) {
           return;
       }      
       try {
         const collection = await client.db("Secret").collection("secrets");
-        let a =  await collection.deleteOne({"owner":owner, "favorite":id})
+        let a =  await collection.deleteOne({"owner":owner, "name":name})
         client.close();
         return true;
 
