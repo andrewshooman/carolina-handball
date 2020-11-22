@@ -387,7 +387,7 @@ export default [{
     sub: "Godsmilla"
 }, {
     name: "The Last Resort",
-    alias: ["TLR Esports"],
+    alias: ["TLR Esports", "TLR Esport"],
     img: "",
     region: "Europe",
     country: "England",
