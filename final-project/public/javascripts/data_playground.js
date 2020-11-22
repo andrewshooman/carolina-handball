@@ -137,7 +137,7 @@ function renderPlayerTableEntry(player) {
     <td>${player.game_average.core.saves.toFixed(2)}</td>
     <td>${player.game_average.core.shots.toFixed(2)}</td>
     <td>${player.game_average.core.shooting_percentage.toFixed(2)}</td>
-    <td>${getGoalParticipation(player)}</td>
+    <td>${getGoalParticipation(player).toFixed(2)}</td>
   </tr>`
 }
 
@@ -254,7 +254,8 @@ function getGoalParticipation(player) {
             index++;
         }
     }
-    return ((goalsParticipatedIn / team[index].cumulative.core.goals) * 100).toFixed(2);
+    let ans = ((goalsParticipatedIn / team[index].cumulative.core.goals) * 100);
+    return ans;
 }
 
 function handleLeaderboardNAClick() {
