@@ -153,6 +153,14 @@ function renderPlayerCard(player) {
         teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></h2>`
     }
 
+    let isFavorited = false
+    for (let i = 0; i < favoritedPlayers.length; i++) {
+        if(removeSpecialChar(favoritedPlayers[i].name).trim() == removeSpecialChar(player).trim()) {
+            isFavorited = true;
+            break;
+        }
+    }
+
     $('.modal').replaceWith(`
         <div id="${player}Card" class="modal is-active playerCard">
             <div class="modal-background"></div>
@@ -170,7 +178,7 @@ function renderPlayerCard(player) {
                     </div>
                 </section>
                 <footer class="modal-card-foot" style="float: right">
-                    <p>Favorite Player?&nbsp</p><span class="heart" id="${player}" state="liked"><a><i class="fa fa-heart" id="heart${player}" state="liked" style="color: red"></a></i></span>
+                    <p>Favorite Player?&nbsp</p>${isFavorited ? `<span class="heart" id="${player}" state="liked"><a><i class="fa fa-heart" id="heart${player}" state="liked" style="color: red"></a></i></span>` : `<span class="heart" id="${player}" state="unliked"><a><i class="far fa-heart" id="heart${player}" state="unliked"></a></i></span>`}
                 </footer>
             </div>
         </div>
