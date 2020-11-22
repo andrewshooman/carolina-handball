@@ -109,7 +109,7 @@ function renderPlayerLeaderboard() {
 function renderTeamTableEntry(team) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td><a>${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></td>
+    <td><a>${teamCase(team.name)}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></td>
     <td>${team.cumulative.games}</td>
     <td>${team.cumulative.wins}</td>
     <td>${team.cumulative.games - team.cumulative.wins}</td>
@@ -128,7 +128,7 @@ function renderPlayerTableEntry(player) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
     <td><a id="${player.name}Name" class="name">${player.name}</a><span class="heart" id="${player.name}" state="unliked"><a><i class="far fa-heart" id="heart${player.name}" state="unliked"></a></i></span></td>
-    <td>${player.team}</td>
+    <td>${teamCase(player.team)}</td>
     <td>${player.cumulative.games}</td>
     <td>${player.cumulative.win_percentage.toFixed(1)}</td>
     <td>${(player.cumulative.core.score / player.cumulative.games).toFixed(1)}</td>
@@ -169,6 +169,31 @@ function renderPlayerCard(player) {
             </div>
         </div>
     `)
+}
+
+function teamCase(str) {
+    switch (str) {
+        case "NRG":
+            return "NRG"
+        case "CLT":
+            return "CLT"
+        case "FFF":
+            return "fishhr friends, not food"
+        case "KC PIONEERS":
+            return "KC Pioneers"
+        case "VALORSGG":
+            return "Valors"
+        case "KNIGHTS":
+            return "Pittsburgh Knights"
+        case "SPACESTATION":
+            return "Spacestation Gaming"
+        case "EUNITED":
+            return "eUnited"
+        case "72PC":
+            return "72PC"
+        default:
+            return titleCase(str)
+    }
 }
 
 function titleCase(str) {
