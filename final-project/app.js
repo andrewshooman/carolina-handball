@@ -84,7 +84,6 @@ app.post('/signup', (req,res) => {
   let password = req.body.password;
   let user_data;
 
-  console.log()
 
   const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
   client.connect(err => {
@@ -183,14 +182,18 @@ app.post('/secret', (req, res)=> {
   return res.json(s);
 });
 
-app.delete('/secret', async (req, res) => {
+app.post('/deletesecret', async (req, res) => {
+
   if (req.session.user == undefined) {
       res.status(403).send("Unauthorized");
       return;
   }
 
-  let id = req.body.id;
+
   let owner = req.session.user;
+  let id = req.body.id;
+
+  console.log(owner, id)
 
   let outcome = await deleteSecret(id, owner);
 
@@ -225,6 +228,11 @@ app.get('/getteamnames', async (req, res) => {
         if (a.indexOf(result[i].team) === -1 && result[i].team !== ''){a.push(result[i].team);}
           }
   res.json(a)
+})
+
+app.get('/getallteams', async (req, res) => {
+  let result = await getTeamDB();
+  res.json(result)
 })
 
 app.get('/getallplayers', async (req, res) => {
@@ -313,6 +321,7 @@ async function getTeamDB () {
 }
 
  async function deleteSecret (id, owner) { 
+   console.log(id, owner)
   const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", { useNewUrlParser: true })
         .catch(err => { console.log(err); }); 
         if (!client) {
@@ -320,7 +329,6 @@ async function getTeamDB () {
       }      
       try {
         const collection = client.db("Secret").collection("secrets");
-        console.log("test")
         collection.deleteOne({"id":id, "owner":owner})
         client.close();
         return true;
