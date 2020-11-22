@@ -397,7 +397,6 @@ function handleLikeButtonClick(event) {
 
         console.log(id)
 
-
         $.ajax({
             url: '/deletesecret',
             type: 'POST',
