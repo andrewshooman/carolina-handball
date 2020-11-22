@@ -144,7 +144,7 @@ function renderPlayerTableEntry(player) {
 }
 
 function renderPlayerCard(player) {
-    let country = findCountry(player)
+    let country = findCountry(player.toLowerCase())
     let team = findTeam(player)
 
     $('.modal').replaceWith(`
@@ -189,9 +189,9 @@ function renderTeamCard(team) {
             <h2 id="${team.name}Status">Status: ${team.status ? "Active" : "Inactive"} <img width="18px" height="18px" src="${team.status ? "images/icons/Green Status.jpg" : "images/icons/Red Status.jpg"}"></h2>
             <h2 id="${team.name}Players">Current Players: </h2>
             <div>
-              <p> - <a id="${(team.players[0] != undefined) ? team.players[0]+"Name" : ""}" class="playerName">${(team.players[0] != undefined) ? team.players[0] : ""}</a><span class="heart" id="${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"></a></i></span>
-              <p> - <a id="${(team.players[1] != undefined) ? team.players[1]+"Name" : ""}" class="playerName">${(team.players[1] != undefined) ? team.players[1] : ""}</a><span class="heart" id="${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"></a></i></span>
-              <p> - <a id="${(team.players[2] != undefined) ? team.players[2]+"Name" : ""}" class="playerName">${(team.players[2] != undefined) ? team.players[2] : ""}</a><span class="heart" id="${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"></a></i></span>
+              <p> - <a id="${(team.players[0] != undefined) ? team.players[0] + "Name" : ""}" class="playerName">${(team.players[0] != undefined) ? team.players[0] : ""}</a><span class="heart" id="${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"></a></i></span>
+              <p> - <a id="${(team.players[1] != undefined) ? team.players[1] + "Name" : ""}" class="playerName">${(team.players[1] != undefined) ? team.players[1] : ""}</a><span class="heart" id="${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"></a></i></span>
+              <p> - <a id="${(team.players[2] != undefined) ? team.players[2] + "Name" : ""}" class="playerName">${(team.players[2] != undefined) ? team.players[2] : ""}</a><span class="heart" id="${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"></a></i></span>
             </div>
           </div>
         </section>
@@ -246,11 +246,14 @@ function titleCase(str) {
 
 function findCountry(player) {
     let country = ""
+    console.log(player)
     for (let i = 0; i < countryOfPlayers.length; i++) {
         let playerArr = countryOfPlayers[i].players
-        if (playerArr.includes(player)) {
-            country = countryOfPlayers[i];
-            return country
+        for (let j = 0; j < playerArr.length; j++) {
+            if (playerArr[j].toLowerCase() == player) {
+                country = countryOfPlayers[i];
+                return country
+            }
         }
     }
 }
