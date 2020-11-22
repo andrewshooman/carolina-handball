@@ -144,7 +144,7 @@ function renderPlayerTableEntry(player) {
 
 function renderPlayerCard(player) {
     let country = findCountry(player)
-    // let team = findTeam(player)
+    let team = findTeam(player)
 
     $('.modal').replaceWith(`
         <div id="${player}Card" class="modal is-active playerCard">
@@ -179,6 +179,12 @@ function findCountry(player) {
             return country
         }
     }
+}
+
+function findTeam(player) {
+    let lookie = dataset[0].players.find(p => p.name == player)
+    console.log(lookie.team)
+    return lookie.team
 }
 
 function renderLikedHeart(playerName) {
@@ -463,738 +469,738 @@ function handleLikeButtonClick(event) {
 function handleCloseModal() {
     $('.playerCard').replaceWith(`<div class="modal">`)
     $('.teamCard').replaceWith(`<div class="modal">`)
+}
 
-    function handleTeamLikeButtonClick(event) {
-        let heartID = event.currentTarget.getAttribute('id');
-        let state = event.currentTarget.getAttribute('state');
-        let team = dataset[0].teams.find(t => t.name == heartID.split("heart").join(""));
-        if (state == "unliked") {
-            $('#' + CSS.escape(heartID)).empty()
-            $('#' + CSS.escape(heartID)).replaceWith(renderTeamLikedHeart(team.name))
-            // $.ajax({
-            //     url: '/secret',
-            //     type: 'POST',
-            //     data: { "favorite": JSON.stringify(player) }
-            // });
-        }
-        if (state == "liked") {
-            $('#' + CSS.escape(heartID)).empty()
-            $('#' + CSS.escape(heartID)).replaceWith(renderTeamUnLikedHeart(team.name))
-            // $.ajax({
-            //     url: '/secret',
-            //     type: 'DEL',
-            //     data: { "favorite": JSON.stringify(player) }
-            // });
+function handleTeamLikeButtonClick(event) {
+    let heartID = event.currentTarget.getAttribute('id');
+    let state = event.currentTarget.getAttribute('state');
+    let team = dataset[0].teams.find(t => t.name == heartID.split("heart").join(""));
+    if (state == "unliked") {
+        $('#' + CSS.escape(heartID)).empty()
+        $('#' + CSS.escape(heartID)).replaceWith(renderTeamLikedHeart(team.name))
+        // $.ajax({
+        //     url: '/secret',
+        //     type: 'POST',
+        //     data: { "favorite": JSON.stringify(player) }
+        // });
+    }
+    if (state == "liked") {
+        $('#' + CSS.escape(heartID)).empty()
+        $('#' + CSS.escape(heartID)).replaceWith(renderTeamUnLikedHeart(team.name))
+        // $.ajax({
+        //     url: '/secret',
+        //     type: 'DEL',
+        //     data: { "favorite": JSON.stringify(player) }
+        // });
+    }
+}
+
+// search stuff
+let enteredData;
+function renderPlayerSearch() {
+    return `<div class="box" style="display: flex">
+                    <span style="display: inline-flex; flex-grow: 1; align-items: center;">
+                    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].players, enteredData)}</span>
+                    <strong>${foundNames}</strong>
+                </div>`
+}
+document.getElementById('pNameInput').addEventListener('keyup', event => {
+    const $searchresults = $('#pName-results');
+    $('#pName-results *').replaceWith();
+    if (event.code === 'Enter') {
+        if (event.currentTarget.value != '') {
+            enteredData = event.currentTarget.value;
+            $searchresults.append(renderPlayerSearch);
         }
     }
-
-    // search stuff
-    let enteredData;
-    function renderPlayerSearch() {
-        return `<div class="box" style="display: flex">
-    <span style="display: inline-flex; flex-grow: 1; align-items: center;">
-    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].players, enteredData)}</span>
-    <strong>${foundNames}</strong>
-</div>`
-    }
-    document.getElementById('pNameInput').addEventListener('keyup', event => {
-        const $searchresults = $('#pName-results');
-        $('#pName-results *').replaceWith();
-        if (event.code === 'Enter') {
-            if (event.currentTarget.value != '') {
-                enteredData = event.currentTarget.value;
-                $searchresults.append(renderPlayerSearch);
-            }
+})
+let enteredTeam;
+function renderTeamSearch() {
+    console.log(searchName(dataset[0].teams, enteredTeam))
+    return `<div class="box" style="display: flex">
+                    <span style="display: inline-flex; flex-grow: 1; align-items: center;">
+                    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].teams, enteredTeam)}</span>
+                    <strong>${foundNames}</strong>
+                </div>`
+}
+document.getElementById('tNameInput').addEventListener('keyup', event => {
+    const $searchresults = $('#tName-results');
+    $('#tName-results *').replaceWith();
+    if (event.code === 'Enter') {
+        if (event.currentTarget.value != '') {
+            enteredTeam = event.currentTarget.value;
+            $searchresults.append(renderTeamSearch);
         }
-    })
-    let enteredTeam;
-    function renderTeamSearch() {
-        console.log(searchName(dataset[0].teams, enteredTeam))
-        return `<div class="box" style="display: flex">
-    <span style="display: inline-flex; flex-grow: 1; align-items: center;">
-    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].teams, enteredTeam)}</span>
-    <strong>${foundNames}</strong>
-</div>`
     }
-    document.getElementById('tNameInput').addEventListener('keyup', event => {
-        const $searchresults = $('#tName-results');
-        $('#tName-results *').replaceWith();
-        if (event.code === 'Enter') {
-            if (event.currentTarget.value != '') {
-                enteredTeam = event.currentTarget.value;
-                $searchresults.append(renderTeamSearch);
-            }
-        }
-    })
+})
 
-    function debounce(func, wait) {
-        let timeout;
-        return function (...args) {
-            const context = this;
-            const executor = function () {
-                timeout = null;
-                func.apply(context, args);
-            };
-
-            clearTimeout(timeout);
-            timeout = setTimeout(executor, wait);
+function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+        const context = this;
+        const executor = function () {
+            timeout = null;
+            func.apply(context, args);
         };
+
+        clearTimeout(timeout);
+        timeout = setTimeout(executor, wait);
+    };
+}
+
+/* 
+  TO-DO: perform query
+*/
+
+function autoName(searchTerm) {
+    if (searchTerm === "") {
+        return "";
+    }
+    console.log(playerNames[1])
+    let data = playerNames.find(value => value.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
+    if (data !== undefined) {
+        let name = data;
+        console.log(name)
+        return name;
+    } else {
+        return "";
     }
 
-    /* 
-      TO-DO: perform query
-    */
+}
 
-    function autoName(searchTerm) {
-        if (searchTerm === "") {
-            return "";
-        }
-        console.log(playerNames[1])
-        let data = playerNames.find(value => value.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
-        if (data !== undefined) {
-            let name = data;
-            console.log(name)
-            return name;
-        } else {
-            return "";
-        }
-
+function autoTeam(searchTerm) {
+    if (searchTerm === "") {
+        return "";
+    }
+    let data = teamNames.find(value => value.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
+    if (data !== undefined) {
+        let name = data;
+        console.log(name)
+        return name;
+    } else {
+        return "";
     }
 
-    function autoTeam(searchTerm) {
-        if (searchTerm === "") {
-            return "";
-        }
-        let data = teamNames.find(value => value.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
-        if (data !== undefined) {
-            let name = data;
-            console.log(name)
-            return name;
-        } else {
-            return "";
-        }
+}
 
-    }
-
-    function handleNameAuto(event) {
-        let output = document.getElementById('pNameAuto');
-        const inputData = event.target.value;
-        let data = autoName(inputData);
-        enteredData = data;
-        if (data !== "") {
-            output.innerHTML = `<button>${data}</button>`;
-        } else {
-            output.innerHTML = ``;
-        }
-
-    }
-
-    function handleTeamAuto(event) {
-        let output = document.getElementById('tNameAuto');
-        const inputData = event.target.value;
-        let data = autoTeam(inputData);
-        enteredTeam = data;
-        if (data !== "") {
-            output.innerHTML = `<button>${data}</button>`;
-        } else {
-            output.innerHTML = ``;
-        }
-
-    }
-
-    document.getElementById('pNameInput').addEventListener('input', debounce(handleNameAuto, 400));
-    document.getElementById('tNameInput').addEventListener('input', debounce(handleTeamAuto, 400));
-
-    function handleSubmitPlayerAuto(event) {
-        let output = document.getElementById('pNameAuto');
+function handleNameAuto(event) {
+    let output = document.getElementById('pNameAuto');
+    const inputData = event.target.value;
+    let data = autoName(inputData);
+    enteredData = data;
+    if (data !== "") {
+        output.innerHTML = `<button>${data}</button>`;
+    } else {
         output.innerHTML = ``;
-        // $('#pNameInput').replaceWith(`<input class="input is-primary" id="pNameInput" type="text" placeholder="${enteredData}"/>`);
-        const $searchresults = $('#pName-results');
-        $searchresults.append(renderPlayerSearch);
     }
 
-    function handleSubmitTeamAuto(event) {
-        let output = document.getElementById('tNameAuto');
+}
+
+function handleTeamAuto(event) {
+    let output = document.getElementById('tNameAuto');
+    const inputData = event.target.value;
+    let data = autoTeam(inputData);
+    enteredTeam = data;
+    if (data !== "") {
+        output.innerHTML = `<button>${data}</button>`;
+    } else {
         output.innerHTML = ``;
-        const $searchresults = $('#tName-results');
-        $searchresults.append(renderTeamSearch);
     }
 
-    function handleLogout(event) {
-        $.ajax({
-            url: '/logout',
-            type: 'GET',
-            dataType: 'json',
-            success: function (response, textStatus, jqXHR) {
-                $.router.set('/');
-                location.reload();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alert("error logging out")
-            }
-        });
-
-    }
-
-    async function getDataBase(id) {
-        let result = await $.ajax({
-            url: '/getDBbyID',
-            type: 'POST',
-            dataType: 'json',
-            data: { "id": id }
-        });
-        result = JSON.parse(JSON.stringify(result));
-        console.log(result.responseJSON)
-        dataset = result.responseJSON;
-    }
-
-    function handleSortPress(event) {
-        let id = event.currentTarget.id;
-        let arr = dataset[0].players;
-        let arr2 = dataset[0].teams;
-        switch (id) {
-            case ('plname'):
-                arr.sort(function compare(a, b) {
-                    const x = a.name.toUpperCase();
-                    const y = b.name.toUpperCase();
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plteam'):
-                arr.sort(function compare(a, b) {
-                    const x = a.team.toUpperCase();
-                    const y = b.team.toUpperCase();
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plgmp'):
-                arr.sort(function compare(a, b) {
-                    const x = a.cumulative.games;
-                    const y = b.cumulative.games;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plwl'):
-                arr.sort(function compare(a, b) {
-                    const x = a.cumulative.win_percentage;
-                    const y = b.cumulative.win_percentage;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plavgscore'):
-                arr.sort(function compare(a, b) {
-                    const x = a.game_average.core.score;
-                    const y = b.game_average.core.score;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('pldemodiff'):
-                arr.sort(function compare(a, b) {
-                    const x = a.cumulative.demo.inflicted - a.cumulative.demo.taken;
-                    const y = b.cumulative.demo.inflicted - b.cumulative.demo.taken;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plgpg'):
-                arr.sort(function compare(a, b) {
-                    const x = a.game_average.core.goals;
-                    const y = b.game_average.core.goals;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plapg'):
-                arr.sort(function compare(a, b) {
-                    const x = a.game_average.core.assists;
-                    const y = b.game_average.core.assists;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plsvpg'):
-                arr.sort(function compare(a, b) {
-                    const x = a.game_average.core.saves;
-                    const y = b.game_average.core.saves;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plshpg'):
-                arr.sort(function compare(a, b) {
-                    const x = a.game_average.core.shots;
-                    const y = b.game_average.core.shots;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plshpcg'):
-                arr.sort(function compare(a, b) {
-                    const x = a.game_average.core.shooting_percentage;
-                    const y = b.game_average.core.shooting_percentage;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('plgp'):
-                arr.sort(function compare(a, b) {
-                    const x = getGoalParticipation(a);
-                    const y = getGoalParticipation(b)
-
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].players = arr;
-                handlePlayersButtonClick()
-                break;
-            case ('tmname'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.name.toUpperCase();
-                    const y = b.name.toUpperCase();
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick();
-                break;
-            case ('tmgmp'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.cumulative.games;
-                    const y = b.cumulative.games;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmwin'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.cumulative.wins;
-                    const y = b.cumulative.wins;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmloss'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.cumulative.games - a.cumulative.wins;
-                    const y = b.cumulative.games - b.cumulative.wins;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmwl'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.cumulative.win_percentage;
-                    const y = b.cumulative.win_percentage;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmgf'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.cumulative.core.goals;
-                    const y = b.cumulative.core.goals;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmga'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.cumulative.core.goals_against;
-                    const y = b.cumulative.core.goals_against;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmgpg'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.game_average.core.goals;
-                    const y = b.game_average.core.goals;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmapg'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.game_average.core.assists;
-                    const y = b.game_average.core.assists;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmsvpg'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.game_average.core.saves;
-                    const y = b.game_average.core.saves;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmshpg'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.game_average.core.shots;
-                    const y = b.game_average.core.shots;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
-            case ('tmshpcg'):
-                arr2.sort(function compare(a, b) {
-                    const x = a.game_average.core.shooting_percentage;
-                    const y = b.game_average.core.shooting_percentage;
-
-                    let comparison = 0;
-                    if (x > y) {
-                        if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
-                    } else if (x < y) {
-                        if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
-                    }
-                    return comparison;
-                })
-
-                if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
-
-                dataset[0].teams = arr2;
-                handleTeamsButtonClick()
-                break;
+}
+
+document.getElementById('pNameInput').addEventListener('input', debounce(handleNameAuto, 400));
+document.getElementById('tNameInput').addEventListener('input', debounce(handleTeamAuto, 400));
+
+function handleSubmitPlayerAuto(event) {
+    let output = document.getElementById('pNameAuto');
+    output.innerHTML = ``;
+    // $('#pNameInput').replaceWith(`<input class="input is-primary" id="pNameInput" type="text" placeholder="${enteredData}"/>`);
+    const $searchresults = $('#pName-results');
+    $searchresults.append(renderPlayerSearch);
+}
+
+function handleSubmitTeamAuto(event) {
+    let output = document.getElementById('tNameAuto');
+    output.innerHTML = ``;
+    const $searchresults = $('#tName-results');
+    $searchresults.append(renderTeamSearch);
+}
+
+function handleLogout(event) {
+    $.ajax({
+        url: '/logout',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            $.router.set('/');
+            location.reload();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert("error logging out")
         }
+    });
+
+}
+
+async function getDataBase(id) {
+    let result = await $.ajax({
+        url: '/getDBbyID',
+        type: 'POST',
+        dataType: 'json',
+        data: { "id": id }
+    });
+    result = JSON.parse(JSON.stringify(result));
+    console.log(result.responseJSON)
+    dataset = result.responseJSON;
+}
+
+function handleSortPress(event) {
+    let id = event.currentTarget.id;
+    let arr = dataset[0].players;
+    let arr2 = dataset[0].teams;
+    switch (id) {
+        case ('plname'):
+            arr.sort(function compare(a, b) {
+                const x = a.name.toUpperCase();
+                const y = b.name.toUpperCase();
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plteam'):
+            arr.sort(function compare(a, b) {
+                const x = a.team.toUpperCase();
+                const y = b.team.toUpperCase();
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plgmp'):
+            arr.sort(function compare(a, b) {
+                const x = a.cumulative.games;
+                const y = b.cumulative.games;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plwl'):
+            arr.sort(function compare(a, b) {
+                const x = a.cumulative.win_percentage;
+                const y = b.cumulative.win_percentage;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plavgscore'):
+            arr.sort(function compare(a, b) {
+                const x = a.game_average.core.score;
+                const y = b.game_average.core.score;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('pldemodiff'):
+            arr.sort(function compare(a, b) {
+                const x = a.cumulative.demo.inflicted - a.cumulative.demo.taken;
+                const y = b.cumulative.demo.inflicted - b.cumulative.demo.taken;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plgpg'):
+            arr.sort(function compare(a, b) {
+                const x = a.game_average.core.goals;
+                const y = b.game_average.core.goals;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plapg'):
+            arr.sort(function compare(a, b) {
+                const x = a.game_average.core.assists;
+                const y = b.game_average.core.assists;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plsvpg'):
+            arr.sort(function compare(a, b) {
+                const x = a.game_average.core.saves;
+                const y = b.game_average.core.saves;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plshpg'):
+            arr.sort(function compare(a, b) {
+                const x = a.game_average.core.shots;
+                const y = b.game_average.core.shots;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plshpcg'):
+            arr.sort(function compare(a, b) {
+                const x = a.game_average.core.shooting_percentage;
+                const y = b.game_average.core.shooting_percentage;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('plgp'):
+            arr.sort(function compare(a, b) {
+                const x = getGoalParticipation(a);
+                const y = getGoalParticipation(b)
+
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].players = arr;
+            handlePlayersButtonClick()
+            break;
+        case ('tmname'):
+            arr2.sort(function compare(a, b) {
+                const x = a.name.toUpperCase();
+                const y = b.name.toUpperCase();
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick();
+            break;
+        case ('tmgmp'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.games;
+                const y = b.cumulative.games;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmwin'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.wins;
+                const y = b.cumulative.wins;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmloss'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.games - a.cumulative.wins;
+                const y = b.cumulative.games - b.cumulative.wins;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmwl'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.win_percentage;
+                const y = b.cumulative.win_percentage;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmgf'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.core.goals;
+                const y = b.cumulative.core.goals;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmga'):
+            arr2.sort(function compare(a, b) {
+                const x = a.cumulative.core.goals_against;
+                const y = b.cumulative.core.goals_against;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmgpg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.goals;
+                const y = b.game_average.core.goals;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmapg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.assists;
+                const y = b.game_average.core.assists;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmsvpg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.saves;
+                const y = b.game_average.core.saves;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmshpg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.shots;
+                const y = b.game_average.core.shots;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
+        case ('tmshpcg'):
+            arr2.sort(function compare(a, b) {
+                const x = a.game_average.core.shooting_percentage;
+                const y = b.game_average.core.shooting_percentage;
+
+                let comparison = 0;
+                if (x > y) {
+                    if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                } else if (x < y) {
+                    if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
+                }
+                return comparison;
+            })
+
+            if (sortConst == 0) { sortConst = 1; } else { sortConst = 0; }
+
+            dataset[0].teams = arr2;
+            handleTeamsButtonClick()
+            break;
     }
+}
 
-    let favoritedPlayers = []
-    let playerNames = []
-    let teamNames = []
-    // leaderboard stuff
-    function loadStuffIntoDOM() {
-        $("#root").append(renderSelectorBox());
-        $(document).on("click", "#lbna", handleLeaderboardNAClick)
-        $(document).on("click", "#lbeu", handleLeaderboardEUClick)
-        $(document).on("click", "#lbfall", handleLeaderboardFallClick)
-        $(document).on("click", "#lbwinter", handleLeaderboardWinterClick)
-        $(document).on("click", "#lbspring", handleLeaderboardSpringClick)
-        $(document).on("click", "#lbteams", handleTeamsButtonClick)
-        $(document).on("click", "#lbplayers", handlePlayersButtonClick)
-        $(document).on("click", "#pNameAuto", handleSubmitPlayerAuto)
-        $(document).on("click", "#logout", handleLogout)
-        $(document).on("click", "#tNameAuto", handleSubmitTeamAuto)
-        $(document).on("click", ".heart", handleLikeButtonClick)
-        $(document).on("click", ".name", handleNameClick)
-        $(document).on('click', '.delete', handleCloseModal)
-        $(document).on('click', '.modal-background', handleCloseModal)
-        $(document).on("click", ".tmheart", handleTeamLikeButtonClick)
-        $(document).on("click", ".sort", handleSortPress)
-        $(document).on("change", "select.event", function () {
-            let selectedEvent = $(this).children("option:selected").val()
-            if (selectedEvent == "Select Event") {
-                $("#PorTselectorplaceholder").empty();
-            } else {
-                $("#PorTselectorplaceholder").empty();
-                $("#PorTselectorplaceholder").append(renderLeaderboardPlayerTeamSelector)
-            }
-            handleSelectedEvent(selectedEvent);
-        });
+let favoritedPlayers = []
+let playerNames = []
+let teamNames = []
+// leaderboard stuff
+function loadStuffIntoDOM() {
+    $("#root").append(renderSelectorBox());
+    $(document).on("click", "#lbna", handleLeaderboardNAClick)
+    $(document).on("click", "#lbeu", handleLeaderboardEUClick)
+    $(document).on("click", "#lbfall", handleLeaderboardFallClick)
+    $(document).on("click", "#lbwinter", handleLeaderboardWinterClick)
+    $(document).on("click", "#lbspring", handleLeaderboardSpringClick)
+    $(document).on("click", "#lbteams", handleTeamsButtonClick)
+    $(document).on("click", "#lbplayers", handlePlayersButtonClick)
+    $(document).on("click", "#pNameAuto", handleSubmitPlayerAuto)
+    $(document).on("click", "#logout", handleLogout)
+    $(document).on("click", "#tNameAuto", handleSubmitTeamAuto)
+    $(document).on("click", ".heart", handleLikeButtonClick)
+    $(document).on("click", ".name", handleNameClick)
+    $(document).on('click', '.delete', handleCloseModal)
+    $(document).on('click', '.modal-background', handleCloseModal)
+    $(document).on("click", ".tmheart", handleTeamLikeButtonClick)
+    $(document).on("click", ".sort", handleSortPress)
+    $(document).on("change", "select.event", function () {
+        let selectedEvent = $(this).children("option:selected").val()
+        if (selectedEvent == "Select Event") {
+            $("#PorTselectorplaceholder").empty();
+        } else {
+            $("#PorTselectorplaceholder").empty();
+            $("#PorTselectorplaceholder").append(renderLeaderboardPlayerTeamSelector)
+        }
+        handleSelectedEvent(selectedEvent);
+    });
 
-        $.ajax({
-            url: '/getLoggedInUser',
-            type: 'GET',
-            dataType: 'json',
-            success: function (response, textStatus, jqXHR) {
-                let name = jqXHR.responseJSON;
-                $("#loginButton").empty()
-                $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton"><div class="box">You are now logged in as: ${name}<br><a id="logout" style="display: flex;  justify-content: flex-end;">Log Out</a></div>`)
-                $.ajax({
-                    url: '/secret',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (response, textStatus, jqXHR) {
-                        console.log(jqXHR.responseJSON);
-                        for (let i = 0; i < jqXHR.responseJSON.length; i++) {
-                            favoritedPlayers[i] = jqXHR.responseJSON[i];
-                        }
-                        for (let i = 0; i < favoritedPlayers.length; i++) {
-                            $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
-                        }
+    $.ajax({
+        url: '/getLoggedInUser',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            let name = jqXHR.responseJSON;
+            $("#loginButton").empty()
+            $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton"><div class="box">You are now logged in as: ${name}<br><a id="logout" style="display: flex;  justify-content: flex-end;">Log Out</a></div>`)
+            $.ajax({
+                url: '/secret',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response, textStatus, jqXHR) {
+                    console.log(jqXHR.responseJSON);
+                    for (let i = 0; i < jqXHR.responseJSON.length; i++) {
+                        favoritedPlayers[i] = jqXHR.responseJSON[i];
                     }
-                })
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
+                    for (let i = 0; i < favoritedPlayers.length; i++) {
+                        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+                    }
+                }
+            })
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
 
-            }
-        });
-        $.ajax({
-            url: '/getplayernames',
-            type: 'GET',
-            dataType: 'json',
-            success: function (response, textStatus, jqXHR) {
-                playerNames = JSON.parse(JSON.stringify(jqXHR.responseJSON));
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown)
-            }
-        });
-        $.ajax({
-            url: '/getteamnames',
-            type: 'GET',
-            dataType: 'json',
-            success: function (response, textStatus, jqXHR) {
-                teamNames = JSON.parse(JSON.stringify(jqXHR.responseJSON));
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown)
-            }
-        });
-    }
+        }
+    });
+    $.ajax({
+        url: '/getplayernames',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            playerNames = JSON.parse(JSON.stringify(jqXHR.responseJSON));
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown)
+        }
+    });
+    $.ajax({
+        url: '/getteamnames',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            teamNames = JSON.parse(JSON.stringify(jqXHR.responseJSON));
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown)
+        }
+    });
 }
 loadStuffIntoDOM();
