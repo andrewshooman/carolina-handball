@@ -600,20 +600,20 @@ function handleTeamLikeButtonClick(event) {
     if (state == "unliked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamLikedHeart(team.name))
-        // $.ajax({
-        //     url: '/secret',
-        //     type: 'POST',
-        //     data: { "favorite": JSON.stringify(player) }
-        // });
+        $.ajax({
+            url: '/secretteam',
+            type: 'POST',
+            data: { "favorite": JSON.stringify(team) }
+        });
     }
     if (state == "liked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamUnLikedHeart(team.name))
-        // $.ajax({
-        //     url: '/secret',
-        //     type: 'DEL',
-        //     data: { "favorite": JSON.stringify(player) }
-        // });
+        $.ajax({
+            url: '/deletesecretteam',
+            type: 'POST',
+            data: { "id": JSON.stringify(team) }
+        });
     }
 }
 
