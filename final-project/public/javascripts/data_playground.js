@@ -476,10 +476,9 @@ function autoTeam(searchTerm) {
     if (searchTerm === "") {
         return "";
     }
-    let replay_group = dataset[0].teams;
-    let data = replay_group.find(value => value.name.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
+    let data = teamNames.find(value => value.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
     if (data !== undefined) {
-        let name = data.name;
+        let name = data;
         console.log(name)
         return name;
     } else {
@@ -504,7 +503,6 @@ function handleNameAuto(event) {
 function handleTeamAuto(event) {
     let output = document.getElementById('tNameAuto');
     const inputData = event.target.value;
-    let replay_group = dataset[0].players;
     let data = autoTeam(inputData);
     enteredTeam = data;
     if (data !== "") {
@@ -1028,6 +1026,7 @@ function handleSortPress(event) {
 
 let favoritedPlayers = []
 let playerNames = []
+let teamNames = []
 // leaderboard stuff
 function loadStuffIntoDOM() {
     $("#root").append(renderSelectorBox());
@@ -1084,8 +1083,17 @@ function loadStuffIntoDOM() {
         dataType: 'json',
         success: function (response, textStatus, jqXHR) {
             playerNames = JSON.parse(JSON.stringify(jqXHR.responseJSON));
-            console.log(playerNames);
-            console.log(playerNames[0])
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown)
+        }
+    });
+    $.ajax({
+        url: '/getteamnames',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            teamNames = JSON.parse(JSON.stringify(jqXHR.responseJSON));
         },
         error: function (jqXHR, textStatus, errorThrown) {
             console.log(errorThrown)
