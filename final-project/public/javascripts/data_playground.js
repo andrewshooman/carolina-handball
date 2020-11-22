@@ -110,7 +110,7 @@ function renderPlayerLeaderboard() {
 function renderTeamTableEntry(team) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td><a id="${team.name}Name" class="teamName">${teamCase(team.name)}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></td>
+    <td><a id="${team.name}Name" class="teamName">${teamCase(team.name)}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="tmheart${team.name}" state="unliked"></a></i></span></td>
     <td>${team.cumulative.games}</td>
     <td>${team.cumulative.wins}</td>
     <td>${team.cumulative.games - team.cumulative.wins}</td>
@@ -217,6 +217,14 @@ function renderTeamCard(team) {
         teamStatusIMG = "images/icons/Red Status.jpg"
     }
 
+    let isFavorited = false
+    for (let i = 0; i < favoritedTeams.length; i++) {
+        if(removeSpecialChar(favoritedTeams[i].name).trim() == removeSpecialChar(team.name).trim()) {
+            isFavorited = true;
+            break;
+        }
+    }
+
     $('.modal').replaceWith(`
     <div id="${team.name}Card" class="modal is-active teamCard">
       <div class="modal-background"></div>
@@ -241,7 +249,7 @@ function renderTeamCard(team) {
             </div>
         </section>
         <footer class="modal-card-foot">
-            <p>Favorite Team?&nbsp</p><span class="heart" id="${team.name}" state="liked"><a><i class="fa fa-heart" id="heart${team.name}" state="liked" style="color: red"></a></i></span>
+            <p>Favorite Team?&nbsp</p>${isFavorited ? `<span class="tmheart" id="${team.name}" state="liked"><a><i class="fa fa-heart" id="tmheart${team.name}" state="liked" style="color: red"></a></i></span>` : `<span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="tmheart${team.name}" state="unliked"></a></i></span>`}
         </footer>
       </div>
     </div>`)
