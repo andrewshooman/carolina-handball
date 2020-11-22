@@ -24,7 +24,7 @@ export default [{
     img: `images/flag icons/austria.png`
 }, {
     country: "Belgium",
-    players: ["Artyrus", "Atow", "Aztral", "Ben-Nzth", "Bilbo", "Bram.", "bramdeswaggerd", "Compact", "Eversax", "Fakyy", "Faykow.", "ImpacT", "JWeyts", "ntr.", "Peaky!", "Pollie", "Seeks"],
+    players: ["Artyrus", "Atow", "AztraL", "Ben-Nzth", "Bilbo", "Bram.", "bramdeswaggerd", "Compact", "Eversax", "Fakyy", "Faykow.", "ImpacT", "JWeyts", "ntr.", "Peaky!", "Pollie", "Seeks"],
     img: `images/flag icons/belgium.png`
 }, {
     country: "Croatia",

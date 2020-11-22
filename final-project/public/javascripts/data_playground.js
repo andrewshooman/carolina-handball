@@ -145,6 +145,7 @@ function renderPlayerTableEntry(player) {
 function renderPlayerCard(player) {
     let country = findCountry(player)
     let team = findTeam(player)
+    team = titleCase(team)
 
     $('.modal').replaceWith(`
         <div id="${player}Card" class="modal is-active playerCard">
@@ -159,7 +160,7 @@ function renderPlayerCard(player) {
                     <div>
                         <h2 id="${player}Country" class="${country.country}">Country of Origin: ${country.country} <img width="18px" height="18px" src="${country.img}"></h2>
                         <h2 id="${player}Status" class="true">Status: Active&nbsp<img width="18px" height="18px" src="images/icons/Green Status.png"></h2>
-                        <h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="images/icons/Green Status.png"> Renault Vitality</h2>
+                        <h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="images/icons/Green Status.png"> ${team}</h2>
                     </div>
                 </section>
                 <footer class="modal-card-foot" style="float: right">
@@ -169,6 +170,17 @@ function renderPlayerCard(player) {
         </div>
     `)
 }
+
+function titleCase(str) {
+    var splitStr = str.toLowerCase().split(' ');
+    for (var i = 0; i < splitStr.length; i++) {
+        // You do not need to check if i is larger than splitStr length, as your for does that for you
+        // Assign it back to the array
+        splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+    }
+    // Directly return the joined string
+    return splitStr.join(' '); 
+ }
 
 function findCountry(player) {
     let country = ""
@@ -183,7 +195,6 @@ function findCountry(player) {
 
 function findTeam(player) {
     let lookie = dataset[0].players.find(p => p.name == player)
-    console.log(lookie.team)
     return lookie.team
 }
 
