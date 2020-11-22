@@ -12,9 +12,7 @@ router.get('/login', function(req, res, next) {
 router.get('/favorites', function(req, res, next) {
   res.render('favorites', { title: 'Express' });
 });
-router.get('/index', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
