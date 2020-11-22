@@ -393,6 +393,20 @@ function handleTeamsButtonClick() {
             tmpGlobalincrement++;
         }
     }
+    $.ajax({
+        url: '/secretteam',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            console.log(jqXHR.responseJSON);
+            for (let i = 0; i < jqXHR.responseJSON.length; i++) {
+                favoritedTeams[i] = jqXHR.responseJSON[i];
+            }
+            for (let i = 0; i < favoritedTeams.length; i++) {
+                $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedTeams[i].name)))
+            }
+        }
+    })
 }
 
 function handlePlayersButtonClick() {
@@ -409,6 +423,20 @@ function handlePlayersButtonClick() {
     for (let i = 0; i < favoritedPlayers.length; i++) {
         $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
     }
+    $.ajax({
+        url: '/secret',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            console.log(jqXHR.responseJSON);
+            for (let i = 0; i < jqXHR.responseJSON.length; i++) {
+                favoritedPlayers[i] = jqXHR.responseJSON[i];
+            }
+            for (let i = 0; i < favoritedPlayers.length; i++) {
+                $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+            }
+        }
+    })
 }
 
 function getGoalParticipation(player) {
