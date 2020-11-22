@@ -145,7 +145,7 @@ function renderPlayerTableEntry(player) {
 
 function renderPlayerCard(player) {
     let country = findCountry(player.toLowerCase())
-    let team = findTeam(player)
+    let team = findCurrentTeamByPlayer(player)
 
     $('.modal').replaceWith(`
         <div id="${player}Card" class="modal is-active playerCard">
@@ -175,6 +175,10 @@ function renderTeamCard(team) {
     // <p> - ${(team.players[0] != undefined) ? team.players[0] : ""} <a id="${team.players[0]}Name" class="playerName">${team.players[0]}</a><span class="heart" id="${team.players[0]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[0]}" state="unliked"></a></i></span>
     // <p> - ${(team.players[1] != undefined) ? team.players[1] : ""} <a id="${team.players[1]}Name" class="playerName">${team.players[1]}</a><span class="heart" id="${team.players[1]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[1]}" state="unliked"></a></i></span>
     // <p> - ${(team.players[2] != undefined) ? team.players[2] : ""} <a id="${team.players[2]}Name" class="playerName">${team.players[2]}</a><span class="heart" id="${team.players[2]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[2]}" state="unliked"></a></i></span>
+
+    // <p> - <a id="${(team.players[0] != undefined) ? team.players[0] + "Name" : ""}" class="playerName">${(team.players[0] != undefined) ? team.players[0] : ""}</a><span class="heart" id="${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"></a></i></span></p>
+    // <p> - <a id="${(team.players[1] != undefined) ? team.players[1] + "Name" : ""}" class="playerName">${(team.players[1] != undefined) ? team.players[1] : ""}</a><span class="heart" id="${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"></a></i></span></p>
+    // <p> - <a id="${(team.players[2] != undefined) ? team.players[2] + "Name" : ""}" class="playerName">${(team.players[2] != undefined) ? team.players[2] : ""}</a><span class="heart" id="${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"></a></i></span></p>
     console.log(team)
     $('.modal').replaceWith(`
     <div id="${team.name}Card" class="modal is-active teamCard">
@@ -189,9 +193,9 @@ function renderTeamCard(team) {
             <h2 id="${team.name}Status">Status: ${team.status ? "Active" : "Inactive"} <img width="18px" height="18px" src="${team.status ? "images/icons/Green Status.jpg" : "images/icons/Red Status.jpg"}"></h2>
             <h2 id="${team.name}Players">Current Players: </h2>
             <div>
-              <p> - <a id="${(team.players[0] != undefined) ? team.players[0] + "Name" : ""}" class="playerName">${(team.players[0] != undefined) ? team.players[0] : ""}</a><span class="heart" id="${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"></a></i></span>
-              <p> - <a id="${(team.players[1] != undefined) ? team.players[1] + "Name" : ""}" class="playerName">${(team.players[1] != undefined) ? team.players[1] : ""}</a><span class="heart" id="${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"></a></i></span>
-              <p> - <a id="${(team.players[2] != undefined) ? team.players[2] + "Name" : ""}" class="playerName">${(team.players[2] != undefined) ? team.players[2] : ""}</a><span class="heart" id="${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"></a></i></span>
+              <p> - <a id="${(team.players[0] != undefined) ? team.players[0] + "Name" : ""}" class="playerName">${(team.players[0] != undefined) ? team.players[0] : ""}</p>
+              <p> - <a id="${(team.players[1] != undefined) ? team.players[1] + "Name" : ""}" class="playerName">${(team.players[1] != undefined) ? team.players[1] : ""}</p>
+              <p> - <a id="${(team.players[2] != undefined) ? team.players[2] + "Name" : ""}" class="playerName">${(team.players[2] != undefined) ? team.players[2] : ""}</p>
             </div>
           </div>
         </section>
@@ -203,34 +207,41 @@ function renderTeamCard(team) {
 }
 
 function teamCase(str) {
-    switch (str) {
-        case "NRG":
-            return "NRG"
-        case "CLT":
-            return "Charlotte Phoenix"
-        case "FFF":
-            return "fishhr friends, not food"
-        case "KC PIONEERS":
-            return "KC Pioneers"
-        case "VALORSGG":
-            return "Valors"
-        case "KNIGHTS":
-            return "Pittsburgh Knights"
-        case "SPACESTATION":
-            return "Spacestation Gaming"
-        case "EUNITED":
-            return "eUnited"
-        case "72PC":
-            return "72PC"
-        case "XSET":
-            return "XSet"
-        case "TEAM BDS":
-            return "Team BDS"
-        case "TLR ESPORTS":
-            return "The Last Resort"
-        default:
-            return titleCase(str)
+    let findTeam = findTeamByAlias(str)
+    console.log(findTeam)
+    if (findTeam == currentTeams[0].name) {
+        return titleCase(str)
+    } else {
+        return findTeam
     }
+    // else {
+    //     switch (str) {
+    //         case "NRG":
+    //             return "NRG"
+    //         case "CLT":
+    //             return "Charlotte Phoenix"
+    //         case "KC PIONEERS":
+    //             return "KC Pioneers"
+    //         case "VALORSGG":
+    //             return "Valors"
+    //         case "KNIGHTS":
+    //             return "Pittsburgh Knights"
+    //         case "SPACESTATION":
+    //             return "Spacestation Gaming"
+    //         case "EUNITED":
+    //             return "eUnited"
+    //         case "72PC":
+    //             return "72PC"
+    //         case "XSET":
+    //             return "XSet"
+    //         case "TEAM BDS":
+    //             return "Team BDS"
+    //         case "TLR ESPORTS":
+    //             return "The Last Resort"
+    //         default:
+    //             return titleCase(str)
+    //     }
+    // }
 }
 
 function titleCase(str) {
@@ -258,21 +269,33 @@ function findCountry(player) {
     }
 }
 
-function findTeam(player) {
+function findCurrentTeamByPlayer(player) {
     // let lookie = dataset[0].players.find(p => p.name == player)
-    let team = ""
     for (let i = 0; i < currentTeams.length; i++) {
         if (currentTeams[i].status) {
             let playerArr = currentTeams[i].players
             for (let j = 0; j < playerArr.length; j++) {
                 if (playerArr[j].toLowerCase() == player.toLowerCase()) {
-                    team = currentTeams[i];
-                    return team
+                    return currentTeams[i];
                 }
             }
         }
     }
     return (currentTeams[0])
+}
+
+function findTeamByAlias(teamAlias) {
+    for (let i = 1; i < currentTeams.length; i++) {
+        if (currentTeams[i].name.toLowerCase() == teamAlias.toLowerCase()) {
+            return currentTeams[i].name
+        } else {
+            for (let j = 0; j < currentTeams[i].alias.length; j++) {
+                if (currentTeams[i].alias[j].toLowerCase() == teamAlias.toLowerCase())
+                    return currentTeams[i].name
+            }
+        }
+    }
+    return currentTeams[0].name
 }
 
 function renderLikedHeart(playerName) {

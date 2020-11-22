@@ -1,4 +1,5 @@
 export default [{
+    // If they don't have a team registered in this list
     name: "Not Found",
     alias: [],
     img: "",
@@ -10,6 +11,7 @@ export default [{
     coach: "",
     sub: ""
 }, {
+    // European Teams
     name: "Ascending Legends",
     alias: ["Asc. Legends"],
     img: "",
@@ -114,7 +116,7 @@ export default [{
     img: "",
     region: "Europe",
     country: "",
-    status: false,
+    status: true,
     players: ["Tylacto", "Cheerio"],
     captain: "",
     coach: "",
@@ -159,7 +161,7 @@ export default [{
     region: "Europe",
     country: "",
     status: false,
-    players: ["Mittaen"],
+    players: ["Mittaen", "eekso", "arju"],
     captain: "",
     coach: "ANDYTHEMANDY",
     sub: ""
@@ -361,7 +363,361 @@ export default [{
     captain: "",
     coach: "Arleyobi",
     sub: "Wolf."
+}, {
+    // North American Teams
+    name: "72PC",
+    alias: ["72 Pin Connector"],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Jacob", "Ty", "Sea-Bass"],
+    captain: "",
+    coach: "Josh",
+    sub: ""
+}, {
+    name: "Adept",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: false,
+    players: ["Spyder", "Pirates", "Comm"],
+    captain: "",
+    coach: "",
+    sub: ""
+}, {
+    name: "Alpine Esports",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["percy.", "miajicbear", "jordan"],
+    captain: "",
+    coach: "miztik",
+    sub: "creamz"
+}, {
+    name: "Charlotte Phoenix",
+    alias: ["Charlotte", "CLT"],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Karma", "Shadow", "AlRaz"],
+    captain: "",
+    coach: "Jimmer",
+    sub: ""
+}, {
+    name: "Continuum",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Astroh", "Aeon", "Spyder"],
+    captain: "",
+    coach: "",
+    sub: "Bob"
+}, {
+    name: "Crimson Wings",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Skillz", "primethunder", "Wonder"],
+    captain: "",
+    coach: "",
+    sub: ""
+}, {
+    name: "Drip",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Harps"],
+    captain: "",
+    coach: "",
+    sub: "3pac"
+}, {
+    name: "eUnited",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["ayyjacks", "WondaMike", ".tristn"],
+    captain: "",
+    coach: "Sub'N",
+    sub: ""
+}, {
+    name: "Fishhr Friends, Not Food",
+    alias: ["FFF"],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: false,
+    players: ["FishhR", "Bacon", "JosherSquasher", "klxn"],
+    captain: "",
+    coach: "Frostiger",
+    sub: ""
+}, {
+    name: "G2 Esports",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "Germany",
+    status: true,
+    players: ["Rizzo", "JKnaps", "Chicago"],
+    captain: "",
+    coach: "Jahzo",
+    sub: ""
+}, {
+    name: "Hc eSports",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["COKE", "Duck", "Titanium"],
+    captain: "",
+    coach: "Scholar",
+    sub: ""
+}, {
+    name: "Infinite Shots",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: false,
+    players: ["Ness", "JJPrezus", "Falss"],
+    captain: "",
+    coach: "",
+    sub: "Ozmo"
+}, {
+    name: "Jamal Jabary",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: false,
+    players: ["Toastie", "Lj.", "Kraziks"],
+    captain: "",
+    coach: "",
+    sub: "desi"
+}, {
+    name: "Kansas City Pioneers",
+    alias: ["KC Pioneers"],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["rapid", "BeastMode", "Memory"],
+    captain: "",
+    coach: "JG7",
+    sub: "Dappur"
+}, {
+    name: "Pittsburgh Knights",
+    alias: ["Knights"],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["radoko.", "ZPS.", "sosa"],
+    captain: "",
+    coach: "McLando",
+    sub: "Flitz"
+}, {
+    name: "Mamba Mode Gaming",
+    alias: ["Mamba Mode"],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Comp", "Sotus", "Astra"],
+    captain: "",
+    coach: "",
+    sub: ""
+}, {
+    name: "Nefarious",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Jwismont", "Ahduhm", "Stokelyy"],
+    captain: "",
+    coach: "",
+    sub: "Dangles"
+}, {
+    name: "NRG",
+    alias: ["NRG Esports"],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["GarrettG", "jstn.", "SquishyMuffinz"],
+    captain: "",
+    coach: "Sizz",
+    sub: ""
+}, {
+    name: "Omelette",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: false,
+    players: ["Luke", "Freshness", "LionBlaze"],
+    captain: "",
+    coach: "",
+    sub: "Spoodah"
+}, {
+    name: "Plot Twist",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: false,
+    players: ["Taroco", "mectos", "sosa"],
+    captain: "",
+    coach: "Sadjunior",
+    sub: "grills"
+}, {
+    name: "Rogue",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["firstkiller", "turinturo", "Taroco"],
+    captain: "",
+    coach: "CorruptedG",
+    sub: ""
+}, {
+    name: "Susquehanna Soniqs",
+    alias: ["Soniqs"],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Shock", "jruss", "tcorrell"],
+    captain: "",
+    coach: "Roll Dizz",
+    sub: ""
+}, {
+    name: "Spacestation Gaming",
+    alias: ["Spacestation"],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Sypical", "Arsenal", "retals"],
+    captain: "",
+    coach: "Chrome",
+    sub: ""
+}, {
+    name: "Team Envy",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Atomic", "mist", "Turbopolsa"],
+    captain: "",
+    coach: "furane",
+    sub: ""
+}, {
+    name: "Team Frontline",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: false,
+    players: ["Andy", "Beastaboniam", "Delta"],
+    captain: "",
+    coach: "FireRaptor",
+    sub: ""
+}, {
+    name: "Team Meteor",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: false,
+    players: ["money", "Xpurt", "hockE"],
+    captain: "",
+    coach: "",
+    sub: ""
+}, {
+    name: "The First Graders",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Skyzz", "AdverseMeteor", "Oath"],
+    captain: "",
+    coach: "",
+    sub: "Melody"
+}, {
+    name: "The Peeps",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Gyro.", "AYYJAYY", "Allushin"],
+    captain: "",
+    coach: "Moopy",
+    sub: ""
+}, {
+    name: "Valors",
+    alias: ["ValorsGG"],
+    img: "",
+    region: "North America",
+    country: "Canada",
+    status: falsee,
+    players: ["Lubby", "TestGravity", "Pure"],
+    captain: "",
+    coach: "Walidos",
+    sub: "Psycho"
+}, {
+    name: "Version1",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["gimmick", "Torment", "Comm"],
+    captain: "",
+    coach: "Fireburner",
+    sub: ""
+}, {
+    name: "XSET",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["JPow", "AlphaKep", "hockser"],
+    captain: "",
+    coach: "Trey",
+    sub: ""
+}, {
+    name: "Zookeepers",
+    alias: [""],
+    img: "",
+    region: "North America",
+    country: "United States of America",
+    status: false,
+    players: ["Tool", "Bambii", "Jbot"],
+    captain: "",
+    coach: "Wronskian",
+    sub: "indigo"
 }
+// European Team Template
 // , {
 //     name: "",
 //     alias: [],
@@ -370,6 +726,20 @@ export default [{
 //     country: "",
 //     status: true,
 //     players: [],
+//     captain: "",
+//     coach: "",
+//     sub: ""
+// }
+
+// North American Team Template
+// , {
+//     name: "",
+//     alias: [""],
+//     img: "",
+//     region: "North America",
+//     country: "United States of America",
+//     status: true,
+//     players: [""],
 //     captain: "",
 //     coach: "",
 //     sub: ""
