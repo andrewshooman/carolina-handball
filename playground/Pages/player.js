@@ -11,7 +11,7 @@ const handleOpenPlayerModal = function(testplayer) {
   //   playername = player.name.split(' ').join('')
   //   playername = playername.replace(/\s+/g, '')
   //   console.log(playername)
-    $('.playerCard').replaceWith(`
+    $('.modal').replaceWith(`
     <div id="${player.name}Card" class="modal is-active playerCard">
         <div class="modal-background"></div>
         <div class="modal-card">
@@ -63,6 +63,9 @@ const handleOpenTeamModal = function(testteam) {
 }
 
 const renderPlayerCard = function(player) {
+  console.log(player)
+  let country = testFindCountry(player.name)
+  console.log(country)
   return `<div id="${player.name}Card" class="box card">
   <article class="media">
   <header class="content">
@@ -70,7 +73,7 @@ const renderPlayerCard = function(player) {
   </header>
   <section class="content">
       <div>
-      <h2 id="${player.name}Country" class="${player.country}">Country of Origin: ${player.country} <img width="18px" height="18px" src="flag icons/france.png"></h2>
+      <h2 id="${player.name}Country" class="${country.name}">Country of Origin: ${country.country} <img width="18px" height="18px" src="${country.img}"></h2>
       <h2 id="${player.name}Status" class="${player.status}">Status: ${player.status ? "Active" : "Inactive"}<img width="18px" height="18px" src="icons/${player.status ? 'Green Status.png' : 'Red Status.jpg'}"></h2>
       <h2 id="${player.name}Team" class="${player.team}">Current Team: <img width="18px" height="18px" src="icons/Green Status.png"> Renault Vitality</h2>
       </div>
@@ -82,10 +85,21 @@ const renderPlayerCard = function(player) {
 </div>`
 }
 
+const testFindCountry = function(player) {
+  let country = ""
+  for (let i=0; i<countryOfPlayers.length; i++) {
+    let playerArr = countryOfPlayers[i].players
+    if (playerArr.includes(player)) {
+      country = countryOfPlayers[i];
+      return country
+    }
+  }
+}
+
 const loadPlayersIntoDOM = function(players) {
   // console.log("hello!")
   for (let i=0; i<players.length; i++) {
-    console.log(players[i])
+    // console.log(players[i])
     let playerCard = renderPlayerCard(players[i])
     $('#mainBody').append(playerCard)
     // console.log("Wow!?")
@@ -101,4 +115,5 @@ $(document).ready(() => {
 
 $(function() {
   loadPlayersIntoDOM(testplayers)
+  testFindCountry("Fairy Peak!")
 })
