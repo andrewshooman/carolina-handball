@@ -146,6 +146,12 @@ function renderPlayerTableEntry(player) {
 function renderPlayerCard(player) {
     let country = findCountry(player.toLowerCase())
     let team = findCurrentTeamByPlayer(player)
+    let teamStr = ""
+    if (team.name == "Not Found") {
+        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: Not Found</h2>`
+    } else {
+        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></h2>`
+    }
 
     $('.modal').replaceWith(`
         <div id="${player}Card" class="modal is-active playerCard">
@@ -160,7 +166,7 @@ function renderPlayerCard(player) {
                     <div>
                         <h2 id="${player}Country" class="${country.name}">Country of Origin: ${country.name} <img width="18px" height="18px" src="${country.img}"></h2>
                         <h2 id="${player}Status" class="true">Status: ${team.name != "Not Found" ? "Active" : "Free Agent"}&nbsp<img width="18px" height="18px" src="${team.name != "Not Found" ? "images/icons/Green Status.jpg" : "images/icons/Blue Status.jpg"}"></h2>
-                        <h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></h2>
+                        ${teamStr}
                     </div>
                 </section>
                 <footer class="modal-card-foot" style="float: right">
@@ -254,20 +260,20 @@ function titleCase(str) {
 }
 
 function removeSpecialChar(str){
+    console.log(str)
     str = str.toLowerCase()
     if(str == null || str == ''){
     return '';
     }
-    return str.replace(/[^\w\s]/gi, "");
+    return str.replace(/[^\w\s]/gi, "").trim();
 }
 
 function findCountry(player) {
     let country = ""
-    console.log(player)
     for (let i = 1; i < countryOfPlayers.length; i++) {
         let playerArr = countryOfPlayers[i].players
         for (let j = 0; j < playerArr.length; j++) {
-            if (playerArr[j].toLowerCase() == player) {
+            if (removeSpecialChar(playerArr[j]) == removeSpecialChar(player)) {
                 country = countryOfPlayers[i];
                 return country
             }
