@@ -546,14 +546,13 @@ function handleTeamNameClick(event) {
     renderTeamCard(findTeamByAlias(teamName))
 }
 
-function handleLikeButtonClick(event) {
+ function handleLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
     console.log(heartID)
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
     let state = event.currentTarget.getAttribute('state');
     console.log("Clicked on " + player.name)
-    console.log('#' + CSS.escape(heartID))
-    console.log(player.name)
+
     if (state == "unliked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderLikedHeart(player.name))
@@ -567,14 +566,10 @@ function handleLikeButtonClick(event) {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderUnLikedHeart(player.name))
 
-        let id = favoritedPlayers.find(p => p.name == player.name).id;
-
-        console.log(id)
-
-        $.ajax({
+         $.ajax({
             url: '/deletesecret',
             type: 'POST',
-            data: { "id": id }
+            data: { "id": JSON.stringify(player) }
         });
     }
 }

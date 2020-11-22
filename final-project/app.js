@@ -47,9 +47,6 @@ app.post('/login', (req,res) => {
   let password = req.body.password;
   let user_data;
 
-  console.log(password)
-
-
   const client = new MongoClient(uri, { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
   client.connect(err => {
       const collection = client.db("Secret").collection("users");
@@ -321,15 +318,14 @@ async function getTeamDB () {
 }
 
  async function deleteSecret (id, owner) { 
-   console.log(id, owner)
   const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", { useNewUrlParser: true })
         .catch(err => { console.log(err); }); 
         if (!client) {
           return;
       }      
       try {
-        const collection = client.db("Secret").collection("secrets");
-        collection.deleteOne({"id":id, "owner":owner})
+        const collection = await client.db("Secret").collection("secrets");
+        let a =  await collection.deleteOne({"owner":owner, "favorite":id})
         client.close();
         return true;
 
