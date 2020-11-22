@@ -108,7 +108,7 @@ function renderPlayerLeaderboard() {
 function renderTeamTableEntry(team) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td><a>${team.name}</a></td>
+    <td><a>${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></td>
     <td>${team.cumulative.games}</td>
     <td>${team.cumulative.wins}</td>
     <td>${team.cumulative.games - team.cumulative.wins}</td>
@@ -147,6 +147,14 @@ function renderLikedHeart(playerName) {
 
 function renderUnLikedHeart(playerName) {
     return `<span class="heart" id="${playerName}" state="unliked"><a><i class="far fa-heart" id="heart${playerName}" state="unliked"></a></i></span>`
+}
+
+function renderTeamLikedHeart(teamName) {
+    return `<span class="tmheart" id="${teamName}" state="liked"><a><i class="fa fa-heart" id="heart${teamName}" state="liked" style="color: red"></a></i></span>`
+}
+
+function renderTeamUnLikedHeart(teamName) {
+    return `<span class="tmheart" id="${teamName}" state="unliked"><a><i class="far fa-heart" id="heart${teamName}" state="unliked"></a></i></span>`
 }
 
 function renderSelectorBox() {
@@ -402,6 +410,30 @@ function handleLikeButtonClick(event) {
             type: 'POST',
             data: {"id": id}
         });
+    }
+}
+
+function handleTeamLikeButtonClick(event) {
+    let heartID = event.currentTarget.getAttribute('id');
+    let state = event.currentTarget.getAttribute('state');
+    let team = dataset[0].teams.find(t => t.name == heartID.split("heart").join(""));
+    if (state == "unliked") {
+        $('#' + CSS.escape(heartID)).empty()
+        $('#' + CSS.escape(heartID)).replaceWith(renderTeamLikedHeart(team.name))
+        // $.ajax({
+        //     url: '/secret',
+        //     type: 'POST',
+        //     data: { "favorite": JSON.stringify(player) }
+        // });
+    }
+    if (state == "liked") {
+        $('#' + CSS.escape(heartID)).empty()
+        $('#' + CSS.escape(heartID)).replaceWith(renderTeamUnLikedHeart(team.name))
+        // $.ajax({
+        //     url: '/secret',
+        //     type: 'DEL',
+        //     data: { "favorite": JSON.stringify(player) }
+        // });
     }
 }
 
@@ -1047,6 +1079,7 @@ function loadStuffIntoDOM() {
     $(document).on("click", "#logout", handleLogout)
     $(document).on("click", "#tNameAuto", handleSubmitTeamAuto)
     $(document).on("click", ".heart", handleLikeButtonClick)
+    $(document).on("click", ".tmheart", handleTeamLikeButtonClick)
     $(document).on("click", ".sort", handleSortPress)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
@@ -1075,6 +1108,9 @@ function loadStuffIntoDOM() {
                     console.log(jqXHR.responseJSON);
                     for (let i = 0; i < jqXHR.responseJSON.length; i++) {
                         favoritedPlayers[i] = jqXHR.responseJSON[i];
+                    }
+                    for (let i = 0; i < favoritedPlayers.length; i++) {
+                        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
                     }
                 }
             })
