@@ -175,17 +175,17 @@ function renderTeamCard(team) {
     // `<p> - <a id="${team.players[i]+"Name"}" class="playerName">${team.players[i]}</a><span class="heart" id="${team.players[i]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[i]}" state="unliked"></i></a></span></p>`
     let teamPlayers = ""
     for (let i = 0; i < team.players.length; i++) {
-        teamPlayers += `<li> - <a id="${team.players[i] + "Name"}" class="playerName">${team.players[i]}</a><span class="heart" id="${team.players[i]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[i]}" state="unliked"></i></a></span></li>`
+        teamPlayers += `<li> - <a id="${team.players[i] + "Name"}" class="playerName">${team.players[i]}</a></li>`
     }
 
     let teamSub = ""
     if (team.sub != "") {
-        teamSub = `<a id="${team.sub + "Name"}" class="playerName">${team.sub}</a><span class="heart" id="${team.sub}" state="unliked"><a><i class="far fa-heart" id="heart${team.sub}" state="unliked"></i></a></span>`
+        teamSub = `<a id="${team.sub + "Name"}" class="playerName">${team.sub}</a>`
     }
 
     let teamCoach = ""
     if (team.coach != "") {
-        teamCoach = `<a id="${team.coach + "Name"}" class="playerName">${team.coach}</a><span class="heart" id="${team.coach}" state="unliked"><a><i class="far fa-heart" id="heart${team.coach}" state="unliked"></i></a></span>`
+        teamCoach = `<a id="${team.coach + "Name"}" class="playerName">${team.coach}</a>`
     }
 
     let teamStatus = ""
@@ -251,6 +251,13 @@ function titleCase(str) {
     }
     // Directly return the joined string
     return splitStr.join(' ');
+}
+
+function removeSpecialChar(str){
+    if(str == null || str == ''){
+    return '';
+    }
+    return str.replace(/[^\w\s]/gi, "");
 }
 
 function findCountry(player) {
