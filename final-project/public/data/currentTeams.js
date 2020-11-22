@@ -678,7 +678,7 @@ export default [{
     img: "",
     region: "North America",
     country: "Canada",
-    status: falsee,
+    status: false,
     players: ["Lubby", "TestGravity", "Pure"],
     captain: "",
     coach: "Walidos",
