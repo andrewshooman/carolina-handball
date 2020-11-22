@@ -22,7 +22,7 @@ const handleOpenPlayerModal = function(testplayer) {
         <section class="modal-card-body">
             <div>
             <h2 id="${player.name}Country" class="${player.country}">Country of Origin: ${player.country} <img width="18px" height="18px" src="flag icons/france.png"></h2>
-            <h2 id="${player.name}Status" class="${player.status}">Status: ${player.status ? "Active" : "Inactive"} <img width="18px" height="18px" src="icons/Green Status.png"></h2>
+            <h2 id="${player.name}Status" class="${player.status}">Status: ${player.status ? "Active" : "Inactive"} <img width="18px" height="18px" src="icons/${player.status ? 'Green Status.png' : 'Red Status.jpg'}"></h2>
             <h2 id="${player.name}Team" class="${player.team}">Current Team: Renault Vitality <img width="18px" height="18px" src="icons/Green Status.png"></h2>
             </div>
         </section>
@@ -46,7 +46,7 @@ const handleOpenTeamModal = function(testteam) {
         </header>
         <section class="modal-card-body">
           <div>
-            <h2 id="${team.name}Status">Status: <img width="18px" height="18px" src="icons/Green Status.png"></h2>
+            <h2 id="${team.name}Status">Status: <img width="18px" height="18px" src="icons/${team.status ? 'Green Status.png' : 'Red Status.jpg'}"></h2>
             <h2 id="${team.name}Players">Current Players: </h2>
             <div>
               <p> - ${team.players[0]} <span class="heart" id="${team.players[0]}Name"}><a><i class="far fa-heart" id="heartplayer" style="float: right" state="unliked"></a></i></span></p>
@@ -71,7 +71,7 @@ const renderPlayerCard = function(player) {
   <section class="content">
       <div>
       <h2 id="${player.name}Country" class="${player.country}">Country of Origin: ${player.country} <img width="18px" height="18px" src="flag icons/france.png"></h2>
-      <h2 id="${player.name}Status" class="${player.status}">Status: ${player.status ? "Active" : "Inactive"}<img width="18px" height="18px" src="icons/Green Status.png"></h2>
+      <h2 id="${player.name}Status" class="${player.status}">Status: ${player.status ? "Active" : "Inactive"}<img width="18px" height="18px" src="icons/${player.status ? 'Green Status.png' : 'Red Status.jpg'}"></h2>
       <h2 id="${player.name}Team" class="${player.team}">Current Team: <img width="18px" height="18px" src="icons/Green Status.png"> Renault Vitality</h2>
       </div>
   </section>

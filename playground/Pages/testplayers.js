@@ -1,6 +1,6 @@
 const testplayers = [{
     name: "Fairy Peak!",
     country: "France",
-    status: true,
+    status: false,
     team: "Renault Vitality"
 }]
