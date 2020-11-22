@@ -3,9 +3,11 @@ import currentTeams from "../data/currentTeams.js";
 
 
 let favoritedPlayers = []
+let favoritedTeams = []
+let tmpGlobalincrement = 1;
 function findCountry(player) {
     let country = ""
-    console.log(player)
+    // console.log(player)
     for (let i = 1; i < countryOfPlayers.length; i++) {
         let playerArr = countryOfPlayers[i].players
         for (let j = 0; j < playerArr.length; j++) {
@@ -38,7 +40,7 @@ function renderPlayerCard(player) {
     let country = findCountry(player.name.toLowerCase())
     let team = findCurrentTeamByPlayer(player.name)
 
-    $('#root').append(
+    $('#table').append(
         `<div id="${player.name}" class="box">
                 <div class="columns is-multiline justify-center">
                     <div class="column">
@@ -54,14 +56,32 @@ function renderPlayerCard(player) {
                 </div>
             </div>`)
 }
+function handleTeamsButtonClick() {
+    tmpGlobalincrement = 1;
+    $("#table").empty();
+    $("#table").append(`<h1 class="title">To Do</h2>`);
+    // for (let i = 0; i < favoritedTeams.length; i++) {
+    //     renderTeamCard(player);
+    // }
+}
 
+function handlePlayersButtonClick() {
+    tmpGlobalincrement = 1;
+    $("#table").empty();
+    for (let i = 0; i < favoritedPlayers.length; i++) {
+       renderPlayerCard(favoritedPlayers[i]);
+    }
+}
 function loadStuffIntoDom() {
+    $(document).on("click", "#lbteams", handleTeamsButtonClick)
+    $(document).on("click", "#lbplayers", handlePlayersButtonClick)
     $.ajax({
         url: '/secret',
         type: 'GET',
         dataType: 'json',
         success: function (response, textStatus, jqXHR) {
             console.log(jqXHR.responseJSON);
+            favoritedPlayers = jqXHR.responseJSON;
             for (let i = 0; i < jqXHR.responseJSON.length; i++) {
                 renderPlayerCard(jqXHR.responseJSON[i]);
             }
