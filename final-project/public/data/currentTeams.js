@@ -1069,31 +1069,31 @@ export default [{
     coach: "Wronskian",
     sub: "indigo"
 }
-// European Team Template
-// , {
-//     name: "",
-//     alias: [],
-//     img: "",
-//     region: "Europe",
-//     country: "",
-//     status: true,
-//     players: [],
-//     captain: "",
-//     coach: "",
-//     sub: ""
-// }
+    // European Team Template
+    // , {
+    //     name: "",
+    //     alias: [],
+    //     img: "",
+    //     region: "Europe",
+    //     country: "",
+    //     status: true,
+    //     players: [],
+    //     captain: "",
+    //     coach: "",
+    //     sub: ""
+    // }
 
-// North American Team Template
-// , {
-//     name: "",
-//     alias: [],
-//     img: "",
-//     region: "North America",
-//     country: "United States of America",
-//     status: true,
-//     players: [],
-//     captain: "",
-//     coach: "",
-//     sub: ""
-// }
+    // North American Team Template
+    // , {
+    //     name: "",
+    //     alias: [],
+    //     img: "",
+    //     region: "North America",
+    //     country: "United States of America",
+    //     status: true,
+    //     players: [],
+    //     captain: "",
+    //     coach: "",
+    //     sub: ""
+    // }
 ]

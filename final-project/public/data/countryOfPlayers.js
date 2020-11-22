@@ -1,4 +1,8 @@
 export default [{
+    name: "Not Found",
+    players: [],
+    img: ``
+}, {
     name: "Canada",
     players: ["Allushin", "AxB", "Comp", "Gib", "Harps", "Lubby", "Squishy", "Taroco", "Taroco.", "Freshness", "freshness", "jordan", "radoko", "radoko", "sosa"],
     img: `images/flag icons/canada.png`

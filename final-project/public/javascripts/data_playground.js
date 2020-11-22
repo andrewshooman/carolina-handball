@@ -172,20 +172,18 @@ function renderPlayerCard(player) {
 }
 
 function renderTeamCard(team) {
-    // <p> - ${(team.players[0] != undefined) ? team.players[0] : ""} <a id="${team.players[0]}Name" class="playerName">${team.players[0]}</a><span class="heart" id="${team.players[0]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[0]}" state="unliked"></a></i></span>
-    // <p> - ${(team.players[1] != undefined) ? team.players[1] : ""} <a id="${team.players[1]}Name" class="playerName">${team.players[1]}</a><span class="heart" id="${team.players[1]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[1]}" state="unliked"></a></i></span>
-    // <p> - ${(team.players[2] != undefined) ? team.players[2] : ""} <a id="${team.players[2]}Name" class="playerName">${team.players[2]}</a><span class="heart" id="${team.players[2]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[2]}" state="unliked"></a></i></span>
+    // `<p> - <a id="${team.players[i]+"Name"}" class="playerName">${team.players[i]}</a><span class="heart" id="${team.players[i]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[i]}" state="unliked"></i></a></span></p>`
+    let teamPlayers = ""
+    for (let i = 0; i < team.players.length; i++) {
+        teamPlayers += `<p> - <a id="${team.players[i] + "Name"}" class="playerName">${team.players[i]}</a><span class="heart" id="${team.players[i]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[i]}" state="unliked"></i></a></span></p>`
+    }
 
-    // <p> - <a id="${(team.players[0] != undefined) ? team.players[0] + "Name" : ""}" class="playerName">${(team.players[0] != undefined) ? team.players[0] : ""}</a><span class="heart" id="${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[0] != undefined) ? team.players[0] : ""}" state="unliked"></a></i></span></p>
-    // <p> - <a id="${(team.players[1] != undefined) ? team.players[1] + "Name" : ""}" class="playerName">${(team.players[1] != undefined) ? team.players[1] : ""}</a><span class="heart" id="${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[1] != undefined) ? team.players[1] : ""}" state="unliked"></a></i></span></p>
-    // <p> - <a id="${(team.players[2] != undefined) ? team.players[2] + "Name" : ""}" class="playerName">${(team.players[2] != undefined) ? team.players[2] : ""}</a><span class="heart" id="${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"><a><i class="far fa-heart" id="heart${(team.players[2] != undefined) ? team.players[2] : ""}" state="unliked"></a></i></span></p>
-    console.log(team)
     $('.modal').replaceWith(`
     <div id="${team.name}Card" class="modal is-active teamCard">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p id="${team.name}Name" class="modal-card-title">${teamCase(team.name)}</p>
+          <p id="${team.name}Name" class="modal-card-title"><img width="32px" height="32px" src="${(team.img != "") ? team.img : "images/icons/unknown.png"}"> ${teamCase(team.name)}</p>
           <button class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
@@ -193,9 +191,7 @@ function renderTeamCard(team) {
             <h2 id="${team.name}Status">Status: ${team.status ? "Active" : "Inactive"} <img width="18px" height="18px" src="${team.status ? "images/icons/Green Status.jpg" : "images/icons/Red Status.jpg"}"></h2>
             <h2 id="${team.name}Players">Current Players: </h2>
             <div>
-              <p> - <a id="${(team.players[0] != undefined) ? team.players[0] + "Name" : ""}" class="playerName">${(team.players[0] != undefined) ? team.players[0] : ""}</p>
-              <p> - <a id="${(team.players[1] != undefined) ? team.players[1] + "Name" : ""}" class="playerName">${(team.players[1] != undefined) ? team.players[1] : ""}</p>
-              <p> - <a id="${(team.players[2] != undefined) ? team.players[2] + "Name" : ""}" class="playerName">${(team.players[2] != undefined) ? team.players[2] : ""}</p>
+                ${teamPlayers}
             </div>
           </div>
         </section>
@@ -208,11 +204,10 @@ function renderTeamCard(team) {
 
 function teamCase(str) {
     let findTeam = findTeamByAlias(str)
-    console.log(findTeam)
     if (findTeam == currentTeams[0].name) {
         return titleCase(str)
     } else {
-        return findTeam
+        return findTeam.name
     }
     // else {
     //     switch (str) {
@@ -258,7 +253,7 @@ function titleCase(str) {
 function findCountry(player) {
     let country = ""
     console.log(player)
-    for (let i = 0; i < countryOfPlayers.length; i++) {
+    for (let i = 1; i < countryOfPlayers.length; i++) {
         let playerArr = countryOfPlayers[i].players
         for (let j = 0; j < playerArr.length; j++) {
             if (playerArr[j].toLowerCase() == player) {
@@ -267,6 +262,7 @@ function findCountry(player) {
             }
         }
     }
+    return countryOfPlayers[0]
 }
 
 function findCurrentTeamByPlayer(player) {
@@ -287,15 +283,15 @@ function findCurrentTeamByPlayer(player) {
 function findTeamByAlias(teamAlias) {
     for (let i = 1; i < currentTeams.length; i++) {
         if (currentTeams[i].name.toLowerCase() == teamAlias.toLowerCase()) {
-            return currentTeams[i].name
+            return currentTeams[i]
         } else {
             for (let j = 0; j < currentTeams[i].alias.length; j++) {
                 if (currentTeams[i].alias[j].toLowerCase() == teamAlias.toLowerCase())
-                    return currentTeams[i].name
+                    return currentTeams[i]
             }
         }
     }
-    return currentTeams[0].name
+    return currentTeams[0]
 }
 
 function renderLikedHeart(playerName) {
@@ -547,27 +543,7 @@ function handlePlayerNameClick(event) {
 
 function handleTeamNameClick(event) {
     let teamName = event.target.id.replace("Name", "")
-    teamName = teamName.toLowerCase()
-    console.log(teamName)
-    console.log(currentTeams.includes(teamName))
-    for (let i = 1; i < currentTeams.length; i++) {
-        if (currentTeams[i].name.toLowerCase() == teamName) {
-            renderTeamCard(currentTeams[i])
-            return
-        }
-    }
-
-    for (let i = 1; i < currentTeams.length; i++) {
-        if (currentTeams[i].alias.length > 0) {
-            for (let j = 0; j < currentTeams[i].alias.length; j++)
-                if (currentTeams[i].alias[j].toLowerCase() == teamName) {
-                    console.log(currentTeams[i])
-                    renderTeamCard(currentTeams[i])
-                    return
-                }
-        }
-    }
-    renderTeamCard(currentTeams[0])
+    renderTeamCard(findTeamByAlias(teamName))
 }
 
 function handleLikeButtonClick(event) {
