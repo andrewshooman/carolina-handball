@@ -20,6 +20,7 @@ import EUFALLR3S2 from "../data/arrayed_json/EUFALLR3S2.js";
 import EUFALLR3PO from "../data/arrayed_json/EUFALLR3PO.js";
 import EUFALLMASW from "../data/arrayed_json/EUFALLMASW.js";
 import EUFALLMAPO from "../data/arrayed_json/EUFALLMAPO.js";
+import countryOfPlayers from "../data/countryOfPlayers.js";
 
 let dataset = [];
 let foundNames = [];
@@ -126,7 +127,7 @@ function renderTeamTableEntry(team) {
 function renderPlayerTableEntry(player) {
     return `<tr>
     <th>${tmpGlobalincrement}</th>
-    <td><a>${player.name}</a><span class="heart" id="${player.name}" state="unliked"><a><i class="far fa-heart" id="heart${player.name}" state="unliked"></a></i></span></td>
+    <td><a id="${player.name}Name" class="name">${player.name}</a><span class="heart" id="${player.name}" state="unliked"><a><i class="far fa-heart" id="heart${player.name}" state="unliked"></a></i></span></td>
     <td>${player.team}</td>
     <td>${player.cumulative.games}</td>
     <td>${player.cumulative.win_percentage.toFixed(1)}</td>
@@ -139,6 +140,45 @@ function renderPlayerTableEntry(player) {
     <td>${player.game_average.core.shooting_percentage.toFixed(2)}</td>
     <td>${getGoalParticipation(player)}</td>
   </tr>`
+}
+
+function renderPlayerCard(player) {
+    let country = findCountry(player)
+    // let team = findTeam(player)
+
+    $('.modal').replaceWith(`
+        <div id="${player}Card" class="modal is-active playerCard">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <i class="far fa-user fa-2x">&nbsp</i>
+                    <p id="${player}Name" class="modal-card-title">&nbsp${player}</p>
+                    <button class="delete" aria-label="close"></button>
+                </header>
+                <section class="modal-card-body">
+                    <div>
+                        <h2 id="${player}Country" class="${country.country}">Country of Origin: ${country.country} <img width="18px" height="18px" src="${country.img}"></h2>
+                        <h2 id="${player}Status" class="true">Status: Active&nbsp<img width="18px" height="18px" src="images/icons/Green Status.png"></h2>
+                        <h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="images/icons/Green Status.png"> Renault Vitality</h2>
+                    </div>
+                </section>
+                <footer class="modal-card-foot" style="float: right">
+                    <p>Favorite Player?&nbsp</p><span class="heart" id="${player}" state="liked"><a><i class="fa fa-heart" id="heart${player}" state="liked" style="color: red"></a></i></span>
+                </footer>
+            </div>
+        </div>
+    `)
+}
+
+function findCountry(player) {
+    let country = ""
+    for (let i = 0; i < countryOfPlayers.length; i++) {
+        let playerArr = countryOfPlayers[i].players
+        if (playerArr.includes(player)) {
+            country = countryOfPlayers[i];
+            return country
+        }
+    }
 }
 
 function renderLikedHeart(playerName) {
@@ -374,11 +414,18 @@ function handleSelectedEvent(selectedEvent) {
     }
 }
 
+function handleNameClick(event) {
+    let playerName = event.target.id.replace("Name", "")
+    renderPlayerCard(playerName)
+}
+
 function handleLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
     let state = event.currentTarget.getAttribute('state');
     console.log("Clicked on " + player.name)
+    console.log('#' + CSS.escape(heartID))
+    console.log(player.name)
     if (state == "unliked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderLikedHeart(player.name))
@@ -397,6 +444,11 @@ function handleLikeButtonClick(event) {
             data: { "favorite": JSON.stringify(player) }
         });
     }
+}
+
+function handleCloseModal() {
+    $('.playerCard').replaceWith(`<div class="modal">`)
+    $('.teamCard').replaceWith(`<div class="modal">`)
 }
 
 // search stuff
@@ -1041,6 +1093,9 @@ function loadStuffIntoDOM() {
     $(document).on("click", "#logout", handleLogout)
     $(document).on("click", "#tNameAuto", handleSubmitTeamAuto)
     $(document).on("click", ".heart", handleLikeButtonClick)
+    $(document).on("click", ".name", handleNameClick)
+    $(document).on('click', '.delete', handleCloseModal)
+    $(document).on('click', '.modal-background', handleCloseModal)
     $(document).on("click", ".sort", handleSortPress)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
