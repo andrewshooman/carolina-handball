@@ -12,6 +12,17 @@ export default [{
     sub: ""
 }, {
     // European Teams
+    name: "2Baguettes and a half",
+    alias: ["2baguettes"],
+    img: "",
+    region: "Europe",
+    country: "",
+    status: false,
+    players: ["pryyme", "Iryzer", "Blurry"],
+    captain: "",
+    coach: "",
+    sub: ""
+}, {
     name: "Ascending Legends",
     alias: ["Asc. Legends"],
     img: "",
@@ -21,6 +32,17 @@ export default [{
     players: ["bramdesswaggerd", "PeaKy!", "Compact"],
     captain: "",
     coach: "Frutz",
+    sub: ""
+}, {
+    name: "Barrage Esports",
+    alias: [],
+    img: "",
+    region: "Europe",
+    country: "England",
+    status: false,
+    players: ["Cynical", "Oaly", "rise."],
+    captain: "",
+    coach: "43",
     sub: ""
 }, {
     name: "FC Barcelona",
@@ -78,6 +100,17 @@ export default [{
     coach: "Eclipse",
     sub: ""
 }, {
+    name: "Esport BERG",
+    alias: ["Esports BERG"],
+    img: "",
+    region: "Europe",
+    country: "Germany",
+    status: true,
+    players: ["LiFox", "MD", "Eckhard"],
+    captain: "",
+    coach: "",
+    sub: ""
+}, {
     name: "Fadeaway",
     alias: [],
     img: "",
@@ -88,6 +121,39 @@ export default [{
     captain: "",
     coach: "s1moN",
     sub: ""
+}, {
+    name: "Fierce Esports",
+    alias: [],
+    img: "",
+    region: "Europe",
+    country: "England",
+    status: false,
+    players: ["Chippy", "Gooch", "Womped"],
+    captain: "",
+    coach: "Face",
+    sub: ""
+}, {
+    name: "GameUp",
+    alias: [],
+    img: "",
+    region: "Europe",
+    country: "Germany",
+    status: true,
+    players: ["Zeddo", "Alex161", "Scream"],
+    captain: "",
+    coach: "",
+    sub: ""
+}, {
+    name: "Giants Gaming",
+    alias: ["Vodafone Giants", "VGIA"],
+    img: "",
+    region: "Europe",
+    country: "Spain",
+    status: true,
+    players: ["Stake", "Zamue", "itachi"],
+    captain: "",
+    coach: "Arleyobi",
+    sub: "Wolf."
 }, {
     name: "Glory4Builders",
     alias: [],
@@ -221,6 +287,17 @@ export default [{
     coach: "Mout",
     sub: ""
 }, {
+    name: "S2V Esports",
+    alias: [],
+    img: "",
+    region: "Europe",
+    country: "Spain",
+    status: true,
+    players: ["ASN_RuBiiX", "Boom", "KierMonsteR"],
+    captain: "",
+    coach: "MendoCoach",
+    sub: ""
+}, {
     name: "Servette Geneva Esports",
     alias: ["Servette Geneva"],
     img: "",
@@ -231,17 +308,6 @@ export default [{
     captain: "",
     coach: "Duggy",
     sub: "BatOu"
-}, {
-    name: "Team Singularity",
-    alias: ["Singularity"],
-    img: "",
-    region: "Europe",
-    country: "Denmark",
-    status: true,
-    players: ["Breezi", "hibbs", "Scrub Killa"],
-    captain: "",
-    coach: "Jake",
-    sub: "Godsmilla"
 }, {
     name: "Solary",
     alias: [],
@@ -298,6 +364,28 @@ export default [{
     coach: "",
     sub: ""
 }, {
+    name: "Team Orange Gaming",
+    alias: ["Team Orange"],
+    img: "",
+    region: "Europe",
+    country: "Germany",
+    status: true,
+    players: ["totothdt", "Inferno", "Skyy"],
+    captain: "",
+    coach: "Ryuu",
+    sub: "Meta"
+}, {
+    name: "Team Singularity",
+    alias: ["Singularity"],
+    img: "",
+    region: "Europe",
+    country: "Denmark",
+    status: true,
+    players: ["Breezi", "hibbs", "Scrub Killa"],
+    captain: "",
+    coach: "Jake",
+    sub: "Godsmilla"
+}, {
     name: "The Last Resort",
     alias: ["TLR Esports"],
     img: "",
@@ -318,6 +406,17 @@ export default [{
     players: ["FlamE", "Kassio", "archie"],
     captain: "FlamE",
     coach: "RamS",
+    sub: ""
+}, {
+    name: "TrainHard eSport",
+    alias: ["Catalysm & Kryptos & Ekon"],
+    img: "",
+    region: "Europe",
+    country: "France",
+    status: true,
+    players: ["Kryptos", "Catalysm", "Ekon"],
+    captain: "",
+    coach: "MaGiCzZz",
     sub: ""
 }, {
     name: "Triple Trouble",
@@ -352,17 +451,6 @@ export default [{
     captain: "",
     coach: "MaGiCzZz",
     sub: "TxMpeR"
-}, {
-    name: "Giants Gaming",
-    alias: ["Vodafone Giants"],
-    img: "",
-    region: "Europe",
-    country: "Spain",
-    status: true,
-    players: ["Stake", "Zamue", "itachi"],
-    captain: "",
-    coach: "Arleyobi",
-    sub: "Wolf."
 }, {
     // North American Teams
     name: "72PC",
@@ -739,7 +827,7 @@ export default [{
 //     region: "North America",
 //     country: "United States of America",
 //     status: true,
-//     players: [""],
+//     players: [],
 //     captain: "",
 //     coach: "",
 //     sub: ""
