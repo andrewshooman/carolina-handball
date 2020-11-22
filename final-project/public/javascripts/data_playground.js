@@ -88,18 +88,18 @@ function renderPlayerLeaderboard() {
     <thead>
       <tr>
         <th>Rank</th>
-        <th class="sort" id="plname">Name</th>
-        <th class="sort" id="plteam">Team</th>
-        <th class="sort" id="plgmp"><abbr title="Games Played">GMP</abbr></th>
-        <th class="sort" id="plwl"><abbr title="Win Percentage">WL%</abbr></th>
-        <th class="sort" id="plavgscore"><abbr title="Average Score">Score</abbr></th>
-        <th class="sort" id="pldemodiff"><abbr title="Demolition Differential">DMD</abbr></th>
-        <th class="sort" id="plgpg"><abbr title="Goals Per Game">GPG</abbr></th>
-        <th class="sort" id="plapg"><abbr title="Assists Per Game">APG</abbr></th>
-        <th class="sort" id="plsvpg"><abbr title="Saves Per Game">SVPG</abbr></th>
-        <th class="sort" id="plshpg"><abbr title="Shots Per Game">SHPG</abbr></th>
-        <th class="sort" id="plshpcg"><abbr title="Shooting Percentage">SH%</abbr></th>
-        <th class="sort" id="plgp"><abbr title="Goal Participation">GP%</abbr></th>
+        <th class="sort" id="plname">Name<i id="arrow"></i></th>
+        <th class="sort" id="plteam">Team<i id="arrow"></th>
+        <th class="sort" id="plgmp"><abbr title="Games Played">GMP<i id="arrow"></abbr></th>
+        <th class="sort" id="plwl"><abbr title="Win Percentage">WL%<i id="arrow"></abbr></th>
+        <th class="sort" id="plavgscore"><abbr title="Average Score">Score<i id="arrow"></abbr></th>
+        <th class="sort" id="pldemodiff"><abbr title="Demolition Differential">DMD<i id="arrow"></abbr></th>
+        <th class="sort" id="plgpg"><abbr title="Goals Per Game">GPG<i id="arrow"></abbr></th>
+        <th class="sort" id="plapg"><abbr title="Assists Per Game">APG<i id="arrow"></abbr></th>
+        <th class="sort" id="plsvpg"><abbr title="Saves Per Game">SVPG<i id="arrow"></abbr></th>
+        <th class="sort" id="plshpg"><abbr title="Shots Per Game">SHPG<i id="arrow"></abbr></th>
+        <th class="sort" id="plshpcg"><abbr title="Shooting Percentage">SH%<i id="arrow"></abbr></th>
+        <th class="sort" id="plgp"><abbr title="Goal Participation">GP%<i id="arrow"></abbr></th>
       </tr>
     </thead>
     <tbody id="tbody">
@@ -407,6 +407,20 @@ function handleTeamsButtonClick() {
             tmpGlobalincrement++;
         }
     }
+    $.ajax({
+        url: '/secretteam',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            console.log(jqXHR.responseJSON);
+            for (let i = 0; i < jqXHR.responseJSON.length; i++) {
+                favoritedTeams[i] = jqXHR.responseJSON[i];
+            }
+            for (let i = 0; i < favoritedTeams.length; i++) {
+                $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedTeams[i].name)))
+            }
+        }
+    })
 }
 
 function handlePlayersButtonClick() {
@@ -423,6 +437,20 @@ function handlePlayersButtonClick() {
     for (let i = 0; i < favoritedPlayers.length; i++) {
         $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
     }
+    $.ajax({
+        url: '/secret',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            console.log(jqXHR.responseJSON);
+            for (let i = 0; i < jqXHR.responseJSON.length; i++) {
+                favoritedPlayers[i] = jqXHR.responseJSON[i];
+            }
+            for (let i = 0; i < favoritedPlayers.length; i++) {
+                $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+            }
+        }
+    })
 }
 
 function getGoalParticipation(player) {
@@ -804,6 +832,7 @@ function handleSortPress(event) {
                 let comparison = 0;
                 if (x > y) {
                     if (sortConst == 0) { comparison = -1; } else { comparison = 1; }
+                    // handle
                 } else if (x < y) {
                     if (sortConst == 0) { comparison = 1; } else { comparison = -1; }
                 }
