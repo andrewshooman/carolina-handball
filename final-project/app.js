@@ -257,9 +257,8 @@ app.get('/getplayernames', async (req, res) => {
     var a = [];
     for (var i=0, l=result.length; i<l; i++){
         if (a.indexOf(result[i].name) === -1 && result[i].name !== ''){a.push(result[i].name);}
-          }
-  res.json(true)
-  return a;
+    }
+  res.json(a);
 })
 
 app.get('/getallplayers', async (req, res) => {
