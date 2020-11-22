@@ -164,6 +164,28 @@ app.get('/secret', (req, res) => {
   return;
 });
 
+app.get('/secretteam', (req, res) => {
+  if (req.session.user == undefined) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+  const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
+  client.connect(err => {
+      const collection = client.db("Secret").collection("secretteams");
+      collection.find({"owner":req.session.user}).toArray(function(err, result) {
+        let temp = [];
+        for (let i=0; i<result.length; i++){
+          temp.push(JSON.parse(result[i].favorite))
+          temp[i].id = result[i].id
+        }
+          res.json(temp) ;
+          client.close();
+      });
+    });
+
+  return;
+});
+
 app.post('/secret', (req, res)=> {
   if (req.session.user == undefined) {
       res.status(403).send("Unauthorized");
@@ -171,6 +193,21 @@ app.post('/secret', (req, res)=> {
   }
 
   let s = Secret.create(req.session.user, req.body.favorite);
+
+  if (s == null) {
+      res.status(400).send("Bad Request");
+      return;
+  }
+  return res.json(s);
+});
+
+app.post('/secretteam', (req, res)=> {
+  if (req.session.user == undefined) {
+      res.status(403).send("Unauthorized");
+      return;
+  }
+
+  let s = Secret.createteam(req.session.user, req.body.favorite);
 
   if (s == null) {
       res.status(400).send("Bad Request");

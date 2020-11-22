@@ -14,7 +14,6 @@ class Secret {
     
 
     constructor (id, owner, favorite) {
-        getSecretData();
         this.id = id;
         this.owner = owner;
         this.favorite = favorite;
@@ -39,6 +38,13 @@ Secret.findByID = (id) => {
 Secret.create = (owner, secret) => {
 
     addSecret(owner, secret);
+    let s = new Secret(nextID, owner, secret);
+    return s;
+}
+
+Secret.createteam = (owner, secret) => {
+
+    addSecretTeam(owner, secret);
     let s = new Secret(nextID, owner, secret);
     return s;
 }
@@ -68,6 +74,37 @@ async function addSecret(owner, favorite) {
     const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", {useNewUrlParser: true}, {useUnifiedTopology: true},{useCreateIndex: true});
     client.connect(err => {
         const collection = client.db("Secret").collection("secrets");
+
+        collection.find({"owner":owner, "favorite":favorite}).toArray(function(err, result) {
+            if (result.length != 0){ client.close(); return;}
+
+        });
+
+        collection.find().toArray(function(err, result) {
+            secret_data = result;
+            let temp = result.sort(function compare(a, b) {
+                const x = a.id;
+                const y = b.id;
+                let comparison = 0;
+                if (x > y) {
+                  comparison = -1;
+                } else if (x < y) {
+                    comparison = 1;
+                }
+                return comparison;
+              })
+
+            nextID = temp[0].id+1;
+            collection.insertOne(new Secret(nextID, owner, favorite));
+            client.close();
+        });
+      });
+}
+
+async function addSecretTeam(owner, favorite) {
+    const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", {useNewUrlParser: true}, {useUnifiedTopology: true},{useCreateIndex: true});
+    client.connect(err => {
+        const collection = client.db("Secret").collection("secretteams");
 
         collection.find({"owner":owner, "favorite":favorite}).toArray(function(err, result) {
             if (result.length != 0){ client.close(); return;}
