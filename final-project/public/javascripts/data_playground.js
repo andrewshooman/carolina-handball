@@ -185,7 +185,8 @@ function renderTeamCard(team) {
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p id="${team.name}Name" class="modal-card-title">${teamCase(team.name)}</p>
+        <i class="fas fa-users fa-2x"></i>
+          <p id="${team.name}Name" class="modal-card-title">&nbsp${teamCase(team.name)}</p>
           <button class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
