@@ -606,20 +606,20 @@ function handleTeamLikeButtonClick(event) {
     if (state == "unliked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamLikedHeart(team.name))
-        // $.ajax({
-        //     url: '/secret',
-        //     type: 'POST',
-        //     data: { "favorite": JSON.stringify(player) }
-        // });
+        $.ajax({
+            url: '/secretteam',
+            type: 'POST',
+            data: { "favorite": JSON.stringify(team) }
+        });
     }
     if (state == "liked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamUnLikedHeart(team.name))
-        // $.ajax({
-        //     url: '/secret',
-        //     type: 'DEL',
-        //     data: { "favorite": JSON.stringify(player) }
-        // });
+        $.ajax({
+            url: '/deletesecretteam',
+            type: 'POST',
+            data: { "id": JSON.stringify(team) }
+        });
     }
 }
 
@@ -1249,6 +1249,7 @@ function handleSortPress(event) {
 }
 
 let favoritedPlayers = []
+let favoritedTeams = []
 let playerNames = []
 let teamNames = []
 // leaderboard stuff
@@ -1301,6 +1302,20 @@ function loadStuffIntoDOM() {
                     }
                     for (let i = 0; i < favoritedPlayers.length; i++) {
                         $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+                    }
+                }
+            })
+            $.ajax({
+                url: '/secretteam',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response, textStatus, jqXHR) {
+                    console.log(jqXHR.responseJSON);
+                    for (let i = 0; i < jqXHR.responseJSON.length; i++) {
+                        favoritedTeams[i] = jqXHR.responseJSON[i];
+                    }
+                    for (let i = 0; i < favoritedTeams.length; i++) {
+                        $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedTeams[i].name)))
                     }
                 }
             })

@@ -105,10 +105,13 @@ async function addSecret(owner, favorite) {
 
 async function addSecretTeam(owner, favorite) {
     const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", {useNewUrlParser: true}, {useUnifiedTopology: true},{useCreateIndex: true});
+    let name = JSON.parse(favorite).name;
+
+
     client.connect(err => {
         const collection = client.db("Secret").collection("secretteams");
 
-        collection.find({"owner":owner, "favorite":favorite}).toArray(function(err, result) {
+        collection.find({"owner":owner, "name":name}).toArray(function(err, result) {
             if (result.length != 0){ client.close(); return;}
 
         });
@@ -128,7 +131,7 @@ async function addSecretTeam(owner, favorite) {
               })
 
             nextID = temp[0].id+1;
-            collection.insertOne(new Secret(nextID, owner, favorite));
+            collection.insertOne(new Secret(nextID, owner, favorite, name));
             client.close();
         });
       });
