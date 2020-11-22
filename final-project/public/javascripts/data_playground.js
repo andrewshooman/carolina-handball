@@ -160,7 +160,7 @@ function renderPlayerCard(player) {
                     <div>
                         <h2 id="${player}Country" class="${country.name}">Country of Origin: ${country.name} <img width="18px" height="18px" src="${country.img}"></h2>
                         <h2 id="${player}Status" class="true">Status: ${team.name != "Not Found" ? "Active" : "Free Agent"}&nbsp<img width="18px" height="18px" src="${team.name != "Not Found" ? "images/icons/Green Status.jpg" : "images/icons/Blue Status.jpg"}"></h2>
-                        <h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"> ${team.name}</h2>
+                        <h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></h2>
                     </div>
                 </section>
                 <footer class="modal-card-foot" style="float: right">
@@ -175,7 +175,17 @@ function renderTeamCard(team) {
     // `<p> - <a id="${team.players[i]+"Name"}" class="playerName">${team.players[i]}</a><span class="heart" id="${team.players[i]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[i]}" state="unliked"></i></a></span></p>`
     let teamPlayers = ""
     for (let i = 0; i < team.players.length; i++) {
-        teamPlayers += `<p> - <a id="${team.players[i] + "Name"}" class="playerName">${team.players[i]}</a><span class="heart" id="${team.players[i]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[i]}" state="unliked"></i></a></span></p>`
+        teamPlayers += `<li> - <a id="${team.players[i] + "Name"}" class="playerName">${team.players[i]}</a><span class="heart" id="${team.players[i]}" state="unliked"><a><i class="far fa-heart" id="heart${team.players[i]}" state="unliked"></i></a></span></li>`
+    }
+
+    let teamSub = ""
+    if (team.sub != "") {
+        teamSub = `<a id="${team.sub + "Name"}" class="playerName">${team.sub}</a><span class="heart" id="${team.sub}" state="unliked"><a><i class="far fa-heart" id="heart${team.sub}" state="unliked"></i></a></span>`
+    }
+
+    let teamCoach = ""
+    if (team.coach != "") {
+        teamCoach = `<a id="${team.coach + "Name"}" class="playerName">${team.coach}</a><span class="heart" id="${team.coach}" state="unliked"><a><i class="far fa-heart" id="heart${team.coach}" state="unliked"></i></a></span>`
     }
 
     let teamStatus = ""
@@ -206,9 +216,15 @@ function renderTeamCard(team) {
             <h2 id="${team.name}Status">Status: ${teamStatus} <img width="18px" height="18px" src="${teamStatusIMG}"></h2>
             <h2 id="${team.name}Players">${team.status ? "Current" : "Former"} Players: </h2>
             <div>
-                ${teamPlayers}
+                <ul>
+                    ${teamPlayers}
+                </ul>
             </div>
-          </div>
+            </div>
+            <div>
+                <h2>${team.coach != "" ? "Coach: " + teamCoach : ""}</h2>
+                <h2>${team.sub != "" ? "Substitute: " + teamSub : ""}</h2>
+            </div>
         </section>
         <footer class="modal-card-foot">
             <p>Favorite Team?&nbsp</p><span class="heart" id="${team.name}" state="liked"><a><i class="fa fa-heart" id="heart${team.name}" state="liked" style="color: red"></a></i></span>
@@ -256,6 +272,9 @@ function findCurrentTeamByPlayer(player) {
     // let lookie = dataset[0].players.find(p => p.name == player)
     for (let i = 0; i < currentTeams.length; i++) {
         if (currentTeams[i].status) {
+            if (currentTeams[i].sub.toLowerCase() == player.toLowerCase() || currentTeams[i].coach.toLowerCase() == player.toLowerCase() ) {
+                return currentTeams[i];
+            }
             let playerArr = currentTeams[i].players
             for (let j = 0; j < playerArr.length; j++) {
                 if (playerArr[j].toLowerCase() == player.toLowerCase()) {
