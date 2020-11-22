@@ -378,6 +378,7 @@ function handleLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
     let state = event.currentTarget.getAttribute('state');
+    console.log(player.id)
     console.log("Clicked on " + player.name)
     if (state == "unliked") {
         $('#' + CSS.escape(heartID)).empty()
@@ -394,7 +395,7 @@ function handleLikeButtonClick(event) {
         $.ajax({
             url: '/secret',
             type: 'DEL',
-            data: { "favorite": JSON.stringify(player) }
+            data: { "id": player.id }
         });
     }
 }
