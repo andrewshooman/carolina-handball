@@ -425,7 +425,7 @@ function handleTeamsButtonClick() {
                 favoritedTeams[i] = jqXHR.responseJSON[i];
             }
             for (let i = 0; i < favoritedTeams.length; i++) {
-                $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedTeams[i].name)))
+                $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderTeamLikedHeart(CSS.escape(favoritedTeams[i].name)))
             }
         }
     })
@@ -611,6 +611,7 @@ function handleTeamNameClick(event) {
 }
 
  function handleLikeButtonClick(event) {
+    console.log("tried to handle a player like/unlike")
     let heartID = event.currentTarget.getAttribute('id');
     console.log(heartID)
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
@@ -644,6 +645,7 @@ function handleCloseModal() {
 }
 
 function handleTeamLikeButtonClick(event) {
+    console.log("tried to handle a team like/unlike")
     let heartID = event.currentTarget.getAttribute('id');
     let state = event.currentTarget.getAttribute('state');
     let team = dataset[0].teams.find(t => t.name == heartID.split("heart").join(""));
@@ -1360,7 +1362,7 @@ function loadStuffIntoDOM() {
                         favoritedTeams[i] = jqXHR.responseJSON[i];
                     }
                     for (let i = 0; i < favoritedTeams.length; i++) {
-                        $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedTeams[i].name)))
+                        $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderTeamLikedHeart(CSS.escape(favoritedTeams[i].name)))
                     }
                 }
             })
