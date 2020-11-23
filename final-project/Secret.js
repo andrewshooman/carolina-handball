@@ -39,14 +39,20 @@ Secret.findByID = (id) => {
 Secret.create = (owner, secret) => {
 
     addSecret(owner, secret);
-    let s = new Secret(nextID, owner, secret);
+
+    let temp = JSON.parse(secret);
+
+    let s = new Secret(nextID, owner, secret, temp);
     return s;
 }
 
 Secret.createteam = (owner, secret) => {
 
     addSecretTeam(owner, secret);
-    let s = new Secret(nextID, owner, secret);
+
+    let temp = JSON.parse(secret);
+
+    let s = new Secret(nextID, owner, secret, temp);
     return s;
 }
 

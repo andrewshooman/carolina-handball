@@ -57,13 +57,20 @@ async function renderPlayerCard(player) {
     let country = findCountry(player.name.toLowerCase())
     let team = findCurrentTeamByPlayer(player.name)
     await getPlayer(player.name)
-    let goals=0, wins=0, games=0, shots = 0;
+    let goals=0, wins=0, games=0, shots = 0, assists=0, saves=0, mvps=0, score=0;
+    
     for (let i=0; i<tempPlayers.length; i++) {
         goals += tempPlayers[i].cumulative.core.goals;
         wins += tempPlayers[i].cumulative.wins;
         games += tempPlayers[i].cumulative.games;
         shots += tempPlayers[i].cumulative.core.shots;
+        assists += tempPlayers[i].cumulative.core.assists;
+        saves += tempPlayers[i].cumulative.core.saves;
+        mvps += tempPlayers[i].cumulative.core.mvp;
+        score += tempPlayers[i].cumulative.core.score;
     }
+
+
 
     $('#table').append(
         `<div id="${player.name}" class="box">
@@ -75,11 +82,19 @@ async function renderPlayerCard(player) {
                         <h2>Team: ${team.name}</h2>
                     </div>
                     <div class="column">
-                    <h2>Total Goals: ${goals}</h2>
-                    <h2>Total Wins: ${wins}</h2>
-                    <h2>Total Games: ${games}</h2>
-                    <h2>Total Shots: ${shots}</h2>
+                    <h2 class="subtitle"><b>Total RLCSX Goals:</b> ${goals}</h2>
+                    <h2 class="subtitle"><b>Total RLCSX Wins:</b> ${wins}</h2>
+                    <h2 class="subtitle"><b>Total RLCSX Games:</b> ${games}</h2>
+                    <h2 class="subtitle"><b>Total RLCSX Shots:</b> ${shots}</h2>
                     </div>
+
+                    <div class="column">
+                    <h2 class="subtitle"><b>Total RLCSX Saves:</b> ${saves}</h2>
+                    <h2 class="subtitle"><b>Total RLCSX Assists:</b> ${assists}</h2>
+                    <h2 class="subtitle"><b>Total RLCSX MVPS:</b> ${mvps}</h2>
+                    <h2 class="subtitle"><b>Total RLCSX Shots:</b> ${score}</h2>
+                    </div>
+                    
                 </div>
             </div>`)
 }
@@ -153,11 +168,11 @@ function handleTeamsButtonClick() {
     }
 }
 
-function handlePlayersButtonClick() {
+async function handlePlayersButtonClick() {
     tmpGlobalincrement = 1;
     $("#table").empty();
     for (let i = 0; i < favoritedPlayers.length; i++) {
-       renderPlayerCard(favoritedPlayers[i]);
+       await renderPlayerCard(favoritedPlayers[i]);
     }
 }
 
