@@ -29,6 +29,10 @@ let tmpGlobalincrement = 1;
 let region;
 let season;
 let sortConst = 0;
+let favoritedPlayers = []
+let favoritedTeams = []
+let playerNames = []
+let teamNames = []
 let secrets = [];
 
 function searchName(replay_group, searchTerm) {
@@ -160,6 +164,8 @@ function renderPlayerCard(player) {
             break;
         }
     }
+    console.log(favoritedPlayers)
+    console.log(isFavorited)
 
     $('.modal').replaceWith(`
         <div id="${player}Card" class="modal is-active playerCard">
@@ -339,7 +345,7 @@ function renderLikedHeart(playerName) {
 }
 
 function renderUnLikedHeart(playerName) {
-    console.log("TPLAYER LIKE")
+    console.log("PLAYER UNLIKE")
     return `<span class="heart" id="${playerName}" state="unliked"><a><i class="far fa-heart" id="heart${playerName}" state="unliked"></a></i></span>`
 }
 
@@ -1301,10 +1307,6 @@ function handleSortPress(event) {
     }
 }
 
-let favoritedPlayers = []
-let favoritedTeams = []
-let playerNames = []
-let teamNames = []
 // leaderboard stuff
 function loadStuffIntoDOM() {
     $("#root").append(renderSelectorBox());
