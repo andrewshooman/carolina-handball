@@ -299,6 +299,9 @@ function findCountry(player) {
 }
 
 function findCurrentTeamByPlayer(player) {
+    if (player == "Adverse") {
+        player = "AdverseMeteor"
+    }
     // let lookie = dataset[0].players.find(p => p.name == player)
     for (let i = 0; i < currentTeams.length; i++) {
         if (currentTeams[i].status) {

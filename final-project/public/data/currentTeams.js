@@ -960,7 +960,7 @@ export default [{
     sub: ""
 }, {
     name: "The First Graders",
-    alias: [],
+    alias: ["The 1st Graders"],
     img: "",
     region: "North America",
     country: "United States of America",
