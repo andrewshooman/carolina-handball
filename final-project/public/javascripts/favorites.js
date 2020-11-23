@@ -1,10 +1,11 @@
 import countryOfPlayers from "../data/countryOfPlayers.js";
 import currentTeams from "../data/currentTeams.js";
 
-
 let favoritedPlayers = []
 let favoritedTeams = []
 let tmpGlobalincrement = 1;
+let tempPlayers = [];
+
 function findCountry(player) {
     let country = ""
     // console.log(player)
@@ -52,9 +53,20 @@ function findCurrentTeamByPlayer(player) {
     }
     return (currentTeams[0])
 }
-function renderPlayerCard(player) {
+async function renderPlayerCard(player) {
     let country = findCountry(player.name.toLowerCase())
     let team = findCurrentTeamByPlayer(player.name)
+    await getPlayer(player.name)
+    let goals=0, wins=0, games=0, shots = 0;
+    for (let i=0; i<tempPlayers.length; i++) {
+        goals += tempPlayers[i].cumulative.core.goals;
+        wins += tempPlayers[i].cumulative.wins;
+        games += tempPlayers[i].cumulative.games;
+        shots += tempPlayers[i].cumulative.core.shots;
+    }
+
+    console.log(goals, wins, games, shots);
+
 
     $('#table').append(
         `<div id="${player.name}" class="box">
@@ -149,6 +161,20 @@ function handlePlayersButtonClick() {
        renderPlayerCard(favoritedPlayers[i]);
     }
 }
+
+async function getPlayer(name){
+    return await $.ajax({
+        url: '/getplayerbyname',
+        type: 'POST',
+        dataType: 'json',
+        data: {"name": name},
+        success: function (response, textStatus, jqXHR) {
+            tempPlayers = jqXHR.responseJSON;  
+        }
+    })
+
+}
+
 function loadStuffIntoDom() {
     $(document).on("click", "#lbteams", handleTeamsButtonClick)
     $(document).on("click", "#lbplayers", handlePlayersButtonClick)
@@ -157,7 +183,6 @@ function loadStuffIntoDom() {
         type: 'GET',
         dataType: 'json',
         success: function (response, textStatus, jqXHR) {
-            console.log(jqXHR.responseJSON);
             favoritedPlayers = jqXHR.responseJSON;
             // for (let i = 0; i < jqXHR.responseJSON.length; i++) {
             //     renderPlayerCard(jqXHR.responseJSON[i]);
@@ -169,7 +194,6 @@ function loadStuffIntoDom() {
         type: 'GET',
         dataType: 'json',
         success: function (response, textStatus, jqXHR) {
-            console.log(jqXHR.responseJSON);
             favoritedTeams = jqXHR.responseJSON;      
         }
     })
