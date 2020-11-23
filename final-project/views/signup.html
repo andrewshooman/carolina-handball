@@ -14,32 +14,31 @@
    <script src="/javascripts/signup.js" type="module"></script>
 </head>
 
-<body>
-   <center>
-      <h1 class="title"> Register an Account </h1>
-   </center>
-
+<body style="background-color: hsl(171, 100%, 41%)">
    <section class="section">
-      <div class="columns">
-         <div class="column is-4 is-offset-4">
-            <div class="field">
-               <label class="label">Username</label>
-               <div class="control">
-                  <input class="input" type="text" placeholder="Username" id="username">
+      <div class="box">
+         <h2 class="title">Register for an account</h2>
+         <div class="columns">
+            <div class="column is-4">
+               <div class="field">
+                  <label class="label">Username</label>
+                  <div class="control">
+                     <input class="input" type="text" placeholder="Username" id="username">
+                  </div>
                </div>
-            </div>
-            <div class="field">
-               <label class="label">Password</label>
-               <div class="control">
-                  <input class="input" type="password" placeholder="Password" id="password">
+               <div class="field">
+                  <label class="label">Password</label>
+                  <div class="control">
+                     <input class="input" type="password" placeholder="Password" id="password">
+                  </div>
                </div>
-            </div>
-            <div class="field is-grouped">
-               <div class="control">
-                  <button class="button is-link" id="register">Register</button>
-               </div>
-               <div class="control">
-                  <button class="button is-danger" id="cancelbtn">Cancel</button>
+               <div class="field is-grouped">
+                  <div class="control">
+                     <button class="button is-primary" id="register">Register</button>
+                  </div>
+                  <div class="control">
+                     <button class="button" id="cancelbtn">Cancel</button>
+                  </div>
                </div>
             </div>
          </div>
