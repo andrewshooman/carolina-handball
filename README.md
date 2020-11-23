@@ -9,7 +9,7 @@ In order to run project locally run the commands:
 
 - npm start
 
-### How to Use the App
+### How to Use the App:
 
 <p align="center">
   <img src="diagrams\Leaderboard Features.PNG" title="hover text">

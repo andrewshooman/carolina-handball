@@ -57,7 +57,7 @@ async function renderPlayerCard(player) {
     let country = findCountry(player.name.toLowerCase())
     let team = findCurrentTeamByPlayer(player.name)
     await getPlayer(player.name)
-    let goals=0, wins=0, games=0, shots = 0, assists=0, saves=0, mvps=0, score=0;
+    let goals=0, wins=0, games=0, shots = 0, assists=0, saves=0, boost=0, score=0;
     
     for (let i=0; i<tempPlayers.length; i++) {
         goals += tempPlayers[i].cumulative.core.goals;
@@ -66,7 +66,7 @@ async function renderPlayerCard(player) {
         shots += tempPlayers[i].cumulative.core.shots;
         assists += tempPlayers[i].cumulative.core.assists;
         saves += tempPlayers[i].cumulative.core.saves;
-        mvps += tempPlayers[i].cumulative.core.mvp;
+        boost += tempPlayers[i].cumulative.boost.amount_collected;
         score += tempPlayers[i].cumulative.core.score;
     }
 
@@ -96,7 +96,7 @@ async function renderPlayerCard(player) {
                     <div class="column">
                     <h2 class="subtitle"><b>Total RLCSX Saves:</b> ${saves}</h2>
                     <h2 class="subtitle"><b>Total RLCSX Assists:</b> ${assists}</h2>
-                    <h2 class="subtitle"><b>Total RLCSX MVPS:</b> ${mvps}</h2>
+                    <h2 class="subtitle"><b>Total RLCSX Boost:</b> ${boost}</h2>
                     <h2 class="subtitle"><b>Total RLCSX Score:</b> ${score}</h2>
                     </div>
                     
