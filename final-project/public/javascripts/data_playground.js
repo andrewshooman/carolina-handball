@@ -1458,7 +1458,7 @@ function loadStuffIntoDOM() {
             $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton">
                                         <div class="box"><p>You are now logged in as: ${name}</p>                      
                                             <a href="/favorites">
-                                            <button class="button"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button>
+                                            <button class="button"> View My Favorites&nbsp&nbsp<i class="fas fa-heart" style="color: hsl(171, 100%, 41%)"></i></button>
                                             </a>
                                             <button class="button" id="logout">Log Out</button>
                                         </div>
