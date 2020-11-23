@@ -282,7 +282,6 @@ function titleCase(str) {
 }
 
 function removeSpecialChar(str){
-    console.log(str)
     str = str.toLowerCase()
     if(str == null || str == ''){
     return '';

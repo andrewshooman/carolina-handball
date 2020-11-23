@@ -297,8 +297,13 @@ app.get('/getallteams', async (req, res) => {
   res.json(result)
 })
 
-app.get('/getallplayers', async (req, res) => {
-  let result = await getPlayerDB();
+app.post('/getplayerbyname', async (req, res) => {
+  let result = await getPlayerByName(req.body.name);
+  res.json(result)
+})
+
+app.post('/getoneplayer', async (req, res) => {
+  let result = await getOnePlayer(req.body.name);
   res.json(result)
 })
 
@@ -338,7 +343,7 @@ async function temporary () {
 
 }
 
-async function getPlayerDB () { 
+async function getPlayerByName (name) { 
   const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
         .catch(err => { console.log(err); }); 
         if (!client) {
@@ -347,9 +352,29 @@ async function getPlayerDB () {
       try {
         const collection = client.db("test").collection("players");
         let temp = []
-        let players = await collection.find().forEach( function(myDoc) { 
+        let players = await collection.find({"name": name}).forEach( function(myDoc) { 
           temp = temp.concat(myDoc)
         });
+        client.close();
+        return temp;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }  
+  client.close();
+}
+
+async function getOnePlayer (name) { 
+  const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+        .catch(err => { console.log(err); }); 
+        if (!client) {
+          return;
+      }      
+      try {
+        const collection = client.db("test").collection("players");
+      
+        let temp = await collection.findOne({"name": name});
         client.close();
         return temp;
     } catch (err) {
@@ -368,6 +393,28 @@ async function getTeamDB () {
       }      
       try {
         const collection = client.db("test").collection("team");
+        let temp = []
+        let players = await collection.find().forEach( function(myDoc) { 
+          temp = temp.concat(myDoc)
+        });
+        client.close();
+        return temp;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }  
+  client.close();
+}
+
+async function getPlayerDB () { 
+  const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+        .catch(err => { console.log(err); }); 
+        if (!client) {
+          return;
+      }      
+      try {
+        const collection = client.db("test").collection("players");
         let temp = []
         let players = await collection.find().forEach( function(myDoc) { 
           temp = temp.concat(myDoc)
