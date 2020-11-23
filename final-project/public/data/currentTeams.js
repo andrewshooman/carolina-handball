@@ -14,7 +14,7 @@ export default [{
     // European Teams
     name: "2Baguettes and a half",
     alias: ["2baguettes"],
-    img: "",
+    img: "images/team logos/2Baguettes_and_a_half.png",
     region: "Europe",
     country: "",
     status: false,
@@ -25,7 +25,7 @@ export default [{
 }, {
     name: "Ascending Legends",
     alias: ["Asc. Legends"],
-    img: "",
+    img: "images/team logos/Ascending_Legends.png",
     region: "Europe",
     country: "Belgium",
     status: false,
@@ -36,7 +36,7 @@ export default [{
 }, {
     name: "Barrage Esports",
     alias: ["Barrage"],
-    img: "",
+    img: "images/team logos/Barrage_eSports.png",
     region: "Europe",
     country: "England",
     status: false,
@@ -47,7 +47,7 @@ export default [{
 }, {
     name: "FC Barcelona",
     alias: ["Barca Esports"],
-    img: "",
+    img: "images/team logos/FC_Barcelona.png",
     region: "Europe",
     country: "Spain",
     status: true,
@@ -58,7 +58,7 @@ export default [{
 }, {
     name: "Chalked",
     alias: [],
-    img: "",
+    img: "images/team logos/Chalked.png",
     region: "Europe",
     country: "",
     status: false,
@@ -69,7 +69,7 @@ export default [{
 }, {
     name: "Dignitas",
     alias: [],
-    img: "",
+    img: "images/team logos/Dignitas.png",
     region: "Europe",
     country: "United States of America",
     status: true,
@@ -80,7 +80,7 @@ export default [{
 }, {
     name: "Drillers and Trappers",
     alias: ["Drillers"],
-    img: "",
+    img: "images/team logos/Drillers and Trappers.png",
     region: "Europe",
     country: "England",
     status: false,
@@ -91,7 +91,7 @@ export default [{
 }, {
     name: "Edelweiss Esports",
     alias: ["Edelweiss"],
-    img: "",
+    img: "images/team logos/Edelweiss_Esports.png",
     region: "Europe",
     country: "Switzerland",
     status: true,
@@ -113,7 +113,7 @@ export default [{
 }, {
     name: "Endpoint",
     alias: [],
-    img: "",
+    img: "images/team logos/Endpoint.png",
     region: "Europe",
     country: "England",
     status: true,
@@ -122,9 +122,9 @@ export default [{
     coach: "Eclipse",
     sub: ""
 }, {
-    name: "Esports BERG",
-    alias: ["Esport BERG"],
-    img: "",
+    name: "Esport BERG",
+    alias: ["Esports BERG"],
+    img: "images/team logos/Esport_BERG.png",
     region: "Europe",
     country: "Germany",
     status: true,
@@ -135,7 +135,7 @@ export default [{
 }, {
     name: "Fadeaway",
     alias: [],
-    img: "",
+    img: "images/team logos/Fadeaway.png",
     region: "Europe",
     country: "",
     status: true,
@@ -146,7 +146,7 @@ export default [{
 }, {
     name: "Fierce Esports",
     alias: ["Fierce"],
-    img: "",
+    img: "images/team logos/Fierce_Esports.png",
     region: "Europe",
     country: "England",
     status: false,
@@ -157,7 +157,7 @@ export default [{
 }, {
     name: "Game Fist",
     alias: [],
-    img: "",
+    img: "images/team logos/Game_Fist.png",
     region: "Europe",
     country: "Belgium",
     status: true,
@@ -168,7 +168,7 @@ export default [{
 }, {
     name: "GameUp",
     alias: [],
-    img: "",
+    img: "images/team logos/GameUp.png",
     region: "Europe",
     country: "Germany",
     status: true,
@@ -179,7 +179,7 @@ export default [{
 }, {
     name: "Giants Gaming",
     alias: ["Vodafone Giants", "VGIA", "GIA"],
-    img: "",
+    img: "images/team logos/Vodafone_Giants.png",
     region: "Europe",
     country: "Spain",
     status: true,
@@ -190,7 +190,7 @@ export default [{
 }, {
     name: "Glory4Builders",
     alias: [],
-    img: "",
+    img: "images/team logos/Glory4Builders.png",
     region: "Europe",
     country: "France",
     status: false,
@@ -201,7 +201,7 @@ export default [{
 }, {
     name: "Guild Esports",
     alias: ["Guild"],
-    img: "",
+    img: "images/team logos/Guild_Esports.png",
     region: "Europe",
     country: "England",
     status: true,
@@ -212,7 +212,7 @@ export default [{
 }, {
     name: "Holy Cow!",
     alias: [],
-    img: "",
+    img: "images/team logos/Holy_Cow!.png",
     region: "Europe",
     country: "",
     status: true,
@@ -245,7 +245,7 @@ export default [{
 }, {
     name: "Magnifico",
     alias: [],
-    img: "",
+    img: "images/team logos/Maginifico.png",
     region: "Europe",
     country: "",
     status: false,
@@ -256,7 +256,7 @@ export default [{
 }, {
     name: "MINKZ",
     alias: ["Minkz Gaming"],
-    img: "",
+    img: "images/team logos/MINKZ.png",
     region: "Europe",
     country: "Germany",
     status: true,
@@ -267,7 +267,7 @@ export default [{
 }, {
     name: "Monkeys",
     alias: [],
-    img: "",
+    img: "images/team logos/Monkeys.png",
     region: "Europe",
     country: "",
     status: false,
@@ -278,7 +278,7 @@ export default [{
 }, {
     name: "Nameseekers",
     alias: [],
-    img: "",
+    img: "images/team logos/Nameseekers.png",
     region: "Europe",
     country: "",
     status: false,
@@ -289,7 +289,7 @@ export default [{
 }, {
     name: "Nordavind DNB",
     alias: ["Nordavind"],
-    img: "",
+    img: "images/team logos/Nordavind.png",
     region: "Europe",
     country: "Norway",
     status: true,
@@ -333,7 +333,7 @@ export default [{
 }, {
     name: "Oxygen Esports",
     alias: [],
-    img: "",
+    img: "images/team logos/Oxygen_Esports.png",
     region: "Europe",
     country: "United States of America",
     status: true,
@@ -344,7 +344,7 @@ export default [{
 }, {
     name: "Renault Vitality",
     alias: ["Kaydop & Fairy Peak! & Alpha54"],
-    img: "",
+    img: "images/team logos/Renault_Vitality.png",
     region: "Europe",
     country: "France",
     status: true,
@@ -355,7 +355,7 @@ export default [{
 }, {
     name: "Rix.GG",
     alias: [],
-    img: "",
+    img: "images/team logos/Rixgg.png",
     region: "Europe",
     country: "United Kingdom",
     status: true,
@@ -366,7 +366,7 @@ export default [{
 }, {
     name: "S2V Esports",
     alias: [],
-    img: "",
+    img: "images/team logos/S2V_Esports.png",
     region: "Europe",
     country: "Spain",
     status: true,
@@ -377,7 +377,7 @@ export default [{
 }, {
     name: "Servette Geneva Esports",
     alias: ["Servette Geneva"],
-    img: "",
+    img: "images/team logos/Servette_Geneva_eSports.png",
     region: "Europe",
     country: "Switzerland",
     status: false,
@@ -388,7 +388,7 @@ export default [{
 }, {
     name: "Solary",
     alias: [],
-    img: "",
+    img: "images/team logos/Solary.png",
     region: "Europe",
     country: "France",
     status: true,
@@ -399,7 +399,7 @@ export default [{
 }, {
     name: "Stay Fresh",
     alias: [],
-    img: "",
+    img: "images/team logos/StayFresh.png",
     region: "Europe",
     country: "England",
     status: true,
@@ -410,7 +410,7 @@ export default [{
 }, {
     name: "Stormtroopers",
     alias: [],
-    img: "",
+    img: "images/team logos/Stromtroopers.png",
     region: "Europe",
     country: "",
     status: false,
@@ -420,8 +420,8 @@ export default [{
     sub: ""
 }, {
     name: "Team BDS",
-    alias: [],
-    img: "",
+    alias: ["BDS"],
+    img: "images/team logos/Team_BDS_Esport.png",
     region: "Europe",
     country: "Switzerland",
     status: true,
@@ -432,7 +432,7 @@ export default [{
 }, {
     name: "Team Liquid",
     alias: [],
-    img: "",
+    img: "images/team logos/Team_Liquid.png",
     region: "Europe",
     country: "Netherlands",
     status: true,
@@ -454,7 +454,7 @@ export default [{
 }, {
     name: "Team Oplon",
     alias: [],
-    img: "",
+    img: "images/team logos/Team_Oplon.png",
     region: "Europe",
     country: "France",
     status: true,
@@ -465,7 +465,7 @@ export default [{
 }, {
     name: "Team Orange Gaming",
     alias: ["Team Orange"],
-    img: "",
+    img: "images/team logos/Team_Orange_Gaming.png",
     region: "Europe",
     country: "Germany",
     status: true,
@@ -476,7 +476,7 @@ export default [{
 }, {
     name: "Team Singularity",
     alias: ["Singularity"],
-    img: "",
+    img: "images/team logos/Team_Singularity_esports.png",
     region: "Europe",
     country: "Denmark",
     status: true,
@@ -487,7 +487,7 @@ export default [{
 }, {
     name: "The Last Resort Esports",
     alias: ["TLR Esports", "TLR Esport"],
-    img: "",
+    img: "images/team logos/The_Last_Resort.png",
     region: "Europe",
     country: "England",
     status: true,
@@ -498,7 +498,7 @@ export default [{
 }, {
     name: "Top Blokes",
     alias: [],
-    img: "",
+    img: "images/team logos/Top_Blokes.png",
     region: "Europe",
     country: "",
     status: true,
@@ -507,9 +507,9 @@ export default [{
     coach: "RamS",
     sub: ""
 }, {
-    name: "TrainHard eSports",
-    alias: ["Catalysm & Kryptos & Ekon", "TrainHard eSport"],
-    img: "",
+    name: "TrainHard eSport",
+    alias: ["Catalysm & Kryptos & Ekon", "TrainHard eSports"],
+    img: "images/team logos/TrainHard_eSport.png",
     region: "Europe",
     country: "France",
     status: true,
@@ -520,7 +520,7 @@ export default [{
 }, {
     name: "Triple Trouble",
     alias: [],
-    img: "",
+    img: "images/team logos/Triple_Trouble.png",
     region: "Europe",
     country: "",
     status: true,
@@ -531,7 +531,7 @@ export default [{
 }, {
     name: "Unqiuestars",
     alias: [],
-    img: "",
+    img: "images/team logos/Uniquestars.png",
     region: "Europe",
     country: "",
     status: false,
@@ -542,7 +542,7 @@ export default [{
 }, {
     name: "VENC Gaming",
     alias: ["Team Aspire"],
-    img: "",
+    img: "images/team logos/VENC_Gaming.png",
     region: "Europe",
     country: "Germany",
     status: false,
@@ -554,7 +554,7 @@ export default [{
     // North American Teams
     name: "72PC",
     alias: ["72 Pin Connector"],
-    img: "",
+    img: "images/team logos/72PC.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -565,7 +565,7 @@ export default [{
 }, {
     name: "8-bit Esports",
     alias: [],
-    img: "",
+    img: "images/team logos/8-bit_Esports.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -576,7 +576,7 @@ export default [{
 }, {
     name: "Adept",
     alias: [],
-    img: "",
+    img: "images/team logos/Adept.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -585,20 +585,9 @@ export default [{
     coach: "",
     sub: ""
 }, {
-    name: "Alpine Esports",
-    alias: ["PINE"],
-    img: "",
-    region: "North America",
-    country: "United States of America",
-    status: true,
-    players: ["percy.", "miajicbear", "jordan"],
-    captain: "",
-    coach: "miztik",
-    sub: "creamz"
-}, {
     name: "Allmid",
     alias: [],
-    img: "",
+    img: "images/team logos/AllMid.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -606,6 +595,17 @@ export default [{
     captain: "",
     coach: "Zector",
     sub: "Bork"
+}, {
+    name: "Alpine Esports",
+    alias: ["PINE"],
+    img: "images/team logos/Alpine.png",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["percy.", "miajicbear", "jordan"],
+    captain: "",
+    coach: "miztik",
+    sub: "creamz"
 }, {
     name: "And There It Is",
     alias: [],
@@ -620,7 +620,7 @@ export default [{
 }, {
     name: "BoSF eSports",
     alias: ["BOSF", "Board of Shadowy Figures"],
-    img: "",
+    img: "images/team logos/BoSF.png",
     region: "North America",
     country: "Canada",
     status: true,
@@ -631,7 +631,7 @@ export default [{
 }, {
     name: "Charlotte Phoenix",
     alias: ["Charlotte", "CLT"],
-    img: "",
+    img: "images/team logos/Charlotte_Phoenix.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -642,7 +642,7 @@ export default [{
 }, {
     name: "Continuum",
     alias: [],
-    img: "",
+    img: "images/team logos/Continuum.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -653,7 +653,7 @@ export default [{
 }, {
     name: "Crimson Wings",
     alias: [],
-    img: "",
+    img: "images/team logos/Crimson_Wings.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -664,7 +664,7 @@ export default [{
 }, {
     name: "Down Two Earth",
     alias: [],
-    img: "",
+    img: "images/team logos/Down_Two_Earth.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -675,7 +675,7 @@ export default [{
 }, {
     name: "Drip",
     alias: [],
-    img: "",
+    img: "images/team logos/Drip.jpeg",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -697,7 +697,7 @@ export default [{
 }, {
     name: "eUnited",
     alias: [],
-    img: "",
+    img: "images/team logos/EUnited.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -708,7 +708,7 @@ export default [{
 }, {
     name: "Fishhr Friends, Not Food",
     alias: ["FFF"],
-    img: "",
+    img: "images/team logos/Fishhr_friends,_not_food.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -719,7 +719,7 @@ export default [{
 }, {
     name: "Flash Point",
     alias: [],
-    img: "",
+    img: "images/team logos/Flash_Point.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -730,7 +730,7 @@ export default [{
 }, {
     name: "G2 Esports",
     alias: [],
-    img: "",
+    img: "images/team logos/G2_Esports.png",
     region: "North America",
     country: "Germany",
     status: true,
@@ -741,7 +741,7 @@ export default [{
 }, {
     name: "Ghost Gaming",
     alias: ["GG"],
-    img: "",
+    img: "images/team logos/Ghost_Gaming.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -752,7 +752,7 @@ export default [{
 }, {
     name: "Hc eSports",
     alias: [],
-    img: "",
+    img: "images/team logos/Hc_eSports.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -763,7 +763,7 @@ export default [{
 }, {
     name: "Infinite Shots",
     alias: [],
-    img: "",
+    img: "images/team logos/Infinite_Shots.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -774,7 +774,7 @@ export default [{
 }, {
     name: "Jamal Jabary",
     alias: ["JJ"],
-    img: "",
+    img: "images/team logos/Jamal_Jabary.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -785,7 +785,7 @@ export default [{
 }, {
     name: "Kansas City Pioneers",
     alias: ["KC Pioneers"],
-    img: "",
+    img: "images/team logos/Kansas_City_Pioneers.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -805,20 +805,9 @@ export default [{
     coach: "",
     sub: ""
 }, {
-    name: "Pittsburgh Knights",
-    alias: ["Knights"],
-    img: "",
-    region: "North America",
-    country: "United States of America",
-    status: true,
-    players: ["radoko.", "ZPS.", "sosa"],
-    captain: "",
-    coach: "McLando",
-    sub: "Flitz"
-}, {
     name: "Mamba Mode Gaming",
     alias: ["Mamba Mode"],
-    img: "",
+    img: "images/team logos/Mamba_Mode_Gaming.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -829,7 +818,7 @@ export default [{
 }, {
     name: "Morning Light",
     alias: [],
-    img: "",
+    img: "images/team logos/Morning_Light.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -840,7 +829,7 @@ export default [{
 }, {
     name: "Nefarious",
     alias: [],
-    img: "",
+    img: "images/team logos/Nefarious.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -851,7 +840,7 @@ export default [{
 }, {
     name: "NRG",
     alias: ["NRG Esports"],
-    img: "",
+    img: "images/team logos/NRG.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -862,7 +851,7 @@ export default [{
 }, {
     name: "Omelette",
     alias: [],
-    img: "",
+    img: "images/team logos/Omelette.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -871,9 +860,20 @@ export default [{
     coach: "",
     sub: "Spoodah"
 }, {
+    name: "Pittsburgh Knights",
+    alias: ["Knights"],
+    img: "images/team logos/Pittsburgh_Knights.png",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["radoko.", "ZPS.", "sosa"],
+    captain: "",
+    coach: "McLando",
+    sub: "Flitz"
+}, {
     name: "Plot Twist",
     alias: [],
-    img: "",
+    img: "images/team logos/Plot_Twist.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -884,7 +884,7 @@ export default [{
 }, {
     name: "Rogue",
     alias: [],
-    img: "",
+    img: "images/team logos/Rogue.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -893,20 +893,9 @@ export default [{
     coach: "CorruptedG",
     sub: ""
 }, {
-    name: "Susquehanna Soniqs",
-    alias: ["Soniqs"],
-    img: "",
-    region: "North America",
-    country: "United States of America",
-    status: true,
-    players: ["Shock", "jruss", "tcorrell"],
-    captain: "",
-    coach: "Roll Dizz",
-    sub: ""
-}, {
     name: "Spacestation Gaming",
     alias: ["Spacestation", "SSG"],
-    img: "",
+    img: "images/team logos/Spacestation_Gaming.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -917,7 +906,7 @@ export default [{
 }, {
     name: "Stromboli",
     alias: [],
-    img: "",
+    img: "images/team logos/Stromboli.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -926,9 +915,20 @@ export default [{
     coach: "",
     sub: ""
 }, {
+    name: "Susquehanna Soniqs",
+    alias: ["Soniqs"],
+    img: "images/team logos/Susquehanna_Soniqs.png",
+    region: "North America",
+    country: "United States of America",
+    status: true,
+    players: ["Shock", "jruss", "tcorrell"],
+    captain: "",
+    coach: "Roll Dizz",
+    sub: ""
+}, {
     name: "Team Envy",
     alias: [],
-    img: "",
+    img: "images/team logos/Team_Envy.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -939,7 +939,7 @@ export default [{
 }, {
     name: "Team Frontline",
     alias: [],
-    img: "",
+    img: "images/team logos/Team_Frontline.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -950,7 +950,7 @@ export default [{
 }, {
     name: "Team Meteor",
     alias: [],
-    img: "",
+    img: "images/team logos/Team_Meteor.png",
     region: "North America",
     country: "United States of America",
     status: false,
@@ -961,7 +961,7 @@ export default [{
 }, {
     name: "The First Graders",
     alias: ["The 1st Graders"],
-    img: "",
+    img: "images/team logos/The_First_Graders.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -972,7 +972,7 @@ export default [{
 }, {
     name: "The Love Below",
     alias: [],
-    img: "",
+    img: "images/team logos/The_Love_Below.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -994,7 +994,7 @@ export default [{
 }, {
     name: "The Peeps",
     alias: ["PPs"],
-    img: "",
+    img: "images/team logos/The_Peeps.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -1005,7 +1005,7 @@ export default [{
 }, {
     name: "Valors",
     alias: ["ValorsGG"],
-    img: "",
+    img: "images/team logos/Valors.png",
     region: "North America",
     country: "Canada",
     status: false,
@@ -1016,7 +1016,7 @@ export default [{
 }, {
     name: "Version1",
     alias: [],
-    img: "",
+    img: "images/team logos/Version1.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -1027,7 +1027,7 @@ export default [{
 }, {
     name: "XSET",
     alias: [],
-    img: "",
+    img: "images/team logos/XSET.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -1038,7 +1038,7 @@ export default [{
 }, {
     name: "Zaboomafoo",
     alias: [],
-    img: "",
+    img: "images/team logos/Zaboomafoo.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -1049,7 +1049,7 @@ export default [{
 }, {
     name: "Zero Issue",
     alias: ["Forsythe Esports"],
-    img: "",
+    img: "images/team logos/Zero_Issue.png",
     region: "North America",
     country: "United States of America",
     status: true,
@@ -1060,7 +1060,7 @@ export default [{
 }, {
     name: "Zookeepers",
     alias: [],
-    img: "",
+    img: "images/team logos/Zookeepers.png",
     region: "North America",
     country: "United States of America",
     status: false,
