@@ -160,15 +160,19 @@ function renderTeamCard(queryTeam) {
             </div>`)
 }
 
-function handleTeamsButtonClick() {
+async function handleTeamsButtonClick() {
+    $("#lbteams").addClass("is-primary")
+    $("#lbplayers").removeClass("is-primary")
     tmpGlobalincrement = 1;
     $("#table").empty();
     for (let i = 0; i < favoritedTeams.length; i++) {
-        renderTeamCard(favoritedTeams[i]);
+       await renderTeamCard(favoritedTeams[i]);
     }
 }
 
 async function handlePlayersButtonClick() {
+    $("#lbplayers").addClass("is-primary")
+    $("#lbteams").removeClass("is-primary")
     tmpGlobalincrement = 1;
     $("#table").empty();
     for (let i = 0; i < favoritedPlayers.length; i++) {
