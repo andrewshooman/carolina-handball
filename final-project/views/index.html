@@ -12,7 +12,7 @@
   <!-- TODO (optional): Add link to bulma here -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
   <link rel="stylesheet" href='/stylesheets/style.css'>
-  
+
 </head>
 
 <body>
@@ -20,64 +20,55 @@
   <script src="https://cdn.jsdelivr.net/npm/jqueryrouter@2.2.11/dist/js/jquery.router.min.js"></script>
   <script src="/javascripts/data_playground.js" type="module"></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'></script>
-  <div id="root">
-    <section class="hero is-primary">
-      <div class="hero-body">
-        <div class="container">
-          <div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton">
-            
-            &nbsp&nbsp
-            <a href="/login">
-              <button class="button is-primary is-inverted">
-                Login&nbsp&nbsp
-                <i class="fas fa-sign-in-alt"></i>
-              </button>
-            </a>
-            &nbsp&nbsp
-            <a href="/signup">
-              <button class="button is-primary is-inverted">
-                Register&nbsp&nbsp
-                <i class="fas fa-user-plus"></i>
-              </button>
-            </a>
-          </div>
-          <h1 class="title">
-            RL Stats
-          </h1>
-          <h2 class="subtitle">
-            RLCSX Team and Player Stats
-          </h2>
-        </div>
-      </div>
-    </section>
-    <section class="section">
+  <section class="hero is-primary">
+    <div class="hero-body">
       <div class="container">
-        <!-- <div class="field">
-          <div class="control">
-            <div class="select is-primary">
-              <select id="regionSelector">
-                <option value="none">Select Region</option>
-                <option value="NA">North America (NA)</option>
-                <option value="EU">Europe (EU)</option>
-                <option value="OCE">Oceania (OCE)</option>
-                <option value="SAM">South America (SAM)</option>
-              </select>
-            </div>
-          </div>
-        </div> -->
-        <h4 class="subtitle is-4">Search Players or Teams</h2>
-        <input class="input is-primary" id="pNameInput" type="text" placeholder="Search by player name..." />
-        <div id="pNameAuto"></div>
-        <div id="pName-results"></div>
-        <br>
-        <input class="input is-primary" id="tNameInput" type="text" placeholder="Search by team name..." />
-        <div id="tNameAuto"></div>
-        <div id="tName-results"></div>
+        <div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton">
+          &nbsp&nbsp
+          <a href="/login">
+            <button class="button is-primary is-inverted">
+              Login&nbsp&nbsp
+              <i class="fas fa-sign-in-alt"></i>
+            </button>
+          </a>
+          &nbsp&nbsp
+          <a href="/signup">
+            <button class="button is-primary is-inverted">
+              Register&nbsp&nbsp
+              <i class="fas fa-user-plus"></i>
+            </button>
+          </a>
+        </div>
+        <h1 class="title">
+          RL Stats
+        </h1>
+        <h2 class="subtitle">
+          RLCSX Team and Player Stats
+        </h2>
       </div>
-      <div class="modal"></div>
-  </div>
+    </div>
   </section>
-
+  <section class="section">
+    <div class="container">
+      <div class="box">
+        <div class="control">
+          <h4 class="subtitle is-4"><strong>Search</strong></h4>
+          <div class="buttons has-addons">
+            <button class="button is-primary" id="tmsearch">Teams</button>
+            <button class="button" id="plsearch">Players</button>
+          </div>
+          <div id="searchappend">
+            <input class="input is-primary" id="tNameInput" type="text" placeholder="Search by team name..." />
+            <div id="tNameAuto"></div>
+            <div id="tName-results"></div>
+          </div>
+          <br>
+        </div>
+        <div class="modal"></div>
+      </div>
+    </div>
+  </section>
+  <div id="root"></div>
 </body>
 
 </html>

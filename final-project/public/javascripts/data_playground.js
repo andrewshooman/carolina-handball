@@ -177,6 +177,7 @@ function renderPlayerCard(player) {
                     <button class="delete" aria-label="close"></button>
                 </header>
                 <section class="modal-card-body">
+                <img class="logo" width="72px" height="72px" src="${(team.img != "") ? team.img : "images/icons/unknown.png"}">
                     <div>
                         <h2 id="${player}Country" class="${country.name}">Country of Origin: ${country.name} <img width="18px" height="18px" src="${country.img}"></h2>
                         <h2 id="${player}Status" class="true">Status: ${team.name != "Not Found" ? "Active" : "Free Agent"}&nbsp<img width="18px" height="18px" src="${team.name != "Not Found" ? "images/icons/Green Status.jpg" : "images/icons/Blue Status.jpg"}"></h2>
@@ -184,7 +185,8 @@ function renderPlayerCard(player) {
                     </div>
                 </section>
                 <footer class="modal-card-foot" style="float: right">
-                    <p>Favorite Player?&nbsp</p>${isFavorited ? `<span class="heart" id="${player}" state="liked"><a><i class="fa fa-heart" id="heart${player}" state="liked" style="color: red"></a></i></span>` : `<span class="heart" id="${player}" state="unliked"><a><i class="far fa-heart" id="heart${player}" state="unliked"></a></i></span>`}
+                <i class="fas fa-info-circle"></i>
+                <p>&nbsp Note: The stats shown here are based on the current status of the player.</p>        
                 </footer>
             </div>
         </div>
@@ -236,10 +238,12 @@ function renderTeamCard(team) {
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p id="${team.name}Name" class="modal-card-title"><img width="32px" height="32px" src="${(team.img != "") ? team.img : "images/icons/unknown.png"}"> ${teamCase(team.name)}</p>
+        <i class="fas fa-users fa-2x">&nbsp</i>
+          <p id="${team.name}Name" class="modal-card-title">&nbsp${teamCase(team.name)}</p>
           <button class="delete" aria-label="close"></button>
         </header>
         <section class="modal-card-body">
+        <img class="logo" width="152px" height="152px" src="${(team.img != "") ? team.img : "images/icons/unknown.png"}">
           <div>
             <h2 id="${team.name}Status">Status: ${teamStatus} <img width="18px" height="18px" src="${teamStatusIMG}"></h2>
             <h2 id="${team.name}Players">${team.status ? "Current" : "Former"} Players: </h2>
@@ -255,7 +259,8 @@ function renderTeamCard(team) {
             </div>
         </section>
         <footer class="modal-card-foot">
-            <p>Favorite Team?&nbsp</p>${isFavorited ? `<span class="tmheart" id="${team.name}" state="liked"><a><i class="fa fa-heart" id="tmheart${team.name}" state="liked" style="color: red"></a></i></span>` : `<span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="tmheart${team.name}" state="unliked"></a></i></span>`}
+        <i class="fas fa-info-circle"></i>
+                <p>&nbsp Note: The stats shown here are based on the current status of the team.</p>
         </footer>
       </div>
     </div>`)
@@ -413,6 +418,18 @@ function renderLeaderboardPlayerTeamSelector() {
         <button class="button" id="lbplayers">Players</button>
     </div>
 </div>`
+}
+
+function renderPlayerSearchBar() {
+    return `<input class="input is-primary" id="pNameInput" type="text" placeholder="Search by player name..." />
+    <div id="pNameAuto"></div>
+    <div id="pName-results"></div>`
+}
+
+function renderTeamSearchBar() {
+    return `<input class="input is-primary" id="tNameInput" type="text" placeholder="Search by team name..." />
+    <div id="tNameAuto"></div>
+    <div id="tName-results"></div>`
 }
 
 function handleTeamsButtonClick() {
@@ -869,7 +886,6 @@ function handleTeamAuto(event) {
 
 }
 
-document.getElementById('pNameInput').addEventListener('input', debounce(handleNameAuto, 400));
 document.getElementById('tNameInput').addEventListener('input', debounce(handleTeamAuto, 400));
 
 async function handleSubmitPlayerAuto(event) {
@@ -1413,6 +1429,22 @@ function handleSortPress(event) {
     }
 }
 
+function handlePlayerSearchClick() {
+    $("#searchappend").empty();
+    $("#searchappend").append(renderPlayerSearchBar());
+    $("#plsearch").addClass("is-primary")
+    $("#tmsearch").removeClass("is-primary")
+    document.getElementById('pNameInput').addEventListener('input', debounce(handleNameAuto, 400));
+}
+
+function handleTeamSearchClick() {
+    $("#searchappend").empty();
+    $("#searchappend").append(renderTeamSearchBar());
+    $("#tmsearch").addClass("is-primary")
+    $("#plsearch").removeClass("is-primary")
+    document.getElementById('tNameInput').addEventListener('input', debounce(handleTeamAuto, 400));
+}
+
 // leaderboard stuff
 function loadStuffIntoDOM() {
     $("#root").append(renderSelectorBox());
@@ -1437,6 +1469,8 @@ function loadStuffIntoDOM() {
     $(document).on('keyup', '#tNameInput', handleSearchTeam)
     $(document).on("click", "#pSearchResult", handleClickPlayerResult)
     $(document).on("click", "#tSearchResult", handleClickTeamResult)
+    $(document).on("click", "#plsearch", handlePlayerSearchClick)
+    $(document).on("click", "#tmsearch", handleTeamSearchClick)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
         if (selectedEvent == "Select Event") {
