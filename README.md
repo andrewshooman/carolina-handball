@@ -6,7 +6,8 @@
 In order to run project locally run the commands:
 
 npm install
-npm starting
+
+npm start
 
 ### Using App
 
