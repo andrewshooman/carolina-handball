@@ -625,7 +625,6 @@ function handleTeamNameClick(event) {
 
 function handleLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
-    console.log(heartID)
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
     let state = event.currentTarget.getAttribute('state');
     console.log("Clicked on " + player.name)
