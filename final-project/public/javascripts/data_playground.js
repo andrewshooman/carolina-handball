@@ -456,7 +456,7 @@ function handlePlayersButtonClick() {
         }
     }
     for (let i = 0; i < favoritedPlayers.length; i++) {
-        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(favoritedPlayers[i].name))
     }
     $.ajax({
         url: '/secret',
@@ -468,7 +468,7 @@ function handlePlayersButtonClick() {
                 favoritedPlayers[i] = jqXHR.responseJSON[i];
             }
             for (let i = 0; i < favoritedPlayers.length; i++) {
-                $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+                $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(favoritedPlayers[i].name))
             }
         }
     })
@@ -1355,7 +1355,7 @@ function loadStuffIntoDOM() {
                         favoritedPlayers[i] = jqXHR.responseJSON[i];
                     }
                     for (let i = 0; i < favoritedPlayers.length; i++) {
-                        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+                        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(favoritedPlayers[i].name))
                     }
                 }
             })
