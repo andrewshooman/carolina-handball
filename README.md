@@ -1,4 +1,4 @@
-# My RCLSX Stats
+# My RLCSX Stats
 
 
 ### Running locally
@@ -21,4 +21,4 @@ In order to run project locally run the commands:
 
 ### Using the Backend
 
-Our backend utilizes mongodb in order to both save user accounts and encrypted passwords as well as the user's favorite players in teams. There 
+Our backend utilizes mongodb in order to both save user accounts and encrypted passwords as well as the user's favorite players in teams. 
