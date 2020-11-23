@@ -14,7 +14,11 @@ npm start
 The app is designed to lookup stats for all professional Rocket League Players across RLCSX. Creating a profile allows players to save their favorite players and teams.
 
 <p align="center">
-  <img src="diagrams\Leaderboard Features.PNG" width="350" title="hover text">
+  <img src="diagrams\Leaderboard Features.PNG" title="hover text">
+</p>
+
+<p align="center">
+  <img src="diagrams\Search Features.PNG" title="hover text">
 </p>
 
 ### Using the Backend
