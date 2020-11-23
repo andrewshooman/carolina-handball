@@ -307,6 +307,11 @@ app.post('/getoneplayer', async (req, res) => {
   res.json(result)
 })
 
+app.post('/getoneteam', async (req, res) => {
+  let result = await getOneTeam(req.body.name);
+  res.json(result)
+})
+
 app.get('/doSomething', async (req, res) => {
   let result = await temporary();
   res.json(true)
@@ -373,6 +378,26 @@ async function getOnePlayer (name) {
       }      
       try {
         const collection = client.db("test").collection("players");
+      
+        let temp = await collection.findOne({"name": name});
+        client.close();
+        return temp;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        client.close();
+    }  
+  client.close();
+}
+
+async function getOneTeam (name) { 
+  const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+        .catch(err => { console.log(err); }); 
+        if (!client) {
+          return;
+      }      
+      try {
+        const collection = client.db("test").collection("teams");
       
         let temp = await collection.findOne({"name": name});
         client.close();

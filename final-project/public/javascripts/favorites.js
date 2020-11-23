@@ -65,9 +65,6 @@ async function renderPlayerCard(player) {
         shots += tempPlayers[i].cumulative.core.shots;
     }
 
-    console.log(goals, wins, games, shots);
-
-
     $('#table').append(
         `<div id="${player.name}" class="box">
                 <div class="columns is-multiline justify-center">
@@ -78,8 +75,10 @@ async function renderPlayerCard(player) {
                         <h2>Team: ${team.name}</h2>
                     </div>
                     <div class="column">
-                        <span class="is-italic has-text-weight-semibold"></span>
-                        <p></p>
+                    <h2>Total Goals: ${goals}</h2>
+                    <h2>Total Wins: ${wins}</h2>
+                    <h2>Total Games: ${games}</h2>
+                    <h2>Total Shots: ${shots}</h2>
                     </div>
                 </div>
             </div>`)
@@ -178,6 +177,7 @@ async function getPlayer(name){
 function loadStuffIntoDom() {
     $(document).on("click", "#lbteams", handleTeamsButtonClick)
     $(document).on("click", "#lbplayers", handlePlayersButtonClick)
+    
     $.ajax({
         url: '/secret',
         type: 'GET',
