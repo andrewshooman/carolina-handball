@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('html', require('ejs').renderFile);
@@ -247,7 +248,6 @@ app.post('/deletesecret', async (req, res) => {
     let temp = req.session.players.filter(function(player) {	
       return (player.name != name);	
     });	
-    console.log(temp)
     delete req.session.players;
     req.session.players = temp;
   }
@@ -295,23 +295,29 @@ app.post('/deletesecretteam', async (req, res) => {
 })
 
 app.get('/getplayernames', async (req, res) => {
-  let result = await getPlayerDB();
-  result = JSON.parse(JSON.stringify(result))
-    var a = [];
-    for (var i=0, l=result.length; i<l; i++){
-        if (a.indexOf(result[i].name) === -1 && result[i].name !== ''){a.push(result[i].name);}
-          }
-  res.json(a)
+  // let result = await getPlayerDB();
+  // result = JSON.parse(JSON.stringify(result))
+  //   var a = [];
+  //   for (var i=0, l=result.length; i<l; i++){
+  //       if (a.indexOf(result[i].name) === -1 && result[i].name !== ''){a.push(result[i].name);}
+  //         }
+  //  const client = await MongoClient.connect("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+   
+  //  const col = client.db("test").collection("playernames");
+  //  console.log(a)
+  //  col.insertMany(a)
+
+  res.json([    ".AtomiK",    "Alpha54",    "Archie",    "AztraL",    "Calix",    "Chausette45",    "Deevo",    "DmentZa",    "ExoTiiK",    "Extra",    "Fairy Peak!",    "Ferra",    "FlamE",    "FreaKii.",    "Joreuz",    "Kassio",    "Kaydop",    "Kerian",    "M0nkey M00n",    "MaRc_By_8.",    "Magu",    "Metsanauris",    "Mikeboy",    "Mittaen",    "Oscillon",    "RelatingWave",    "Rix_Ronday",    "Rizex45",    "Ronaky",    "SamCynical",    "Scrub Killa",    "Stake",    "Tadpole",    "ThO.",    "Tigreee",    "Tox",    "ViolentPanda",    "Yukeo",    "Yukiss",    "Zamue",    "arju",    "bluey.",    "eekso",    "gReazymeister",    "itachi",    "noly",    "rise.",    "virtuoso",    "Cynical",    "Oaly",    "Virtuoso",    "AtomiK",    "FairyPeak",    "Kassiooo",    "Mout",    "eekso_",    "Alex161",    "ApparentlyJack",    "Artyrus",    "BoyScHool Q",    "Bram.",    "Breezi",    "Catalysm",    "Cheerio",    "Chippy",    "ClayX",    "Compact.",    "Dead-Monster",    "Ekon",    "Enlid",    "Gnagflow06",    "Godsmilla",    "Hooups",    "Kryptos",    "LuiisP",    "Maadzz",    "Madssssss.",    "Mirror.",    "Mognus",    "Nachitow",    "PeaKy!",    "Polar",    "Revezy",    "SUP3RSoN1K",    "Scream",    "Seb/-\\da/\/\\",    "Speed",    "Tahz",    "Tjester",    "Trex",    "Tylacto",    "Unknow",    "Zaphare",    "Zeddo",    "al0t",    "dave",    "fruity",    "hibbs",    "kash.",    "kirn",    "kuxir97",    "matsgrey",    "rehzzy",    "remkoe",    "tehda",    "womped",    "ASN_RuBiiX",    "B00M",    "BRG rise.",    "Blurry",    "Eckhard",    "Envoy.",    "Gekk",    "Gooch",    "Halden",    "Inferno 0",    "Iryzer",    "LiFox",    "MD",    "Skyy",    "VKSailen",    "cal",    "kash",    "pryyme",    "totothdt",    "42Ferra",    "ASN_RuBiiX.",    "B00MRL",    "Kash_RL",    "Yukiss08",    "blurry",    "fruityl0l",    "Slush!",    "AYYJAYY",    "Allushin",    "Arsenal",    "Atomic",    "BeastMode",    "Chicago",    "Firstkiller",    "GarrettG",    "Gyro.",    "JKnaps",    "Kronovi",    "MaJicBear",    "Memory",    "Rizzo",    "Squishy",    "Sypical",    "Turbopolsa",    "Turinturo",    "jordan",    "jstn.",    "mist",    "percy.",    "rapid",    "retals",    "(: rehzzy",    ".kisai",    "Alex837",    "Bork",    "CalixRL",    "EkonRL",    "EleXiT.",    "Eversax",    "GoochRL",    "Justuszzz",    "Lenrid",    "Makuhebi",    "Radosin",    "Rexo",    "Sebadam",    "StakeMBP",    "Swift",    "TadpoleRL",    "Toxtraptonized",    "Wolf.",    "ZamuAA",    "big.",    "cloud",    "ejby",    "milo",    "nozai",    "AcroniK.",    "BJayB",    "Barist",    "Hyderr",    "Irelique",    "LTK AtomiK",    "Meloshisu",    "Rizual",    "Rob",    "bruh",    "joreuz",    "swoopin",    ".ZPS",    "Retals",    "Satthew",    "Shock",    "jruss",    "kinseh",    "majicbear",    "radoko.",    ".tristn",    "AlphaKep",    "Andy",    "Freshness",    "JPow",    "Kraziks",    "LionBlaze",    "Lj",    "Luke",    "Roll Dizz",    "Taroco.",    "Toastie",    "Turinturo,",    "WondaMike",    "ayjacks",    "beastaboniam",    "delta",    "mectos",    "sosacrdbl",    "tcorrell",    "tcorrell.",    "Aeon",    "Ahduhm",    "Astroh",    "Buddy",    "Comm\"!",    "JWismont",    "Noxes",    "Pirates",    "Spyder",    "r a p i d",    "sosa",    "justin.",    "AxB",    "Dappur",    "Jacob",    "Karma",    "Shadow",    "TURINTURO",    "Tynottyler",    "Wonder",    "gimmick",    "torment",    ".saucy",    "Admin-Fridgy",    "Adverse",    "Aris",    "Bacon",    "Bambii :)",    "Comp",    "Dark",    "Demo",    "FTMHere",    "Gib",    "Harps",    "Heps",    "JJ ^O^",    "Jbot",    "JosherSquasher",    "Kinseh",    "Lubby",    "Sheadrip",    "Skillz.",    "Skyzz ^_^",    "Tool",    "XI",    "alraz",    "ayLucky",    "fishhr",    "freshness",    "hockE",    "hockser",    "money",    "nessCoff.",    "oath",    "primethunder",    "pure",    "testgravity",    "xpurt",    ".rawG",    "Dec",    "Dino",    "Garenn",    "Hato",    "Hec",    "JJ .^O^.",    "Porklet",    "Savvy",    "Splashy",    "Stokelyy",    "Talliebird",    "Thundah",    "TopCheese",    "WarBean",    "caz.",    "dEmo",    "falss",    "kirii",    "night.",    "ostyn",    "sharp",    "tvaristo.",    "zol",    "Chronic",    "MALA",    "Brisky",    "Demon_NF",    "Desi",    "ElOmarMaton",    "Outcast",    "Turtle",    "crave.",    "ctrl.",    "gimmickk",    "indigo",    "j",    "jacob",    "junglies",    "plip",    "plipington"])
 })
 
 app.get('/getteamnames', async (req, res) => {
-  let result = await getPlayerDB();
-  result = JSON.parse(JSON.stringify(result))
-    var a = [];
-    for (var i=0, l=result.length; i<l; i++){
-        if (a.indexOf(result[i].team) === -1 && result[i].team !== ''){a.push(result[i].team);}
-          }
-  res.json(a)
+  // let result = await getPlayerDB();
+  // result = JSON.parse(JSON.stringify(result))
+  //   var a = [];
+  //   for (var i=0, l=result.length; i<l; i++){
+  //       if (a.indexOf(result[i].team) === -1 && result[i].team !== ''){a.push(result[i].team);}
+  //         }
+  res.json(["DIGNITAS",    "RENAULT VITALITY",    "OXYGEN ESPORTS",    "FADEAWAY",    "ENDPOINT",    "BARRAGE",    "GUILD",    "TRIPLE TROUBLE",    "BARCA ESPORTS",    "GALAXY RACER",    "SOLARY",    "MAGNIFICO",    "LIBERTAS",    "VODAFONE GIANTS",    "TOP BLOKES",    "TEAM BDS",    "TLR ESPORT",    "HOLY COW!",    "MINKZ GAMING",    "TEAM NAME",    "TEAM LIQUID",    "CHALKED",    "DRILLERS",    "SERVETTE GENEVA",    "SINGULARITY",    "VENC GAMING",    "MONKEYS",    "UNIQUESTARS",    "STORMTROOPERS",    "NORDAVIND DNB",    "NAMESEEKERS",    "ASC. LEGENDS",    "GLORY4BUILDERS",    "OPP BLOCK",    "TLR ESPORTS",    "FIERCE ESPORTS",    "TEAM SINGULARITY",    "GAMEUP",    "ESPORTS BERG",    "2BAGUETTES",    "VGIA",    "PION",    "TEAM ORANGE",    "S2V ESPORTS",    "Catalysm & Kryptos & Ekon",    "G2 ESPORTS",    "KC PIONEERS",    "ROGUE",    "THE PEEPS",    "NRG",    "ALPINE ESPORTS",    "TEAM ENVY",    "SSG",    "KEEP CALM",    "KCAI",    "STAY FRESH",    "Kaydop & Fairy Peak! & Alpha54",    "EDELWEISS",    "NUMB THUMB DUMB",    "TEAM OPLON",    "FIERCE",    "TRAINHARD ESPORT",    "RIXGG",    "ESPORT BERG",    "EKIP",    "GAME FIST",    "STEALTH7 ESPORTS",    "LIQUID",    "DENIED",    "YOU CHOOSE PESCE",    "SAUCE SQUAD",    "DRIFTERS",    "WOLVES ESPORTS",    "REDEMPTION",    "TEAM QUESO",    "SONIQS",    "KNIGHTS",    "SPACESTATION",    "PLOT TWIST",    "BOSF ESPORTS",    "TEAM FRONTLINE",    "GHOST GAMING",    "EUNITED",    "XSET",    "G2",    "JAMAL JABARY",    "CONTINUUM",    "ADEPT",    "NEFARIOUS",    "CHARLOTTE",    "72PC",    "VERSION1",    "JJ",    "PPS",    "DRIP",    "CLT",    "ZOOKEEPERS",    "1ST",    "VALORSGG",    "CRIMSON WINGS",    "MAMBA MODE",    "FFF",    "OMELETTE",    "INFINITE SHOTS",    "THE 1ST GRADERS",    "HC ESPORTS",    "TEAM METEOR",    "ALLMID",    "FLASH POINT",    "OSTYN",    "ZABOOMAFOO",    "8-BIT ESPORTS",    "AND THERE IT IS",    "MORNING LIGHT",    "STROMBOLI",    "ZERO ISSUE",    "THE MATONES",    "DOWN TWO EARTH",    "PINE",    "EMPTY SPACE",    "THE LOVE BELOW"])
 })
 
 app.get('/getallteams', async (req, res) => {
@@ -336,7 +342,7 @@ app.post('/getoneteam', async (req, res) => {
 
 app.get('/doSomething', async (req, res) => {
   let result = await temporary();
-  res.json(true)
+  res.json(result)
 })
 
 async function temporary () { 
@@ -346,17 +352,26 @@ async function temporary () {
           return;
       }      
       try {
-        const collection = client.db("test").collection("test");
+        const collection = client.db("test").collection("players");
+        // const col = client.db("test").collection("teamnames")
+
         let temp = []
         let players = await collection.find().forEach( function(myDoc) { 
-          temp = temp.concat(myDoc.players)
+          // col.insert(myDoc.name)
+          temp.push(myDoc.name)
         });
-        const col = client.db("test").collection("players")
-        // temp = Object.assign({}, temp);
-        
-        col.insertMany(temp)
 
-        return;
+        let unique = temp.filter(function onlyUnique(value, index, self) {
+          return self.indexOf(value) === index;
+        });
+        console.log(unique)
+        return unique;
+
+        const col = client.db("test").collection("teamnames")
+       let a = await col.insertMany(unique);
+        // temp = Object.assign({}, temp);
+        client.close();
+
 
     } catch (err) {
         console.log(err);
@@ -364,9 +379,7 @@ async function temporary () {
 
         client.close();
     }
-  const collection = client.db("test").collection("test");
   
-  client.close();
 
 }
 
