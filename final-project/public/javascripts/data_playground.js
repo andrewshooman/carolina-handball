@@ -282,7 +282,6 @@ function titleCase(str) {
 }
 
 function removeSpecialChar(str){
-    console.log(str)
     str = str.toLowerCase()
     if(str == null || str == ''){
     return '';
@@ -626,7 +625,6 @@ function handleTeamNameClick(event) {
 
  function handleLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
-    console.log(heartID)
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
     let state = event.currentTarget.getAttribute('state');
     console.log("Clicked on " + player.name)
