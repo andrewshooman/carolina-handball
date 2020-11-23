@@ -5,13 +5,11 @@
 
 In order to run project locally run the commands:
 
-npm install
+- npm install
 
-npm start
+- npm start
 
-### Using App
-
-The app is designed to lookup stats for all professional Rocket League Players across RLCSX. Creating a profile allows players to save their favorite players and teams.
+### How to Use the App
 
 <p align="center">
   <img src="diagrams\Leaderboard Features.PNG" title="hover text">
