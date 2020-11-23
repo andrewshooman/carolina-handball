@@ -834,6 +834,7 @@ function autoName(searchTerm) {
         return "";
     }
     // console.log(playerNames[1])
+    // console.log(searchTerm)
     let data = playerNames.find(value => value.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
     if (data !== undefined) {
         let name = data;
