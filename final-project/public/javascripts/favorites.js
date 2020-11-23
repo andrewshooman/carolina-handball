@@ -60,12 +60,47 @@ function renderPlayerCard(player) {
 function renderTeamCard(team) {
     // let country = findCountry(player.name.toLowerCase())
     // let team = findCurrentTeamByPlayer(player.name)
+    let teamPlayers = ""
+    for (let i = 0; i < team.players.length; i++) {
+        teamPlayers += `<li> - <a id="${team.players[i].name + "Name"}" class="playerName">${team.players[i].name}</a></li>`
+    }
+
+    let teamSub = ""
+    if (team.sub != "") {
+        teamSub = `<a id="${team.sub + "Name"}" class="playerName">${team.sub}</a>`
+    }
+
+    let teamCoach = ""
+    if (team.coach != "") {
+        teamCoach = `<a id="${team.coach + "Name"}" class="playerName">${team.coach}</a>`
+    }
+
+    let teamStatus = ""
+    let teamStatusIMG = ""
+    if (team.status) {
+        if (team.players.length < 3) {
+            teamStatus = "Incompete Roster"
+            teamStatusIMG = "../images/icons/Blue Status.jpg"
+        } else {
+            teamStatus = "Active"
+            teamStatusIMG = "../images/icons/Green Status.jpg"
+        }
+    } else {
+        teamStatus = "Inactive"
+        teamStatusIMG = "../images/icons/Red Status.jpg"
+    }
 
     $('#table').append(
         `<div id="${team.name}" class="box">
                 <div class="columns is-multiline justify-center">
                     <div class="column">
                         <h1 class="title" style="">${team.name}</h1>
+                    </div>
+                    <div class="column">
+                        <h2 class="subtitle">Members</h2>
+                        <ul>
+                            ${teamPlayers}
+                        </ul>
                     </div>
                     <div class="column">
                         <span class="is-italic has-text-weight-semibold"></span>
@@ -100,9 +135,9 @@ function loadStuffIntoDom() {
         success: function (response, textStatus, jqXHR) {
             console.log(jqXHR.responseJSON);
             favoritedPlayers = jqXHR.responseJSON;
-            for (let i = 0; i < jqXHR.responseJSON.length; i++) {
-                renderPlayerCard(jqXHR.responseJSON[i]);
-            }
+            // for (let i = 0; i < jqXHR.responseJSON.length; i++) {
+            //     renderPlayerCard(jqXHR.responseJSON[i]);
+            // }
         }
     })
     $.ajax({
