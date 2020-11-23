@@ -29,7 +29,7 @@ export default [{
     region: "Europe",
     country: "Belgium",
     status: false,
-    players: ["bramdesswaggerd", "PeaKy!", "Compact"],
+    players: ["bramdeswaggerd", "PeaKy!", "Compact"],
     captain: "",
     coach: "Frutz",
     sub: ""
@@ -855,7 +855,7 @@ export default [{
     region: "North America",
     country: "United States of America",
     status: true,
-    players: ["GarrettG", "jstn.", "SquishyMuffinz"],
+    players: ["GarrettG", "jstn.", "Squishy"],
     captain: "",
     coach: "Sizz",
     sub: ""

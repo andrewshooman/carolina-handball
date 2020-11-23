@@ -675,12 +675,9 @@ function handleCloseModal() {
 
 function handleTeamLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
-    console.log(heartID)
     let state = event.currentTarget.getAttribute('state');
-    let team = dataset[0].teams.find(t => t.name == heartID.split("tmheart").join(""));
+    let team = dataset[0].teams.find(t => removeSpecialChar(t.name).trim() == removeSpecialChar(heartID.split("tmheart").join("")).trim());
     if (state == "unliked") {
-        console.log(team)
-        console.log(team.name)
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamLikedHeart(team.name))
         $.ajax({
@@ -690,8 +687,8 @@ function handleTeamLikeButtonClick(event) {
         });
     }
     if (state == "liked") {
-        console.log(team)
-        console.log(team.name)
+        // console.log(team)
+        // console.log(team.name)
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamUnLikedHeart(team.name))
         $.ajax({
