@@ -705,7 +705,13 @@ function renderPlayerSearch(player) {
     return `<div class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
                     <span class="has-text-weight-bold">Result:</span>&nbsp;${player.name}</span>
+                    <button class="button" id="pSearchResult" data-id="${player.name}">Player Card</button>
                 </div>`
+}
+
+function handleClickPlayerResult(event) {
+    let player = event.currentTarget.dataset.id;
+    renderPlayerCard(player)
 }
 // document.getElementById('pNameInput').addEventListener('keyup', event => {
 //     const $searchresults = $('#pName-results');
@@ -743,25 +749,53 @@ async function handleSearchName(event) {
     }
 }
 let enteredTeam;
-function renderTeamSearch() {
-    console.log(searchName(dataset[0].teams, enteredTeam))
+function renderTeamSearch(team) {
     return `<div class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
-                    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].teams, enteredTeam)}</span>
-                    <strong>${foundNames}</strong>
+                    <span class="has-text-weight-bold">Result:</span>&nbsp;${team.name}</span>
+                    <button class="button" id="tSearchResult" data-id="${team.name}">Team Card</button>
                 </div>`
 }
-document.getElementById('tNameInput').addEventListener('keyup', event => {
+function handleClickTeamResult(event) {
+    let team = event.currentTarget.dataset.id;
+    renderTeamCard(findTeamByAlias(team))
+}
+// document.getElementById('tNameInput').addEventListener('keyup', event => {
+//     const $searchresults = $('#tName-results');
+//     $('#tName-results *').replaceWith();
+//     if (event.code === 'Enter') {
+//         if (event.currentTarget.value != '') {
+//             enteredTeam = event.currentTarget.value;
+//             $searchresults.append(renderTeamSearch);
+//         }
+//     }
+// })
+async function handleSearchTeam(event) {
     const $searchresults = $('#tName-results');
     $('#tName-results *').replaceWith();
     if (event.code === 'Enter') {
         if (event.currentTarget.value != '') {
             enteredTeam = event.currentTarget.value;
-            $searchresults.append(renderTeamSearch);
+            let result = await $.ajax({
+                url: '/getoneteam',
+                type: 'POST',
+                dataType: 'json',
+                data: { "name": enteredTeam },
+                success: function (response, textStatus, jqXHR) {
+                    let team = jqXHR.responseJSON
+                    console.log(team)
+                    $searchresults.append(renderTeamSearch(team));
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown)
+                }
+            });
+            // let name = await getPlayerByName(event.currentTarget.value);
+            // console.log(name)
+           
         }
     }
-})
-
+}
 function debounce(func, wait) {
     let timeout;
     return function (...args) {
@@ -858,11 +892,21 @@ async function handleSubmitPlayerAuto(event) {
     });
 }
 
-function handleSubmitTeamAuto(event) {
+async function handleSubmitTeamAuto(event) {
     let output = document.getElementById('tNameAuto');
     output.innerHTML = ``;
     const $searchresults = $('#tName-results');
-    $searchresults.append(renderTeamSearch);
+    let result = await $.ajax({
+        url: '/getoneteam',
+        type: 'POST',
+        dataType: 'json',
+        data: { "name": enteredTeam },
+        success: function (response, textStatus, jqXHR) {
+            let team = jqXHR.responseJSON
+            console.log(team)
+            $searchresults.append(renderTeamSearch(team));
+        }
+    });
 }
 
 function handleLogout(event) {
@@ -1392,6 +1436,9 @@ function loadStuffIntoDOM() {
     $(document).on("click", ".tmheart", handleTeamLikeButtonClick)
     $(document).on("click", ".sort", handleSortPress)
     $(document).on('keyup', '#pNameInput', handleSearchName)
+    $(document).on('keyup', '#tNameInput', handleSearchTeam)
+    $(document).on("click", "#pSearchResult", handleClickPlayerResult)
+    $(document).on("click", "#tSearchResult", handleClickTeamResult)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
         if (selectedEvent == "Select Event") {
@@ -1411,11 +1458,12 @@ function loadStuffIntoDOM() {
             let name = jqXHR.responseJSON;
             $("#loginButton").empty()
             $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton">
-                                        <div class="box"><p>You are now logged in as: ${name}</p>                        
+                                        <div class="box"><p>You are now logged in as: ${name}</p>
+                                        <br>                        
                                             <a href="/favorites">
-                                            <button class="button"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button>
+                                            <button class="button is-primary"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button>
                                             </a>
-                                            <button class="button" id="logout">Log Out</button>
+                                            <button class="button is-primary" id="logout">Log Out</button>
                                         </div>
                                     </div>`)
             $.ajax({
