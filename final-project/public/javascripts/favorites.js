@@ -92,7 +92,7 @@ async function renderPlayerCard(player) {
                     <h2 class="subtitle"><b>Total RLCSX Saves:</b> ${saves}</h2>
                     <h2 class="subtitle"><b>Total RLCSX Assists:</b> ${assists}</h2>
                     <h2 class="subtitle"><b>Total RLCSX MVPS:</b> ${mvps}</h2>
-                    <h2 class="subtitle"><b>Total RLCSX Shots:</b> ${score}</h2>
+                    <h2 class="subtitle"><b>Total RLCSX Score:</b> ${score}</h2>
                     </div>
                     
                 </div>

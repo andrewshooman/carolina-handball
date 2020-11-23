@@ -147,7 +147,6 @@ app.get('/secret', (req, res) => {
       res.status(403).send("Unauthorized");
       return;
   }
-if(req.session.favoriteplayers == undefined) {
   const client = new MongoClient("mongodb+srv://host:lBKPP2l2vREFQGLF@cluster0.gbvl6.mongodb.net/Secret?retryWrites=true&w=majority", { useNewUrlParser: true }, { useUnifiedTopology: true },{useCreateIndex: true});
   client.connect(err => {
       const collection = client.db("Secret").collection("secrets");
@@ -163,9 +162,6 @@ if(req.session.favoriteplayers == undefined) {
           client.close();
       });
     });
-  } else {
-    res.json(req.session.favoriteplayers)
-  }
 });
 
 app.get('/secretteam', (req, res) => {
@@ -184,7 +180,6 @@ app.get('/secretteam', (req, res) => {
           temp[i].owner = req.session.user
 
         }
-        req.session.favoriteteams = temp;
           res.json(temp) ;
           client.close();
       });
@@ -203,10 +198,6 @@ app.post('/secret', (req, res)=> {
 
  
   let s = Secret.create(req.session.user, req.body.favorite);
-
-  if (req.session.favoriteplayers != undefined) {
-    req.session.favoriteplayers.push(JSON.parse(req.body.favorite))
-  }
 
 
   if (s == null) {
@@ -242,15 +233,9 @@ app.post('/deletesecret', async (req, res) => {
 
   let owner = req.session.user;
   let id = req.body.id;
-  let name = JSON.parse(id).name;
 
-
-  if (req.session.favoriteplayers != undefined) {
-    req.session.favoriteplayers = req.session.favoriteplayers.filter(function(player) {
-      return (player.name != name);
-    });
-  }
   let outcome = await deleteSecret(id, owner);
+
   if (id == null) {
       res.status(404).send("Not found");
       return;
@@ -507,6 +492,7 @@ async function deleteSecretTeam (id, owner) {
       try {
         const collection = await client.db("Secret").collection("secretteams");
         let a =  await collection.deleteOne({"owner":owner, "name":name})
+        console.log(a.deletedCount)
         client.close();
         return true;
 
