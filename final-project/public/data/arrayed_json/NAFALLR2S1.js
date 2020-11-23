@@ -3091,7 +3091,7 @@ export default [{
         {
             "platform": "Steam",
             "id": "76561198349297431",
-            "name": "Comm\"!",
+            "name": "Comm!",
             "team": "ADEPT",
             "cumulative": {
                 "games": 21,
@@ -20528,7 +20528,7 @@ export default [{
                 {
                     "platform": "Steam",
                     "id": "76561198349297431",
-                    "name": "Comm\"!",
+                    "name": "Comm!",
                     "team": "ADEPT"
                 },
                 {
