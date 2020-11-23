@@ -150,7 +150,7 @@ function renderPlayerCard(player) {
     if (team.name == "Not Found") {
         teamStr = `<h2 id="${player}Team" class="${player}">Current Team: Not Found</h2>`
     } else {
-        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="heart${team.name}" state="unliked"></a></i></span></h2>`
+        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="tmheart${team.name}" state="unliked"></a></i></span></h2>`
     }
 
     let isFavorited = false
@@ -331,19 +331,23 @@ function findTeamByAlias(teamAlias) {
 }
 
 function renderLikedHeart(playerName) {
+    console.log("PLAYER LIKE")
     return `<span class="heart" id="${playerName}" state="liked"><a><i class="fa fa-heart" id="heart${playerName}" state="liked" style="color: red"></a></i></span>`
 }
 
 function renderUnLikedHeart(playerName) {
+    console.log("TPLAYER LIKE")
     return `<span class="heart" id="${playerName}" state="unliked"><a><i class="far fa-heart" id="heart${playerName}" state="unliked"></a></i></span>`
 }
 
 function renderTeamLikedHeart(teamName) {
-    return `<span class="tmheart" id="${teamName}" state="liked"><a><i class="fa fa-heart" id="heart${teamName}" state="liked" style="color: red"></a></i></span>`
+    console.log("TEAM LIKE")
+    return `<span class="tmheart" id="${teamName}" state="liked"><a><i class="fa fa-heart" id="tmheart${teamName}" state="liked" style="color: red"></a></i></span>`
 }
 
 function renderTeamUnLikedHeart(teamName) {
-    return `<span class="tmheart" id="${teamName}" state="unliked"><a><i class="far fa-heart" id="heart${teamName}" state="unliked"></a></i></span>`
+    console.log("TEAM UNLIKE")
+    return `<span class="tmheart" id="${teamName}" state="unliked"><a><i class="far fa-heart" id="tmheart${teamName}" state="unliked"></a></i></span>`
 }
 
 function renderSelectorBox() {
@@ -425,7 +429,7 @@ function handleTeamsButtonClick() {
                 favoritedTeams[i] = jqXHR.responseJSON[i];
             }
             for (let i = 0; i < favoritedTeams.length; i++) {
-                $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedTeams[i].name)))
+                $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderTeamLikedHeart(CSS.escape(favoritedTeams[i].name)))
             }
         }
     })
@@ -611,6 +615,7 @@ function handleTeamNameClick(event) {
 }
 
  function handleLikeButtonClick(event) {
+    console.log(event.target.id)
     let heartID = event.currentTarget.getAttribute('id');
     console.log(heartID)
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
@@ -644,9 +649,11 @@ function handleCloseModal() {
 }
 
 function handleTeamLikeButtonClick(event) {
+    console.log(event)
+    console.log(event.target)
     let heartID = event.currentTarget.getAttribute('id');
     let state = event.currentTarget.getAttribute('state');
-    let team = dataset[0].teams.find(t => t.name == heartID.split("heart").join(""));
+    let team = dataset[0].teams.find(t => t.name == heartID.split("tmheart").join(""));
     if (state == "unliked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamLikedHeart(team.name))
