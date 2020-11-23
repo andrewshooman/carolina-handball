@@ -18,20 +18,18 @@
 
 </head>
 
-<body style="background-color: hsl(171, 100%, 41%)">
+<body>
    <div id="root">
       <section class="hero is-primary">
          <div class="hero-body">
            <div class="container">
              <div class="buttons" style="display: flex;  justify-content: flex-end;" id="homeButton">
-               &nbsp&nbsp
                <a href="/">
                  <button class="button is-primary is-inverted">
                    Home&nbsp&nbsp
                    <i class="fas fa-home"></i>
                  </button>
                </a>
-               &nbsp&nbsp
              </div>
              <h1 class="title">
                My Favorites
@@ -39,12 +37,15 @@
            </div>
          </div>
        </section>
+       <br>
        <div id="tableButtons">
          <div class="buttons has-addons is-centered">
              <button class="button" id="lbteams">Teams</button>
              <button class="button" id="lbplayers">Players</button>
          </div>
+         <div class="container">
          <div id="table"></div>
+          </div>
       </div>
    </div>
 </body>
