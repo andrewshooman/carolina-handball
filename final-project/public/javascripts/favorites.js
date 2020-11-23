@@ -19,6 +19,22 @@ function findCountry(player) {
     }
     return countryOfPlayers[0]
 }
+
+function findTeamByAlias(teamAlias) {
+    for (let i = 1; i < currentTeams.length; i++) {
+        if (currentTeams[i].name.toLowerCase() == teamAlias.toLowerCase()) {
+            return currentTeams[i]
+        } else {
+            for (let j = 0; j < currentTeams[i].alias.length; j++) {
+                if (currentTeams[i].alias[j].toLowerCase() == teamAlias.toLowerCase())
+                    return currentTeams[i]
+            }
+        }
+    }
+    return currentTeams[0]
+}
+
+
 function findCurrentTeamByPlayer(player) {
     // let lookie = dataset[0].players.find(p => p.name == player)
     for (let i = 0; i < currentTeams.length; i++) {
@@ -57,12 +73,11 @@ function renderPlayerCard(player) {
             </div>`)
 }
 
-function renderTeamCard(team) {
-    // let country = findCountry(player.name.toLowerCase())
-    // let team = findCurrentTeamByPlayer(player.name)
+function renderTeamCard(queryTeam) {
+    let team = findTeamByAlias(queryTeam.name);
     let teamPlayers = ""
     for (let i = 0; i < team.players.length; i++) {
-        teamPlayers += `<li> - <a id="${team.players[i].name + "Name"}" class="playerName">${team.players[i].name}</a></li>`
+        teamPlayers += `<li> - <a id="${team.players[i] + "Name"}" class="playerName">${team.players[i]}</a></li>`
     }
 
     let teamSub = ""
@@ -97,10 +112,19 @@ function renderTeamCard(team) {
                         <h1 class="title" style="">${team.name}</h1>
                     </div>
                     <div class="column">
-                        <h2 class="subtitle">Members</h2>
+                    <div>
+                    <h2 id="${team.name}Status">Status: ${teamStatus} <img width="18px" height="18px" src="${teamStatusIMG}"></h2>
+                    <h2 id="${team.name}Players">${team.status ? "Current" : "Former"} Players: </h2>
+                    <div>
                         <ul>
                             ${teamPlayers}
                         </ul>
+                    </div>
+                    </div>
+                    <div>
+                        <h2>${team.coach != "" ? "Coach: " + teamCoach : ""}</h2>
+                        <h2>${team.sub != "" ? "Substitute: " + teamSub : ""}</h2>
+                    </div>
                     </div>
                     <div class="column">
                         <span class="is-italic has-text-weight-semibold"></span>
