@@ -723,25 +723,48 @@ async function handleSearchName(event) {
     }
 }
 let enteredTeam;
-function renderTeamSearch() {
-    console.log(searchName(dataset[0].teams, enteredTeam))
+function renderTeamSearch(team) {
     return `<div class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
-                    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].teams, enteredTeam)}</span>
-                    <strong>${foundNames}</strong>
+                    <span class="has-text-weight-bold">Result:</span>&nbsp;${team.name}</span>
                 </div>`
 }
-document.getElementById('tNameInput').addEventListener('keyup', event => {
+// document.getElementById('tNameInput').addEventListener('keyup', event => {
+//     const $searchresults = $('#tName-results');
+//     $('#tName-results *').replaceWith();
+//     if (event.code === 'Enter') {
+//         if (event.currentTarget.value != '') {
+//             enteredTeam = event.currentTarget.value;
+//             $searchresults.append(renderTeamSearch);
+//         }
+//     }
+// })
+async function handleSearchTeam(event) {
     const $searchresults = $('#tName-results');
     $('#tName-results *').replaceWith();
     if (event.code === 'Enter') {
         if (event.currentTarget.value != '') {
             enteredTeam = event.currentTarget.value;
-            $searchresults.append(renderTeamSearch);
+            let result = await $.ajax({
+                url: '/getoneteam',
+                type: 'POST',
+                dataType: 'json',
+                data: { "name": enteredTeam },
+                success: function (response, textStatus, jqXHR) {
+                    let team = jqXHR.responseJSON
+                    console.log(team)
+                    $searchresults.append(renderTeamSearch(team));
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown)
+                }
+            });
+            // let name = await getPlayerByName(event.currentTarget.value);
+            // console.log(name)
+           
         }
     }
-})
-
+}
 function debounce(func, wait) {
     let timeout;
     return function (...args) {
@@ -838,11 +861,21 @@ async function handleSubmitPlayerAuto(event) {
     });
 }
 
-function handleSubmitTeamAuto(event) {
+async function handleSubmitTeamAuto(event) {
     let output = document.getElementById('tNameAuto');
     output.innerHTML = ``;
     const $searchresults = $('#tName-results');
-    $searchresults.append(renderTeamSearch);
+    let result = await $.ajax({
+        url: '/getoneteam',
+        type: 'POST',
+        dataType: 'json',
+        data: { "name": enteredTeam },
+        success: function (response, textStatus, jqXHR) {
+            let team = jqXHR.responseJSON
+            console.log(team)
+            $searchresults.append(renderTeamSearch(team));
+        }
+    });
 }
 
 function handleLogout(event) {
@@ -1372,6 +1405,7 @@ function loadStuffIntoDOM() {
     $(document).on("click", ".tmheart", handleTeamLikeButtonClick)
     $(document).on("click", ".sort", handleSortPress)
     $(document).on('keyup', '#pNameInput', handleSearchName)
+    $(document).on('keyup', '#tNameInput', handleSearchTeam)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
         if (selectedEvent == "Select Event") {
