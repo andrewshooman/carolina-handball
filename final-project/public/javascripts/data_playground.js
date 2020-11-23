@@ -705,9 +705,10 @@ function handleTeamLikeButtonClick(event) {
 // search stuff
 let enteredData;
 function renderPlayerSearch(player) {
-    return `<div id="pSearchResult" data-id="${player.name}"class="box" style="display: flex">
+    return `<div class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
                     <span class="has-text-weight-bold">Result:</span>&nbsp;${player.name}</span>
+                    <button class="button" id="pSearchResult" data-id="${player.name}">Player Card</button>
                 </div>`
 }
 
@@ -752,9 +753,10 @@ async function handleSearchName(event) {
 }
 let enteredTeam;
 function renderTeamSearch(team) {
-    return `<div id="tSearchResult" data-id="${team.name}"class="box" style="display: flex">
+    return `<div class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
                     <span class="has-text-weight-bold">Result:</span>&nbsp;${team.name}</span>
+                    <button class="button" id="tSearchResult" data-id="${team.name}">Team Card</button>
                 </div>`
 }
 function handleClickTeamResult(event) {
