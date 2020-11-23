@@ -1459,12 +1459,11 @@ function loadStuffIntoDOM() {
             let name = jqXHR.responseJSON;
             $("#loginButton").empty()
             $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton">
-                                        <div class="box"><p>You are now logged in as: ${name}</p>
-                                        <br>                        
+                                        <div class="box"><p>You are now logged in as: ${name}</p>                      
                                             <a href="/favorites">
-                                            <button class="button is-primary"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button>
+                                            <button class="button"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button>
                                             </a>
-                                            <button class="button is-primary" id="logout">Log Out</button>
+                                            <button class="button" id="logout">Log Out</button>
                                         </div>
                                     </div>`)
             $.ajax({
