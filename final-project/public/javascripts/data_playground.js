@@ -302,12 +302,12 @@ function findCurrentTeamByPlayer(player) {
     // let lookie = dataset[0].players.find(p => p.name == player)
     for (let i = 0; i < currentTeams.length; i++) {
         if (currentTeams[i].status) {
-            if (currentTeams[i].sub.toLowerCase() == player.toLowerCase() || currentTeams[i].coach.toLowerCase() == player.toLowerCase() ) {
+            if (removeSpecialChar(currentTeams[i].sub).trim() == removeSpecialChar(player).trim() || removeSpecialChar(currentTeams[i].coach).trim() == removeSpecialChar(player).trim()) {
                 return currentTeams[i];
             }
             let playerArr = currentTeams[i].players
             for (let j = 0; j < playerArr.length; j++) {
-                if (playerArr[j].toLowerCase() == player.toLowerCase()) {
+                if (removeSpecialChar(playerArr[j]).trim() == removeSpecialChar(player).trim()) {
                     return currentTeams[i];
                 }
             }
@@ -318,11 +318,11 @@ function findCurrentTeamByPlayer(player) {
 
 function findTeamByAlias(teamAlias) {
     for (let i = 1; i < currentTeams.length; i++) {
-        if (currentTeams[i].name.toLowerCase() == teamAlias.toLowerCase()) {
+        if (removeSpecialChar(currentTeams[i].name).trim() == removeSpecialChar(teamAlias).trim()) {
             return currentTeams[i]
         } else {
             for (let j = 0; j < currentTeams[i].alias.length; j++) {
-                if (currentTeams[i].alias[j].toLowerCase() == teamAlias.toLowerCase())
+                if (removeSpecialChar(currentTeams[i].alias[j]).trim() == removeSpecialChar(teamAlias).trim())
                     return currentTeams[i]
             }
         }
@@ -342,6 +342,7 @@ function renderUnLikedHeart(playerName) {
 
 function renderTeamLikedHeart(teamName) {
     console.log("TEAM LIKE")
+    console.log(teamName)
     return `<span class="tmheart" id="${teamName}" state="liked"><a><i class="fa fa-heart" id="tmheart${teamName}" state="liked" style="color: red"></a></i></span>`
 }
 
