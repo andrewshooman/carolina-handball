@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 const expressSession = require('express-session');
 
 app.use(expressSession({
-  name: "kmpSessionCookie",
+  name: "currSessionCookie",
   secret: "express session secret",
   resave: false,
   saveUninitialized: false
