@@ -15,7 +15,7 @@ export default [{
     players: ["Noxes"],
     img: `images/flag icons/puerto-rico.png`
 }, {
-    name: "United States of America",
+    name: "United States",
     players: ["ZPS", "AYYJAYY", "Adverse", "AdverseMeteor", "Aeon", "Ahduhm", "AlphaKep", "Andy", "Aris", "Arsenal", "Astroh", "Atomic", "Bacon", "Bambii :)", "Bambii", "BeastMode", "Buddy", "Chicago", "Comm", "Dappur", "Dark", "Demo", "FTMHere", "GarrettG", "Gyro.", "Gyro", "Heps", "HepsKid", "JPow", "JWismont", "Jacob", "JBot", "JosherSquasher", "Karma", "Kinseh", "kinseh", "Kronovi", "LionBlaze", "Lj", "Lj.", "Luke", "Memory", "Pirates", "Retals", "retals", "Rizzo", "Satthew", "Shadow", "Shea", "Sheadrip", "Shock", "Skillz", "Skillz.", "Skyzz", "Skyzz ^_^", "Spyder", "Sypical", "Turinturo", "Toastie", "Tool", "Ty", "Tynottyler", "WondaMike", "Wonder", "XI", "Alraz", "alraz", "ayjacks", "Beastaboniam", "beastaboniam", "Delta", "delta", "FishhR", "fishhr", "firstkiller", "gimmick", "hockE", "hockser", "jruss", "jstn", "jstn.", "majicbear", "mectos", "mist", "money", "Oath", "oath", "percy", "percy.", "primethunder", "Pure", "pure", "rapid", "TestGravity", "testgravity", "Torment", "torment", "Xpurt", "xpurt"],
     img: `images/flag icons/united-states-of-america.png`
 }, {
