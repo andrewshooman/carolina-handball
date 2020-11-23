@@ -704,23 +704,47 @@ function handleTeamLikeButtonClick(event) {
 
 // search stuff
 let enteredData;
-function renderPlayerSearch() {
+function renderPlayerSearch(player) {
     return `<div class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
-                    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].players, enteredData)}</span>
-                    <strong>${foundNames}</strong>
+                    <span class="has-text-weight-bold">Result:</span>&nbsp;${player.name}</span>
                 </div>`
 }
-document.getElementById('pNameInput').addEventListener('keyup', event => {
+// document.getElementById('pNameInput').addEventListener('keyup', event => {
+//     const $searchresults = $('#pName-results');
+//     $('#pName-results *').replaceWith();
+//     if (event.code === 'Enter') {
+//         if (event.currentTarget.value != '') {
+//             enteredData = event.currentTarget.value;
+//             let name = getPlayerByName(enteredData);
+//             $searchresults.append(renderPlayerSearch(name));
+//         }
+//     }
+// })
+
+async function handleSearchName(event) {
     const $searchresults = $('#pName-results');
     $('#pName-results *').replaceWith();
     if (event.code === 'Enter') {
         if (event.currentTarget.value != '') {
             enteredData = event.currentTarget.value;
-            $searchresults.append(renderPlayerSearch);
+            let result = await $.ajax({
+                url: '/getoneplayer',
+                type: 'POST',
+                dataType: 'json',
+                data: { "name": enteredData },
+                success: function (response, textStatus, jqXHR) {
+                    let player = jqXHR.responseJSON
+                    console.log(player)
+                    $searchresults.append(renderPlayerSearch(player));
+                }
+            });
+            // let name = await getPlayerByName(event.currentTarget.value);
+            // console.log(name)
+           
         }
     }
-})
+}
 let enteredTeam;
 function renderTeamSearch() {
     console.log(searchName(dataset[0].teams, enteredTeam))
@@ -819,12 +843,22 @@ function handleTeamAuto(event) {
 document.getElementById('pNameInput').addEventListener('input', debounce(handleNameAuto, 400));
 document.getElementById('tNameInput').addEventListener('input', debounce(handleTeamAuto, 400));
 
-function handleSubmitPlayerAuto(event) {
+async function handleSubmitPlayerAuto(event) {
     let output = document.getElementById('pNameAuto');
     output.innerHTML = ``;
     // $('#pNameInput').replaceWith(`<input class="input is-primary" id="pNameInput" type="text" placeholder="${enteredData}"/>`);
     const $searchresults = $('#pName-results');
-    $searchresults.append(renderPlayerSearch);
+    let result = await $.ajax({
+        url: '/getoneplayer',
+        type: 'POST',
+        dataType: 'json',
+        data: { "name": enteredData },
+        success: function (response, textStatus, jqXHR) {
+            let player = jqXHR.responseJSON
+            console.log(player)
+            $searchresults.append(renderPlayerSearch(player));
+        }
+    });
 }
 
 function handleSubmitTeamAuto(event) {
@@ -860,6 +894,18 @@ async function getDataBase(id) {
     result = JSON.parse(JSON.stringify(result));
     console.log(result.responseJSON)
     dataset = result.responseJSON;
+}
+
+async function getPlayerByName(name) {
+    let result = await $.ajax({
+        url: '/getplayerbyname',
+        type: 'POST',
+        dataType: 'json',
+        data: { "name": name }
+    });
+    result = JSON.parse(JSON.stringify(result));
+    console.log(result.responseJSON)
+    return result.responseJSON;
 }
 
 function handleSortPress(event) {
@@ -1348,6 +1394,7 @@ function loadStuffIntoDOM() {
     $(document).on('click', '.modal-background', handleCloseModal)
     $(document).on("click", ".tmheart", handleTeamLikeButtonClick)
     $(document).on("click", ".sort", handleSortPress)
+    $(document).on('keyup', '#pNameInput', handleSearchName)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
         if (selectedEvent == "Select Event") {
