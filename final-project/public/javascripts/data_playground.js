@@ -456,7 +456,7 @@ function handlePlayersButtonClick() {
         }
     }
     for (let i = 0; i < favoritedPlayers.length; i++) {
-        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(favoritedPlayers[i].name))
     }
     $.ajax({
         url: '/secret',
@@ -468,7 +468,7 @@ function handlePlayersButtonClick() {
                 favoritedPlayers[i] = jqXHR.responseJSON[i];
             }
             for (let i = 0; i < favoritedPlayers.length; i++) {
-                $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+                $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(favoritedPlayers[i].name))
             }
         }
     })
@@ -625,7 +625,6 @@ function handleTeamNameClick(event) {
 
 function handleLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
-    console.log(heartID)
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
     let state = event.currentTarget.getAttribute('state');
     console.log("Clicked on " + player.name)
@@ -1391,7 +1390,14 @@ function loadStuffIntoDOM() {
         success: function (response, textStatus, jqXHR) {
             let name = jqXHR.responseJSON;
             $("#loginButton").empty()
-            $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton"><div class="box">You are now logged in as: ${name}<br><a id="logout" style="display: flex;  justify-content: flex-end;">Log Out</a><a href="/favorites"><button class="button is-primary is-inverted"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button></a></div>`)
+            $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton">
+                                        <div class="box"><p>You are now logged in as: ${name}</p>                        
+                                            <a href="/favorites">
+                                            <button class="button"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button>
+                                            </a>
+                                            <button class="button" id="logout">Log Out</button>
+                                        </div>
+                                    </div>`)
             $.ajax({
                 url: '/secret',
                 type: 'GET',
@@ -1402,7 +1408,7 @@ function loadStuffIntoDOM() {
                         favoritedPlayers[i] = jqXHR.responseJSON[i];
                     }
                     for (let i = 0; i < favoritedPlayers.length; i++) {
-                        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(CSS.escape(favoritedPlayers[i].name)))
+                        $('#' + CSS.escape(favoritedPlayers[i].name)).replaceWith(renderLikedHeart(favoritedPlayers[i].name))
                     }
                 }
             })
