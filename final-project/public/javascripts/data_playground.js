@@ -433,7 +433,7 @@ function handleTeamsButtonClick() {
                 favoritedTeams[i] = jqXHR.responseJSON[i];
             }
             for (let i = 0; i < favoritedTeams.length; i++) {
-                $('#' + CSS.escape(favoritedTeams[i].name)).replaceWith(renderTeamLikedHeart(CSS.escape(favoritedTeams[i].name)))
+                $('#' + favoritedTeams[i].name).replaceWith(renderTeamLikedHeart(favoritedTeams[i].name))
             }
         }
     })
@@ -618,7 +618,7 @@ function handleTeamNameClick(event) {
     renderTeamCard(findTeamByAlias(teamName))
 }
 
- function handleLikeButtonClick(event) {
+function handleLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
     console.log(heartID)
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
