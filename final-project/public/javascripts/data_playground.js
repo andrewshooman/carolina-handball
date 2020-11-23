@@ -154,7 +154,7 @@ function renderPlayerCard(player) {
     if (team.name == "Not Found") {
         teamStr = `<h2 id="${player}Team" class="${player}">Current Team: Not Found</h2>`
     } else {
-        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="tmheart${team.name}" state="unliked"></a></i></span></h2>`
+        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a></h2>`
     }
 
     let isFavorited = false
@@ -615,11 +615,29 @@ function handleSelectedEvent(selectedEvent) {
 
 function handlePlayerNameClick(event) {
     let playerName = event.target.id.replace("Name", "")
+    $.ajax({
+        url: '/secret',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            favoritedPlayers = jqXHR.responseJSON;
+        }
+    })
+    console.log(favoritedPlayers)
     renderPlayerCard(playerName)
 }
 
 function handleTeamNameClick(event) {
     let teamName = event.target.id.replace("Name", "")
+    $.ajax({
+        url: '/secretteam',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            favoritedTeams = jqXHR.responseJSON;
+        }
+    })
+    console.log(favoritedTeams)
     renderTeamCard(findTeamByAlias(teamName))
 }
 
@@ -657,9 +675,12 @@ function handleCloseModal() {
 
 function handleTeamLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
+    console.log(heartID)
     let state = event.currentTarget.getAttribute('state');
     let team = dataset[0].teams.find(t => t.name == heartID.split("tmheart").join(""));
     if (state == "unliked") {
+        console.log(team)
+        console.log(team.name)
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamLikedHeart(team.name))
         $.ajax({
@@ -669,6 +690,8 @@ function handleTeamLikeButtonClick(event) {
         });
     }
     if (state == "liked") {
+        console.log(team)
+        console.log(team.name)
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamUnLikedHeart(team.name))
         $.ajax({
