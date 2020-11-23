@@ -57,10 +57,15 @@ async function renderPlayerCard(player) {
     let country = findCountry(player.name.toLowerCase())
     let team = findCurrentTeamByPlayer(player.name)
     await getPlayer(player.name)
-    
+    let goals=0, wins=0, games=0, shots = 0;
     for (let i=0; i<tempPlayers.length; i++) {
-
+        goals += tempPlayers[i].cumulative.core.goals;
+        wins += tempPlayers[i].cumulative.wins;
+        games += tempPlayers[i].cumulative.games;
+        shots += tempPlayers[i].cumulative.core.shots;
     }
+
+    console.log(goals, wins, games, shots);
 
 
     $('#table').append(
