@@ -56,13 +56,31 @@ function renderPlayerCard(player) {
                 </div>
             </div>`)
 }
+
+function renderTeamCard(team) {
+    // let country = findCountry(player.name.toLowerCase())
+    // let team = findCurrentTeamByPlayer(player.name)
+
+    $('#table').append(
+        `<div id="${team.name}" class="box">
+                <div class="columns is-multiline justify-center">
+                    <div class="column">
+                        <h1 class="title" style="">${team.name}</h1>
+                    </div>
+                    <div class="column">
+                        <span class="is-italic has-text-weight-semibold"></span>
+                        <p></p>
+                    </div>
+                </div>
+            </div>`)
+}
+
 function handleTeamsButtonClick() {
     tmpGlobalincrement = 1;
     $("#table").empty();
-    $("#table").append(`<h1 class="title">To Do</h2>`);
-    // for (let i = 0; i < favoritedTeams.length; i++) {
-    //     renderTeamCard(player);
-    // }
+    for (let i = 0; i < favoritedTeams.length; i++) {
+        renderTeamCard(favoritedTeams[i]);
+    }
 }
 
 function handlePlayersButtonClick() {
@@ -85,6 +103,15 @@ function loadStuffIntoDom() {
             for (let i = 0; i < jqXHR.responseJSON.length; i++) {
                 renderPlayerCard(jqXHR.responseJSON[i]);
             }
+        }
+    })
+    $.ajax({
+        url: '/secretteam',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            console.log(jqXHR.responseJSON);
+            favoritedTeams = jqXHR.responseJSON;      
         }
     })
 }
