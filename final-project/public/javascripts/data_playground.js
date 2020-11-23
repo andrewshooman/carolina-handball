@@ -705,10 +705,15 @@ function handleTeamLikeButtonClick(event) {
 // search stuff
 let enteredData;
 function renderPlayerSearch(player) {
-    return `<div class="box" style="display: flex">
+    return `<div id="pSearchResult" data-id="${player.name}"class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
                     <span class="has-text-weight-bold">Result:</span>&nbsp;${player.name}</span>
                 </div>`
+}
+
+function handleClickPlayerResult(event) {
+    let player = event.currentTarget.dataset.id;
+    renderPlayerCard(player)
 }
 // document.getElementById('pNameInput').addEventListener('keyup', event => {
 //     const $searchresults = $('#pName-results');
@@ -747,10 +752,14 @@ async function handleSearchName(event) {
 }
 let enteredTeam;
 function renderTeamSearch(team) {
-    return `<div class="box" style="display: flex">
+    return `<div id="tSearchResult" data-id="${team.name}"class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
                     <span class="has-text-weight-bold">Result:</span>&nbsp;${team.name}</span>
                 </div>`
+}
+function handleClickTeamResult(event) {
+    let team = event.currentTarget.dataset.id;
+    renderTeamCard(findTeamByAlias(team))
 }
 // document.getElementById('tNameInput').addEventListener('keyup', event => {
 //     const $searchresults = $('#tName-results');
@@ -1429,6 +1438,8 @@ function loadStuffIntoDOM() {
     $(document).on("click", ".sort", handleSortPress)
     $(document).on('keyup', '#pNameInput', handleSearchName)
     $(document).on('keyup', '#tNameInput', handleSearchTeam)
+    $(document).on("click", "#pSearchResult", handleClickPlayerResult)
+    $(document).on("click", "#tSearchResult", handleClickTeamResult)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
         if (selectedEvent == "Select Event") {
