@@ -78,9 +78,14 @@ async function renderPlayerCard(player) {
                     <div class="column">
                         <h1 class="title" style="">${player.name}</h1>
                         <h2 id="${player}Status" class="true">Status: ${team.name != "Not Found" ? "Active" : "Free Agent"}&nbsp<img width="18px" height="18px" src="${team.name != "Not Found" ? "../images/icons/Green Status.jpg" : "../images/icons/Blue Status.jpg"}"></h2>
-                        <h2>Country of Origin: ${country.name}</h2>
+                        <h2>Country of Origin: ${country.name} <img width="18px" height="18px" src="${country.img}"></h2>
                         <h2>Team: ${team.name}</h2>
                     </div>
+
+                    <div class="column">
+                        <img class="logo" width="144px" height="144px" src="${(team.img != "") ? team.img : "images/icons/unknown.png"}">
+                    </div>
+
                     <div class="column">
                     <h2 class="subtitle"><b>Total RLCSX Goals:</b> ${goals}</h2>
                     <h2 class="subtitle"><b>Total RLCSX Wins:</b> ${wins}</h2>
@@ -103,17 +108,17 @@ function renderTeamCard(queryTeam) {
     let team = findTeamByAlias(queryTeam.name);
     let teamPlayers = ""
     for (let i = 0; i < team.players.length; i++) {
-        teamPlayers += `<li> - <a id="${team.players[i] + "Name"}" class="playerName">${team.players[i]}</a></li>`
+        teamPlayers += `<li> - ${team.players[i]}</li>`
     }
 
     let teamSub = ""
     if (team.sub != "") {
-        teamSub = `<a id="${team.sub + "Name"}" class="playerName">${team.sub}</a>`
+        teamSub = `${team.sub}`
     }
 
     let teamCoach = ""
     if (team.coach != "") {
-        teamCoach = `<a id="${team.coach + "Name"}" class="playerName">${team.coach}</a>`
+        teamCoach = `${team.coach}`
     }
 
     let teamStatus = ""
@@ -136,28 +141,23 @@ function renderTeamCard(queryTeam) {
                 <div class="columns is-multiline justify-center">
                     <div class="column">
                         <h1 class="title" style="">${team.name}</h1>
+                        <h2 class="subtitle">Region: ${team.region} <img width="18px" height="18px" src="${team.region == "Europe" ? `images/flag icons/Europe.png` : `images/flag icons/North America.png`}"></h2> 
                     </div>
                     <div class="column">
-                    <div>
-                    <h2 id="${team.name}Status">Status: ${teamStatus} <img width="18px" height="18px" src="${teamStatusIMG}"></h2>
-                    <h2 id="${team.name}Players">${team.status ? "Current" : "Former"} Players: </h2>
-                    <div>
+                        <h2 id="${team.name}Status">Status: ${teamStatus} <img width="18px" height="18px" src="${teamStatusIMG}"></h2>
+                        <h2 id="${team.name}Players">${team.status ? "Current" : "Former"} Players: </h2>            
                         <ul>
-                            ${teamPlayers}
-                        </ul>
-                    </div>
-                    </div>
-                    <div>
+                                ${teamPlayers}
+                        </ul>    
                         <h2>${team.coach != "" ? "Coach: " + teamCoach : ""}</h2>
-                        <h2>${team.sub != "" ? "Substitute: " + teamSub : ""}</h2>
-                    </div>
+                        <h2>${team.sub != "" ? "Substitute: " + teamSub : ""}</h2>              
                     </div>
                     <div class="column">
-                        <span class="is-italic has-text-weight-semibold"></span>
-                        <p></p>
+                        <img class="logo" width="100px" height="100px" src="${(team.img != "") ? team.img : "images/icons/unknown.png"}">
                     </div>
                 </div>
-            </div>`)
+            </div>
+        </div>`)
 }
 
 async function handleTeamsButtonClick() {

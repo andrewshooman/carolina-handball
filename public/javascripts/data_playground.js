@@ -154,7 +154,7 @@ function renderPlayerCard(player) {
     if (team.name == "Not Found") {
         teamStr = `<h2 id="${player}Team" class="${player}">Current Team: Not Found</h2>`
     } else {
-        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"> <a id="${team.name}Name" class="teamName">${team.name}</a></h2>`
+        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <a id="${team.name}Name" class="teamName">${team.name}</a></h2>`
     }
 
     let isFavorited = false
