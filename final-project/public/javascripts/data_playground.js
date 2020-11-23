@@ -154,7 +154,7 @@ function renderPlayerCard(player) {
     if (team.name == "Not Found") {
         teamStr = `<h2 id="${player}Team" class="${player}">Current Team: Not Found</h2>`
     } else {
-        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a><span class="tmheart" id="${team.name}" state="unliked"><a><i class="far fa-heart" id="tmheart${team.name}" state="unliked"></a></i></span></h2>`
+        teamStr = `<h2 id="${player}Team" class="${player}">Current Team: <img width="18px" height="18px" src="${team.img}"><a id="${team.name}Name" class="teamName">${team.name}</a></h2>`
     }
 
     let isFavorited = false
@@ -164,8 +164,8 @@ function renderPlayerCard(player) {
             break;
         }
     }
-    console.log(favoritedPlayers)
-    console.log(isFavorited)
+    // console.log(favoritedPlayers)
+    // console.log(isFavorited)
 
     $('.modal').replaceWith(`
         <div id="${player}Card" class="modal is-active playerCard">
@@ -339,23 +339,23 @@ function findTeamByAlias(teamAlias) {
 }
 
 function renderLikedHeart(playerName) {
-    console.log("PLAYER LIKE")
+    // console.log("PLAYER LIKE")
     return `<span class="heart" id="${playerName}" state="liked"><a><i class="fa fa-heart" id="heart${playerName}" state="liked" style="color: red"></a></i></span>`
 }
 
 function renderUnLikedHeart(playerName) {
-    console.log("PLAYER UNLIKE")
+    // console.log("PLAYER UNLIKE")
     return `<span class="heart" id="${playerName}" state="unliked"><a><i class="far fa-heart" id="heart${playerName}" state="unliked"></a></i></span>`
 }
 
 function renderTeamLikedHeart(teamName) {
-    console.log("TEAM LIKE")
-    console.log(teamName)
+    // console.log("TEAM LIKE")
+    // console.log(teamName)
     return `<span class="tmheart" id="${teamName}" state="liked"><a><i class="fa fa-heart" id="tmheart${teamName}" state="liked" style="color: red"></a></i></span>`
 }
 
 function renderTeamUnLikedHeart(teamName) {
-    console.log("TEAM UNLIKE")
+    // console.log("TEAM UNLIKE")
     return `<span class="tmheart" id="${teamName}" state="unliked"><a><i class="far fa-heart" id="tmheart${teamName}" state="unliked"></a></i></span>`
 }
 
@@ -433,7 +433,7 @@ function handleTeamsButtonClick() {
         type: 'GET',
         dataType: 'json',
         success: function (response, textStatus, jqXHR) {
-            console.log(jqXHR.responseJSON);
+            // console.log(jqXHR.responseJSON);
             for (let i = 0; i < jqXHR.responseJSON.length; i++) {
                 favoritedTeams[i] = jqXHR.responseJSON[i];
             }
@@ -463,7 +463,7 @@ function handlePlayersButtonClick() {
         type: 'GET',
         dataType: 'json',
         success: function (response, textStatus, jqXHR) {
-            console.log(jqXHR.responseJSON);
+            // console.log(jqXHR.responseJSON);
             for (let i = 0; i < jqXHR.responseJSON.length; i++) {
                 favoritedPlayers[i] = jqXHR.responseJSON[i];
             }
@@ -615,11 +615,29 @@ function handleSelectedEvent(selectedEvent) {
 
 function handlePlayerNameClick(event) {
     let playerName = event.target.id.replace("Name", "")
+    $.ajax({
+        url: '/secret',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            favoritedPlayers = jqXHR.responseJSON;
+        }
+    })
+    // console.log(favoritedPlayers)
     renderPlayerCard(playerName)
 }
 
 function handleTeamNameClick(event) {
     let teamName = event.target.id.replace("Name", "")
+    $.ajax({
+        url: '/secretteam',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response, textStatus, jqXHR) {
+            favoritedTeams = jqXHR.responseJSON;
+        }
+    })
+    // console.log(favoritedTeams)
     renderTeamCard(findTeamByAlias(teamName))
 }
 
@@ -627,7 +645,7 @@ function handleLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
     let player = dataset[0].players.find(p => p.name == heartID.split("heart").join(""));
     let state = event.currentTarget.getAttribute('state');
-    console.log("Clicked on " + player.name)
+    // console.log("Clicked on " + player.name)
 
     if (state == "unliked") {
         $('#' + CSS.escape(heartID)).empty()
@@ -658,7 +676,7 @@ function handleCloseModal() {
 function handleTeamLikeButtonClick(event) {
     let heartID = event.currentTarget.getAttribute('id');
     let state = event.currentTarget.getAttribute('state');
-    let team = dataset[0].teams.find(t => t.name == heartID.split("tmheart").join(""));
+    let team = dataset[0].teams.find(t => removeSpecialChar(t.name).trim() == removeSpecialChar(heartID.split("tmheart").join("")).trim());
     if (state == "unliked") {
         $('#' + CSS.escape(heartID)).empty()
         $('#' + CSS.escape(heartID)).replaceWith(renderTeamLikedHeart(team.name))
@@ -685,7 +703,13 @@ function renderPlayerSearch(player) {
     return `<div class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
                     <span class="has-text-weight-bold">Result:</span>&nbsp;${player.name}</span>
+                    <button class="button" id="pSearchResult" data-id="${player.name}">Player Card</button>
                 </div>`
+}
+
+function handleClickPlayerResult(event) {
+    let player = event.currentTarget.dataset.id;
+    renderPlayerCard(player)
 }
 // document.getElementById('pNameInput').addEventListener('keyup', event => {
 //     const $searchresults = $('#pName-results');
@@ -712,7 +736,7 @@ async function handleSearchName(event) {
                 data: { "name": enteredData },
                 success: function (response, textStatus, jqXHR) {
                     let player = jqXHR.responseJSON
-                    console.log(player)
+                    // console.log(player)
                     $searchresults.append(renderPlayerSearch(player));
                 }
             });
@@ -723,25 +747,53 @@ async function handleSearchName(event) {
     }
 }
 let enteredTeam;
-function renderTeamSearch() {
-    console.log(searchName(dataset[0].teams, enteredTeam))
+function renderTeamSearch(team) {
     return `<div class="box" style="display: flex">
                     <span style="display: inline-flex; flex-grow: 1; align-items: center;">
-                    <span class="has-text-weight-bold">Result:</span>&nbsp;${searchName(dataset[0].teams, enteredTeam)}</span>
-                    <strong>${foundNames}</strong>
+                    <span class="has-text-weight-bold">Result:</span>&nbsp;${team.name}</span>
+                    <button class="button" id="tSearchResult" data-id="${team.name}">Team Card</button>
                 </div>`
 }
-document.getElementById('tNameInput').addEventListener('keyup', event => {
+function handleClickTeamResult(event) {
+    let team = event.currentTarget.dataset.id;
+    renderTeamCard(findTeamByAlias(team))
+}
+// document.getElementById('tNameInput').addEventListener('keyup', event => {
+//     const $searchresults = $('#tName-results');
+//     $('#tName-results *').replaceWith();
+//     if (event.code === 'Enter') {
+//         if (event.currentTarget.value != '') {
+//             enteredTeam = event.currentTarget.value;
+//             $searchresults.append(renderTeamSearch);
+//         }
+//     }
+// })
+async function handleSearchTeam(event) {
     const $searchresults = $('#tName-results');
     $('#tName-results *').replaceWith();
     if (event.code === 'Enter') {
         if (event.currentTarget.value != '') {
             enteredTeam = event.currentTarget.value;
-            $searchresults.append(renderTeamSearch);
+            let result = await $.ajax({
+                url: '/getoneteam',
+                type: 'POST',
+                dataType: 'json',
+                data: { "name": enteredTeam },
+                success: function (response, textStatus, jqXHR) {
+                    let team = jqXHR.responseJSON
+                    // console.log(team)
+                    $searchresults.append(renderTeamSearch(team));
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown)
+                }
+            });
+            // let name = await getPlayerByName(event.currentTarget.value);
+            // console.log(name)
+           
         }
     }
-})
-
+}
 function debounce(func, wait) {
     let timeout;
     return function (...args) {
@@ -764,11 +816,11 @@ function autoName(searchTerm) {
     if (searchTerm === "") {
         return "";
     }
-    console.log(playerNames[1])
+    // console.log(playerNames[1])
     let data = playerNames.find(value => value.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
     if (data !== undefined) {
         let name = data;
-        console.log(name)
+        // console.log(name)
         return name;
     } else {
         return "";
@@ -783,7 +835,7 @@ function autoTeam(searchTerm) {
     let data = teamNames.find(value => value.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0);
     if (data !== undefined) {
         let name = data;
-        console.log(name)
+        // console.log(name)
         return name;
     } else {
         return "";
@@ -832,17 +884,27 @@ async function handleSubmitPlayerAuto(event) {
         data: { "name": enteredData },
         success: function (response, textStatus, jqXHR) {
             let player = jqXHR.responseJSON
-            console.log(player)
+            // console.log(player)
             $searchresults.append(renderPlayerSearch(player));
         }
     });
 }
 
-function handleSubmitTeamAuto(event) {
+async function handleSubmitTeamAuto(event) {
     let output = document.getElementById('tNameAuto');
     output.innerHTML = ``;
     const $searchresults = $('#tName-results');
-    $searchresults.append(renderTeamSearch);
+    let result = await $.ajax({
+        url: '/getoneteam',
+        type: 'POST',
+        dataType: 'json',
+        data: { "name": enteredTeam },
+        success: function (response, textStatus, jqXHR) {
+            let team = jqXHR.responseJSON
+            // console.log(team)
+            $searchresults.append(renderTeamSearch(team));
+        }
+    });
 }
 
 function handleLogout(event) {
@@ -869,7 +931,7 @@ async function getDataBase(id) {
         data: { "id": id }
     });
     result = JSON.parse(JSON.stringify(result));
-    console.log(result.responseJSON)
+    // console.log(result.responseJSON)
     dataset = result.responseJSON;
 }
 
@@ -881,7 +943,7 @@ async function getPlayerByName(name) {
         data: { "name": name }
     });
     result = JSON.parse(JSON.stringify(result));
-    console.log(result.responseJSON)
+    // console.log(result.responseJSON)
     return result.responseJSON;
 }
 
@@ -1372,6 +1434,9 @@ function loadStuffIntoDOM() {
     $(document).on("click", ".tmheart", handleTeamLikeButtonClick)
     $(document).on("click", ".sort", handleSortPress)
     $(document).on('keyup', '#pNameInput', handleSearchName)
+    $(document).on('keyup', '#tNameInput', handleSearchTeam)
+    $(document).on("click", "#pSearchResult", handleClickPlayerResult)
+    $(document).on("click", "#tSearchResult", handleClickTeamResult)
     $(document).on("change", "select.event", function () {
         let selectedEvent = $(this).children("option:selected").val()
         if (selectedEvent == "Select Event") {
@@ -1391,9 +1456,9 @@ function loadStuffIntoDOM() {
             let name = jqXHR.responseJSON;
             $("#loginButton").empty()
             $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton">
-                                        <div class="box"><p>You are now logged in as: ${name}</p>                        
+                                        <div class="box"><p>You are now logged in as: ${name}</p>                      
                                             <a href="/favorites">
-                                            <button class="button"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button>
+                                            <button class="button"> View My Favorites&nbsp&nbsp<i class="fas fa-heart" style="color: hsl(171, 100%, 41%)"></i></button>
                                             </a>
                                             <button class="button" id="logout">Log Out</button>
                                         </div>
@@ -1403,7 +1468,7 @@ function loadStuffIntoDOM() {
                 type: 'GET',
                 dataType: 'json',
                 success: function (response, textStatus, jqXHR) {
-                    console.log(jqXHR.responseJSON);
+                    // console.log(jqXHR.responseJSON);
                     for (let i = 0; i < jqXHR.responseJSON.length; i++) {
                         favoritedPlayers[i] = jqXHR.responseJSON[i];
                     }
@@ -1417,7 +1482,7 @@ function loadStuffIntoDOM() {
                 type: 'GET',
                 dataType: 'json',
                 success: function (response, textStatus, jqXHR) {
-                    console.log(jqXHR.responseJSON);
+                    // console.log(jqXHR.responseJSON);
                     for (let i = 0; i < jqXHR.responseJSON.length; i++) {
                         favoritedTeams[i] = jqXHR.responseJSON[i];
                     }
