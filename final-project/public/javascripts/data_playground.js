@@ -1343,7 +1343,14 @@ function loadStuffIntoDOM() {
         success: function (response, textStatus, jqXHR) {
             let name = jqXHR.responseJSON;
             $("#loginButton").empty()
-            $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton"><div class="box">You are now logged in as: ${name}<br><a id="logout" style="display: flex;  justify-content: flex-end;">Log Out</a><a href="/favorites"><button class="button is-primary is-inverted"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button></a></div>`)
+            $("#loginButton").append(`<div class="buttons" style="display: flex;  justify-content: flex-end;" id="loginButton">
+                                        <div class="box"><p>You are now logged in as: ${name}</p>                        
+                                            <a href="/favorites">
+                                            <button class="button"> View My Favorites&nbsp&nbsp<i class="fas fa-heart"></i></button>
+                                            </a>
+                                            <button class="button" id="logout">Log Out</button>
+                                        </div>
+                                    </div>`)
             $.ajax({
                 url: '/secret',
                 type: 'GET',
