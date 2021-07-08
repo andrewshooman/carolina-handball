@@ -572,8 +572,10 @@ progress {
 }
 
 .img-logo {
-  max-width: 25%;
-  max-height: 25%;
+  height: auto; 
+  width: auto; 
+  max-width: 150px; 
+  max-height: 80px;
 }
 
 
