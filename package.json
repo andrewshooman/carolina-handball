@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bootstrap": "^5.0.2",
     "cookie-parser": "~1.4.4",
     "crypto-js": "^4.0.0",
     "data-store": "^4.0.3",
@@ -16,7 +17,7 @@
     "express-session": "^1.17.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
-    "jquery": "^3.5.1",
+    "jquery": "^3.6.0",
     "jqueryrouter": "^2.2.8",
     "mongodb": "^3.6.3",
     "morgan": "~1.9.1"
