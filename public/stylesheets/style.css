@@ -55,6 +55,10 @@
   padding: 10px;
 }
 
+.twitter-follow-button{
+  text-align: center !important;
+}
+
 body {
   margin: 0;
   font-family: var(--bs-font-sans-serif);
