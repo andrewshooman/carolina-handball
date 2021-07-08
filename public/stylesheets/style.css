@@ -49,6 +49,12 @@
   }
 }
 
+.twitter-timeline {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
 body {
   margin: 0;
   font-family: var(--bs-font-sans-serif);

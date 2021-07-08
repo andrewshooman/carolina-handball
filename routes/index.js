@@ -9,8 +9,8 @@ router.get('/contact', function(req, res, next) {
   res.render('contact', { title: 'Express' });
 });
 
-router.get('/services', function(req, res, next) {
-  res.render('services', { title: 'Express' });
+router.get('/twitter', function(req, res, next) {
+  res.render('twitter', { title: 'Express' });
 });
 
 /* GET home page. */
