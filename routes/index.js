@@ -13,6 +13,14 @@ router.get('/twitter', function(req, res, next) {
   res.render('twitter', { title: 'Express' });
 });
 
+router.get('/sponsors', function(req, res, next) {
+  res.render('sponsors', { title: 'Express' });
+});
+
+router.get('/tournaments', function(req, res, next) {
+  res.render('tournaments', { title: 'Express' });
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
